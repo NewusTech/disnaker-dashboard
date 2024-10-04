@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/accordion";
 import DashboardIcon from "../../../public/assets/icons/DashboardIcon";
 import MasyarakatIcon from "../../../public/assets/icons/MasyarakatIcon";
+import LowonganIcon from "../../../public/assets/icons/LowonganIcon";
 
 
 interface LayoutAdminProps {
@@ -114,7 +115,7 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                             {/* dashboard */}
                             <Link
                                 href="/dashboard"
-                                className={`nav flex pr-4 text-[16px] items-center gap-4 mb-2 rounded-[8px] py-[10px] px-[20px] ${pathname.startsWith("/dashboard")
+                                className={`nav hover:pl-10 duration-200 transition-all flex pr-4 text-[16px] items-center gap-4 mb-2 rounded-[8px] py-[10px] px-[25px] ${pathname.startsWith("/dashboard")
                                     ? "bg-white text-primary"
                                     : "bg-transparent text-white"
                                     }`} >
@@ -123,7 +124,7 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                             </Link>
                             {/* dashboard */}
                             <Accordion className="" type="single" collapsible>
-                                {/* ketahanan-pangan */}
+                                {/* masyarakat */}
                                 <AccordionItem className="" value="item-1">
                                     <AccordionTrigger
                                         className={`nav flex gap-2 mb-2 rounded-[8px] py-[10px] overflow-hidden px-[30px] font-normal ${pathname.startsWith(
@@ -160,6 +161,40 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                                         </Menu>
                                     </AccordionContent>
                                 </AccordionItem>
+                                {/* masyarakat */}
+                                {/* lowongan */}
+                                <AccordionItem className="" value="item-2">
+                                    <AccordionTrigger
+                                        className={`nav flex gap-2 mb-2 rounded-[8px] py-[10px] overflow-hidden px-[30px] font-normal ${pathname.startsWith(
+                                            "/lowongan"
+                                        )
+                                            ? "bg-white text-primary"
+                                            : "bg-transparent text-white"
+                                            }`}>
+                                        <div className="flex gap-3 items-center">
+                                            <LowonganIcon />
+                                            Lowongan
+                                        </div>
+                                    </AccordionTrigger>
+                                    <AccordionContent className="bg-primary-600/25 mb-2 rounded-md">
+                                        <Menu link="/lowongan/perusahaan">
+                                            <span className="text-[16px]">
+                                                Perusahaan
+                                            </span>
+                                        </Menu>
+                                        <Menu link="/lowongan/lowongan">
+                                            <span className="text-[16px]">
+                                                Lowongan
+                                            </span>
+                                        </Menu>
+                                        <Menu link="/lowongan/lamaran-kerja">
+                                            <span className="text-[16px]">
+                                                Lamaran Kerja
+                                            </span>
+                                        </Menu>
+                                    </AccordionContent>
+                                </AccordionItem>
+                                {/* Lowongan */}
                             </Accordion>
                         </div>
                     </div>
