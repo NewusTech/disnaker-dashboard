@@ -9,7 +9,7 @@ const popins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Sinaker",
+  title: "Disnaker | Tanggamus",
   description: "Sistem Informasi Ketenagakerjaan",
 };
 
