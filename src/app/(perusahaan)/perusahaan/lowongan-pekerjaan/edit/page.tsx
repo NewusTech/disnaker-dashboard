@@ -24,12 +24,12 @@ import 'react-quill/dist/quill.snow.css';
 
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
-const TambahLowongan = () => {
+const EditLowongan = () => {
     const breadcrumbItems = [
         // { label: 'Home', href: '/', logo: <FaHome /> }, 
         { label: 'Perusahaan', logo: <BreadPerusahaan /> },
         { label: 'Lowongan Pekerjaan', href: '/perusahaan/lowongan-pekerjaan' },  // No logo 
-        { label: 'Tambah', },  // No logo 
+        { label: 'Edit', },  // No logo 
     ];
 
     // kategori
@@ -501,4 +501,4 @@ const TambahLowongan = () => {
     )
 }
 
-export default TambahLowongan
+export default EditLowongan

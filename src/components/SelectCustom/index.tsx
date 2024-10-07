@@ -12,7 +12,7 @@ import {
 
 interface SelectProps {
     label: string;
-    options: { label: string; value: string }[];
+    options: { label: string; value: string | number }[];
     placeholder: string;
     value: string | undefined;
     onChange: (value: string) => void;

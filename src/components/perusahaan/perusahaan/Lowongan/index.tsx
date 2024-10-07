@@ -113,14 +113,14 @@ const DataTable: React.FC<DataTableProps> = ({ headers, data }) => {
                                             <div className="h-1 w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse"></div>
                                             <DropdownMenuGroup>
                                                 <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                                                    <Link href={`/perusahaaan/lowongan-pekerjaan/detail`}>
+                                                    <Link href={`/perusahaan/lowongan-pekerjaan/detail`}>
                                                         <div className="flex items-center gap-2 text-gray-600 hover:text-gray-800">
                                                             Detail
                                                         </div>
                                                     </Link>
                                                 </DropdownMenuItem>
                                                 <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                                                    <Link href={`/perusahaaan/lowongan-pekerjaan/edit`}>
+                                                    <Link href={`/perusahaan/lowongan-pekerjaan/edit`}>
                                                         <div className="flex items-center gap-2 text-gray-600 hover:text-gray-800">
                                                             Edit
                                                         </div>
