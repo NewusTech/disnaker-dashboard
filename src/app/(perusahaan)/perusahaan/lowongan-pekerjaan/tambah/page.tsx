@@ -491,7 +491,7 @@ const TambahLowongan = () => {
                         {loading ? (
                             <Loading />
                         ) : (
-                            "Simpan"
+                            "Tambah"
                         )}
                     </Button>
                 </div>

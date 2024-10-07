@@ -26,7 +26,7 @@ const DetailLowongan = () => {
             <Breadcrumb items={breadcrumbItems} />
             <Link
                 href="/perusahaan/lowongan-pekerjaan"
-                className="flex gap-2 items-center px-5 my-3 py-3 bg-primary hover:bg-primary/80 rounded-lg transition ease-in-out delay-150 hover:-translate-y-1 w-fit text-white"
+                className="flex gap-2 items-center px-5 my-3 py-3 bg-primary hover:bg-primary/80 rounded-full transition ease-in-out delay-150 hover:-translate-y-1 w-fit text-white"
             >
                 <BackIcon />
                 Kembali
@@ -65,7 +65,7 @@ const DetailLowongan = () => {
                 {/* detail */}
                 <div className="detail flex flex-col gap-1">
                     <div className="title font-medium text-lg">Detail Pekerjaan</div>
-                    <div className="wrap p-5 rounded-lg border border-[#C7C7CD] transition ease-in-out delay-150 hover:-translate-y-1 hover:border-primary">
+                    <div className="wrap p-5 rounded-lg border border-[#C7C7CD] transition ease-in-out delay-150 hover:-translate-y-1 hover:border-primary hover:shadow-md">
                         {/*  */}
                         <div className="row flex">
                             <div className="left w-1/2 flex flex-col gap-2">
@@ -152,20 +152,20 @@ const DetailLowongan = () => {
                 {/* skill */}
                 <div className="flex flex-col gap-1">
                     <div className="title font-medium text-lg">Skill Yang Dibutuhkan</div>
-                    <div className="wrap-card flex gap-3">
-                        <div className="card p-2 rounded-md border border-[#C7C7CD] transition ease-in-out delay-150 hover:-translate-y-1 hover:border-primary">
+                    <div className="wrap-card flex gap-3 mt-2">
+                        <div className="card p-2 rounded-md border border-[#C7C7CD] transition ease-in-out delay-150 hover:-translate-y-1 hover:border-primary hover:shadow-md">
                             UI Design
                         </div>
-                        <div className="card p-2 rounded-md border border-[#C7C7CD] transition ease-in-out delay-150 hover:-translate-y-1 hover:border-primary">
+                        <div className="card p-2 rounded-md border border-[#C7C7CD] transition ease-in-out delay-150 hover:-translate-y-1 hover:border-primary hover:shadow-md">
                             Desain Web
                         </div>
-                        <div className="card p-2 rounded-md border border-[#C7C7CD] transition ease-in-out delay-150 hover:-translate-y-1 hover:border-primary">
+                        <div className="card p-2 rounded-md border border-[#C7C7CD] transition ease-in-out delay-150 hover:-translate-y-1 hover:border-primary hover:shadow-md">
                             Kerja Tim
                         </div>
-                        <div className="card p-2 rounded-md border border-[#C7C7CD] transition ease-in-out delay-150 hover:-translate-y-1 hover:border-primary">
+                        <div className="card p-2 rounded-md border border-[#C7C7CD] transition ease-in-out delay-150 hover:-translate-y-1 hover:border-primary hover:shadow-md">
                             UX Design
                         </div>
-                        <div className="card p-2 rounded-md border border-[#C7C7CD] transition ease-in-out delay-150 hover:-translate-y-1 hover:border-primary">
+                        <div className="card p-2 rounded-md border border-[#C7C7CD] transition ease-in-out delay-150 hover:-translate-y-1 hover:border-primary hover:shadow-md">
                             Front End Developer
                         </div>
                     </div>
