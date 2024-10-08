@@ -4,19 +4,16 @@ import Image from 'next/image';
 // Define the structure of the data props
 interface DetailKartuKuningProps {
     data: {
+        status: string;
+        nama: string;
         nik: string;
         alamat: string;
-        nama: string;
-        agama: string;
-        tempatLahir: string;
-        statusPerkawinan: string;
-        tanggalLahir: string;
+        kecamatan: string;
+        kelurahan: string;
+        noPengajuan: string;
         pekerjaan: string;
-        namaInstansi: string;
-        jurusan: string;
+        pendidikan: string;
         keterampilan: string;
-        email: string;
-        foto: string; // URL for the user's photo
     };
 }
 
@@ -36,6 +33,9 @@ const DetailKartuKuning: React.FC<DetailKartuKuningProps> = ({ data }) => {
     return (
         <div>
             {/* Detail */}
+            <div className="status py-2 rounded-full w-full text-succes bg-succes/20 text-center mb-4">
+                Status : {data.status}
+            </div>
             <div className="wrap-all flex flex-col gap-6">
                 {/* Profile Kependudukan */}
                 <div className="wrap flex flex-col gap-4">
@@ -44,68 +44,44 @@ const DetailKartuKuning: React.FC<DetailKartuKuningProps> = ({ data }) => {
                     </div>
                     <div className="konten flex flex-col gap-4">
                         <div className="wrap flex gap-1 px-1">
-                            <ProfileDetail label="NIK" value={data.nik} />
-                            <ProfileDetail label="Alamat" value={data.alamat} />
-                        </div>
-                        <div className="wrap flex gap-1 px-1">
                             <ProfileDetail label="Nama" value={data.nama} />
-                            <ProfileDetail label="Agama" value={data.agama} />
+                            <ProfileDetail label="NIK" value={data.nik} />
                         </div>
                         <div className="wrap flex gap-1 px-1">
-                            <ProfileDetail label="Tempat Lahir" value={data.tempatLahir} />
-                            <ProfileDetail label="Status Perkawinan" value={data.statusPerkawinan} />
+                            <ProfileDetail label="Alamat Domisili" value={data.alamat} />
+                            <ProfileDetail label="Kecamatan" value={data.kecamatan} />
                         </div>
                         <div className="wrap flex gap-1 px-1">
-                            <ProfileDetail label="Tanggal Lahir" value={data.tanggalLahir} />
-                            <ProfileDetail label="Pekerjaan" value={data.pekerjaan} />
+                            <ProfileDetail label="Kelurahan" value={data.kelurahan} />
+                            <ProfileDetail label="No Pengajuan" value={data.noPengajuan} />
                         </div>
                     </div>
                 </div>
                 {/* Informasi Instansi */}
                 <div className="wrap flex flex-col gap-4">
                     <div className="header bg-primary/20 text-primary rounded-lg p-3">
-                        Profile Instansi
+                        Pendidikan dan Keterampilan
                     </div>
                     <div className="konten flex flex-col gap-4">
                         <div className="wrap flex gap-1 px-1">
-                            <ProfileDetail label="Nama Instansi" value={data.namaInstansi} />
-                        </div>
-                        <div className="wrap flex gap-1 px-1">
-                            <ProfileDetail label="Jurusan" value={data.jurusan} />
+                            <ProfileDetail label="Pendidikan Terakhir" value={data.pendidikan} />
                         </div>
                         <div className="wrap flex gap-1 px-1">
                             <ProfileDetail label="Keterampilan" value={data.keterampilan} />
+                        </div>
+                        <div className="wrap flex gap-1 px-1">
+                            <ProfileDetail label="Pekerjaan" value={data.pekerjaan} />
                         </div>
                     </div>
                 </div>
                 {/* Akun */}
                 <div className="wrap flex flex-col gap-4">
                     <div className="header bg-primary/20 text-primary rounded-lg p-3">
-                        Akun
+                        Dokumen Kartu Kuning
                     </div>
                     <div className="konten flex flex-col gap-4">
                         <div className="wrap flex gap-1 px-1">
-                            <ProfileDetail label="Email" value={data.email} />
-                        </div>
-                    </div>
-                </div>
-                {/* Foto */}
-                <div className="wrap flex flex-col gap-4">
-                    <div className="header bg-primary/20 text-primary rounded-lg p-3">
-                        Foto
-                    </div>
-                    <div className="konten flex flex-col gap-4">
-                        <div className="wrap flex gap-1 px-1">
-                            <div className="w-[300px] h-[300px] rounded-lg overflow-hidden">
-                                <Image
-                                    src={data.foto}
-                                    alt="Foto User"
-                                    className="object-cover w-full h-full"
-                                    width={300}
-                                    height={300}
-                                    unoptimized
-                                />
-                            </div>
+                            {/* <ProfileDetail label="Email" value={data.email} /> */}
                         </div>
                     </div>
                 </div>
