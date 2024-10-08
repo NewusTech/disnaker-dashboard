@@ -36,7 +36,7 @@ export const CustomSelect: React.FC<SelectProps> = ({
                 <SelectGroup>
                     <SelectLabel>{label}</SelectLabel>
                     {options.map((option) => (
-                        <SelectItem key={option.value} value={option.value}>
+                        <SelectItem key={option.value} value={String(option.value)}>
                             {option.label}
                         </SelectItem>
                     ))}
