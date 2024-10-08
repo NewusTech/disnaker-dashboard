@@ -27,7 +27,7 @@ const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 const EditLowongan = () => {
     const breadcrumbItems = [
         // { label: 'Home', href: '/', logo: <FaHome /> }, 
-        { label: 'Perusahaan', logo: <BreadPerusahaan /> },
+        { label: 'Instansi', logo: <BreadPerusahaan /> },
         { label: 'Lowongan Pekerjaan', href: '/perusahaan/lowongan-pekerjaan' },  // No logo 
         { label: 'Edit', },  // No logo 
     ];

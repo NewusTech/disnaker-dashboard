@@ -17,7 +17,7 @@ import { Button } from '@/components/ui/button';
 const DetailLowongan = () => {
     const breadcrumbItems = [
         // { label: 'Home', href: '/', logo: <FaHome /> }, 
-        { label: 'Perusahaan', logo: <BreadPerusahaan /> },
+        { label: 'Instansi', logo: <BreadPerusahaan /> },
         { label: 'Lowongan Pekerjaan', href: "/perusahaan/lowongan-pekerjaan" },  // No logo 
         { label: 'Detail' },  // No logo 
     ];

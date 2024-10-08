@@ -14,7 +14,7 @@ import DataTable from '@/components/perusahaan/perusahaan/Lamaran';
 const LamaranPage = () => {
   const breadcrumbItems = [
     // { label: 'Home', href: '/', logo: <FaHome /> }, 
-    { label: 'Perusahaan', logo: <BreadPerusahaan /> },
+    { label: 'Instansi', logo: <BreadPerusahaan /> },
     { label: 'Lowongan Pekerjaan' },  // No logo 
   ];
 

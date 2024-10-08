@@ -14,7 +14,7 @@ import Tambah from '../../../../../public/assets/icons/Tambah';
 const Lowongan = () => {
     const breadcrumbItems = [
         // { label: 'Home', href: '/', logo: <FaHome /> }, 
-        { label: 'Perusahaan', logo: <BreadPerusahaan /> },
+        { label: 'Instansi', logo: <BreadPerusahaan /> },
         { label: 'Lowongan Pekerjaan' },  // No logo 
     ];
 

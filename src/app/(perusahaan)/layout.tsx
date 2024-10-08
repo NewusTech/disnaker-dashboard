@@ -15,6 +15,7 @@ import MasyarakatIcon from "../../../public/assets/icons/MasyarakatIcon";
 import LowonganIcon from "../../../public/assets/icons/LowonganIcon";
 import PerusahaanIcon from "../../../public/assets/icons/PerusahaanIcon";
 import PelamarIcon from "../../../public/assets/icons/PelamarIcon";
+import LaporanIcon from "../../../public/assets/icons/LaporanIcon";
 
 
 interface LayoutPerusahaanProps {
@@ -138,7 +139,7 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                                             }`}>
                                         <div className="flex gap-3 items-center">
                                             <PerusahaanIcon />
-                                            Perusahaan
+                                            Instansi
                                         </div>
                                     </AccordionTrigger>
                                     <AccordionContent className="bg-primary-600/25 mb-2 rounded-md">
@@ -188,7 +189,24 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                                 </AccordionItem>
                                 {/* Lowongan */}
                             </Accordion>
-                            {/* lowongan */}
+                            {/* pelamar */}
+                            {/* laporan */}
+                            <Accordion className="" type="single" collapsible>
+                                {/* laporan */}
+                                <AccordionItem className="" value="item-4">
+                                    <Link
+                                        href="/laporan"
+                                        className={`nav hover:pl-10 duration-200 transition-all flex pr-4 text-[16px] items-center gap-4 mb-2 rounded-[8px] py-[10px] px-[25px] ${pathname.startsWith("/laporan")
+                                            ? "bg-white text-primary"
+                                            : "bg-transparent text-white"
+                                            }`} >
+                                        <LaporanIcon />
+                                        Laporan
+                                    </Link>
+                                </AccordionItem>
+                                {/* Lowongan */}
+                            </Accordion>
+                            {/* laporan */}
                         </div>
                     </div>
                 </div>

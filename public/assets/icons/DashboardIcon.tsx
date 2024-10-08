@@ -4,8 +4,8 @@ import { usePathname } from 'next/navigation';
 const DashboardIcon = () => {
     const pathname = usePathname();
 
-    const isMasyarakat = pathname.startsWith("/masyarakat");
-    const isPerusahaan = pathname.startsWith("/perusahaan");
+    const isMasyarakat = pathname.startsWith("/dashboard");
+    const isPerusahaan = pathname.startsWith("/dashboard-perusahaan");
 
     return (
         <div>
@@ -14,7 +14,7 @@ const DashboardIcon = () => {
                     fillRule="evenodd" 
                     clipRule="evenodd" 
                     d="M1.67435 9.4085C0.916016 10.7895 0.916016 12.4593 0.916016 15.796V18.0156C0.916016 23.7031 0.916015 26.5483 2.62518 28.3158C4.33435 30.0833 7.08331 30.0833 12.5827 30.0833H18.416C23.9154 30.0833 26.6658 30.0833 28.3735 28.3158C30.0812 26.5483 30.0827 23.7045 30.0827 18.0156V15.7975C30.0827 12.4593 30.0827 10.791 29.3243 9.4085C28.5689 8.02454 27.185 7.16704 24.4185 5.44913L21.5018 3.63933C18.5779 1.82371 17.1152 0.916626 15.4993 0.916626C13.8835 0.916626 12.4223 1.82371 9.49685 3.63933L6.58018 5.44913C3.81372 7.16704 2.43122 8.02454 1.67435 9.4085ZM14.4056 24.25C14.4056 24.54 14.5208 24.8182 14.726 25.0234C14.9311 25.2285 15.2093 25.3437 15.4993 25.3437C15.7894 25.3437 16.0676 25.2285 16.2727 25.0234C16.4779 24.8182 16.5931 24.54 16.5931 24.25V19.875C16.5931 19.5849 16.4779 19.3067 16.2727 19.1016C16.0676 18.8964 15.7894 18.7812 15.4993 18.7812C15.2093 18.7812 14.9311 18.8964 14.726 19.1016C14.5208 19.3067 14.4056 19.5849 14.4056 19.875V24.25Z" 
-                    fill={isMasyarakat || isPerusahaan ? "white" : "#2F55D4"}
+                    fill={isMasyarakat || isPerusahaan ? "#2F55D4" : "white"}
                 />
             </svg>
         </div>

@@ -3,15 +3,6 @@ import React from 'react'
 import BreadPerusahaan from '../../../../../../public/assets/icons/BreadPerusahaan';
 import Link from 'next/link';
 import BackIcon from '../../../../../../public/assets/icons/BackIcon';
-import PerusahaanDetail from '../../../../../../public/assets/icons/PerusahaanDetail';
-import AlamatDetail from '../../../../../../public/assets/icons/AlamatDetail';
-import PendidikanDetail from '../../../../../../public/assets/icons/PendidikanDetail';
-import KelaminDetail from '../../../../../../public/assets/icons/KelaminDetail';
-import GajiDetail from '../../../../../../public/assets/icons/GajiDetail';
-import PengalamanDetail from '../../../../../../public/assets/icons/PengalamanDetail';
-import UsiaDetail from '../../../../../../public/assets/icons/UsiaDetail';
-import HariDetail from '../../../../../../public/assets/icons/HariDetail';
-import JamDetail from '../../../../../../public/assets/icons/JamDetail';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import Unduh1icon from '../../../../../../public/assets/icons/Unduh1icon';
@@ -20,7 +11,7 @@ import Unduh2Icon from '../../../../../../public/assets/icons/Unduh2Icon';
 const DetailLamaran = () => {
     const breadcrumbItems = [
         // { label: 'Home', href: '/', logo: <FaHome /> }, 
-        { label: 'Perusahaan', logo: <BreadPerusahaan /> },
+        { label: 'Instansi', logo: <BreadPerusahaan /> },
         { label: 'Lamaran Pekerjaan', href: "/perusahaan/lamaran-pekerjaan" },  // No logo 
         { label: 'Detail' },  // No logo 
     ];
