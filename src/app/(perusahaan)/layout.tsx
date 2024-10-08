@@ -14,6 +14,7 @@ import DashboardIcon from "../../../public/assets/icons/DashboardIcon";
 import MasyarakatIcon from "../../../public/assets/icons/MasyarakatIcon";
 import LowonganIcon from "../../../public/assets/icons/LowonganIcon";
 import PerusahaanIcon from "../../../public/assets/icons/PerusahaanIcon";
+import PelamarIcon from "../../../public/assets/icons/PelamarIcon";
 
 
 interface LayoutPerusahaanProps {
@@ -124,6 +125,7 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                                 Dashboard
                             </Link>
                             {/* dashboard */}
+                            {/* perusahaan */}
                             <Accordion className="" type="single" collapsible>
                                 {/* perusahaan */}
                                 <AccordionItem className="" value="item-2">
@@ -154,6 +156,39 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                                 </AccordionItem>
                                 {/* Lowongan */}
                             </Accordion>
+                            {/* perusahaan */}
+                            {/* pelamar */}
+                            <Accordion className="" type="single" collapsible>
+                                {/* pelamar */}
+                                <AccordionItem className="" value="item-2">
+                                    <AccordionTrigger
+                                        className={`nav flex gap-2 mb-2 rounded-[8px] py-[10px] overflow-hidden px-[30px] font-normal ${pathname.startsWith(
+                                            "/pelamar"
+                                        )
+                                            ? "bg-white text-primary"
+                                            : "bg-transparent text-white"
+                                            }`}>
+                                        <div className="flex gap-3 items-center">
+                                            <PelamarIcon />
+                                            Pelamar
+                                        </div>
+                                    </AccordionTrigger>
+                                    <AccordionContent className="bg-primary-600/25 mb-2 rounded-md">
+                                        <Menu link="/pelamar/undang-pelamar">
+                                            <span className="text-[16px]">
+                                                Undang Pelamar
+                                            </span>
+                                        </Menu>
+                                        <Menu link="/pelamar/pelamar-diundang">
+                                            <span className="text-[16px]">
+                                                Pelamar Diundang
+                                            </span>
+                                        </Menu>
+                                    </AccordionContent>
+                                </AccordionItem>
+                                {/* Lowongan */}
+                            </Accordion>
+                            {/* lowongan */}
                         </div>
                     </div>
                 </div>

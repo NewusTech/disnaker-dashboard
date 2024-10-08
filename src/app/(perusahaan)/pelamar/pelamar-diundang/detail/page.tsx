@@ -3,32 +3,24 @@ import React from 'react'
 import BreadPerusahaan from '../../../../../../public/assets/icons/BreadPerusahaan';
 import Link from 'next/link';
 import BackIcon from '../../../../../../public/assets/icons/BackIcon';
-import PerusahaanDetail from '../../../../../../public/assets/icons/PerusahaanDetail';
-import AlamatDetail from '../../../../../../public/assets/icons/AlamatDetail';
-import PendidikanDetail from '../../../../../../public/assets/icons/PendidikanDetail';
-import KelaminDetail from '../../../../../../public/assets/icons/KelaminDetail';
-import GajiDetail from '../../../../../../public/assets/icons/GajiDetail';
-import PengalamanDetail from '../../../../../../public/assets/icons/PengalamanDetail';
-import UsiaDetail from '../../../../../../public/assets/icons/UsiaDetail';
-import HariDetail from '../../../../../../public/assets/icons/HariDetail';
-import JamDetail from '../../../../../../public/assets/icons/JamDetail';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import Unduh1icon from '../../../../../../public/assets/icons/Unduh1icon';
 import Unduh2Icon from '../../../../../../public/assets/icons/Unduh2Icon';
+import BreadPelamarIcon from '../../../../../../public/assets/icons/BreadPelamarIcon';
 
-const DetailLamaran = () => {
+const DetailPelamar = () => {
     const breadcrumbItems = [
         // { label: 'Home', href: '/', logo: <FaHome /> }, 
-        { label: 'Perusahaan', logo: <BreadPerusahaan /> },
-        { label: 'Lamaran Pekerjaan', href: "/perusahaan/lamaran-pekerjaan" },  // No logo 
+        { label: 'Pelamar', logo: <BreadPelamarIcon /> },
+        { label: 'Pelamar Diundang', href: "/pelamar/pelamar-diundang" },  // No logo 
         { label: 'Detail' },  // No logo 
     ];
     return (
         <div>
             <Breadcrumb items={breadcrumbItems} />
             <Link
-                href="/perusahaan/lamaran-pekerjaan"
+                href="/pelamar/pelamar-diundang"
                 className="flex gap-2 items-center px-5 my-3 py-3 bg-primary hover:bg-primary/80 rounded-full transition ease-in-out delay-150 hover:-translate-y-1 w-fit text-white"
             >
                 <BackIcon />
@@ -37,10 +29,6 @@ const DetailLamaran = () => {
             <div className="garis w-full h-[1px] bg-[#C7C7CD] my-4"></div>
             {/* detail */}
             <div className="wrap flex flex-col gap-5">
-                {/*  */}
-                <div className="w-full py-3 text-center font-medium rounded-full bg-primary/20 text-primary">
-                    Posisi Dilamar : UI/UX Design
-                </div>
                 {/* head */}
                 <div className="deskripsi flex flex-col gap-1">
                     <div className="header flex gap-2 items-center">
@@ -307,4 +295,4 @@ const DetailLamaran = () => {
     )
 }
 
-export default DetailLamaran
+export default DetailPelamar

@@ -19,9 +19,10 @@ const config = {
     },
     extend: {
       colors: {
-        primary: "#2F55D4",
+        "primary": "#2F55D4",
         "primary-50": "#97AAEA",
         "primary-hover": "#1B3DAC",
+        "line-stroke": "#C7C7CD",
       },
       keyframes: {
         "accordion-down": {
