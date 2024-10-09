@@ -115,7 +115,7 @@ const DataTable: React.FC<DataTableProps> = ({ headers, data }) => {
                                             <div className="h-1 w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse"></div>
                                             <DropdownMenuGroup>
                                                 <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                                                    <Link className="w-full" href={`/masyarakat/pengaduan/detail`}>
+                                                    <Link className="w-full" href={`/pelayanan/pengaduan/detail`}>
                                                         <div className="flex items-center gap-2 text-gray-600 hover:text-gray-800">
                                                             Detail
                                                         </div>

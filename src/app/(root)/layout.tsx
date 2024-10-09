@@ -17,6 +17,7 @@ import PerusahaanIcon from "../../../public/assets/icons/PerusahaanIcon";
 import PelamarIcon from "../../../public/assets/icons/PelamarIcon";
 import LaporanIcon from "../../../public/assets/icons/LaporanIcon";
 import DatauserIcon from "../../../public/assets/icons/DataUserIcon";
+import PelayananIcon from "../../../public/assets/icons/PelayananIcon";
 
 
 interface LayoutPerusahaanProps {
@@ -144,44 +145,39 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                                     </Link>
                                 </AccordionItem>
                                 {/* data-user */}
-                                {/* masyarakat */}
+                                {/* pelayanan */}
                                 <AccordionItem className="" value="item-5">
                                     <AccordionTrigger
                                         className={`nav flex gap-2 mb-2 rounded-[8px] py-[10px] overflow-hidden px-[30px] font-normal ${pathname.startsWith(
-                                            "/masyarakat"
+                                            "/pelayanan"
                                         )
                                             ? "bg-white text-primary"
                                             : "bg-transparent text-white"
                                             }`}>
                                         <div className="flex gap-3 items-center">
-                                            <MasyarakatIcon />
-                                            Masyarakat
+                                            <PelayananIcon />
+                                            Pelayanan
                                         </div>
                                     </AccordionTrigger>
                                     <AccordionContent className="bg-primary-600/25 mb-2 rounded-md">
-                                        <Menu link="/masyarakat/akun-masyarakat">
-                                            <span className="text-[16px]">
-                                                Akun Masyarakat
-                                            </span>
-                                        </Menu>
-                                        <Menu link="/masyarakat/kartu-kuning">
+                                        <Menu link="/pelayanan/kartu-kuning">
                                             <span className="text-[16px]">
                                                 Kartu Kuning
                                             </span>
                                         </Menu>
-                                        <Menu link="/masyarakat/pengaduan">
+                                        <Menu link="/pelayanan/pengaduan">
                                             <span className="text-[16px]">
                                                 Pengaduan
                                             </span>
                                         </Menu>
-                                        <Menu link="/masyarakat/transmigrasi">
+                                        <Menu link="/pelayanan/transmigrasi">
                                             <span className="text-[16px]">
                                                 Transmigrasi
                                             </span>
                                         </Menu>
                                     </AccordionContent>
                                 </AccordionItem>
-                                {/* masyarakat */}
+                                {/* pelayanan */}
                                 {/* BATAS */}
                                 <div className="h-[1px] w-full bg-line-stroke my-3"></div>
                                 {/* BATAS */}

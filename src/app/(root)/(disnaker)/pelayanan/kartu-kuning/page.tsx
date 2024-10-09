@@ -2,17 +2,19 @@
 
 import Breadcrumb from '@/components/BreadCrumb';
 import React, { useState } from 'react'
-import BreadMasyarakat from '../../../../../../public/assets/icons/MasyarakatBread';
 import { Input } from '@/components/ui/input';
 import SearchIcon from '../../../../../../public/assets/icons/SearchIcon';
 import { CustomSelect } from '@/components/SelectCustom';
 import PaginationTable from '@/components/PaginationTable';
 import DataTable from '@/components/admin/KartuKuning';
+import Unduh1icon from '../../../../../../public/assets/icons/Unduh1icon';
+import { Button } from '@/components/ui/button';
+import BreadPelayanan from '../../../../../../public/assets/icons/BreadPelayanan';
 
 const KartuKuning = () => {
   const breadcrumbItems = [
     // { label: 'Home', href: '/', logo: <FaHome /> }, 
-    { label: 'Masyarakat', logo: <BreadMasyarakat /> },
+    { label: 'Pelayanan', logo: <BreadPelayanan /> },
     { label: 'Kartu Kuning' },  // No logo 
   ];
 
@@ -90,6 +92,14 @@ const KartuKuning = () => {
           placeholder='Pencarian'
           leftIcon={<SearchIcon />}
         />
+        <Input
+          type='date'
+          placeholder='Tanggal Awal'
+        />
+        <Input
+          type='date'
+          placeholder='Tanggal Akhir'
+        />
         <CustomSelect
           label="Status Akun"
           options={statusOptions}
@@ -98,6 +108,10 @@ const KartuKuning = () => {
           onChange={setSelectedValue}
           width="w-full"
         />
+        <Button className='flex gap-3 items-center px-10'>
+            <Unduh1icon />
+            Unduh PDF
+        </Button>
       </div>
       {/* table */}
       <div className="Table mt-3">

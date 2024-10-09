@@ -56,7 +56,7 @@ const DeletePopupTitik: FC<DeletePopupTitikProps> = ({ onDelete, className }) =>
                                     Batal
                                 </Button>
                                 <Button
-                                    className={`w-[100px]  rounded-full py-2 ${loading ? 'bg-gray-500' : 'bg-red-500'}`}
+                                    className={`w-[100px]  rounded-full py-2 ${loading ? 'bg-gray-500' : 'bg-red-500 hover:bg-red-700'}`}
                                     onClick={handleDelete} // Menambahkan fungsi onClick
                                     disabled={loading} // Disable button while loading
                                 >

@@ -1,27 +1,15 @@
 import React from 'react';
 import Breadcrumb from '@/components/BreadCrumb';
-import BreadMasyarakat from '../../../../../../../public/assets/icons/MasyarakatBread';
 import BackIcon from '../../../../../../../public/assets/icons/BackIcon';
 import Link from 'next/link';
 import Garis from '@/components/ui/garis';
 import DetailPengaduan from '@/components/admin/Pengaduan/detail';
-
-interface ProfileInfo {
-    label: string;
-    value: string;
-}
-
-const ProfileDetail: React.FC<ProfileInfo> = ({ label, value }) => (
-    <div className="left w-1/2">
-        <div className="label text-[#3572EF]">{label}</div>
-        <div className="teks text-sm">{value}</div>
-    </div>
-);
+import BreadPelayanan from '../../../../../../../public/assets/icons/BreadPelayanan';
 
 const Detail: React.FC = () => {
     const breadcrumbItems = [
-        { label: 'Masyarakat', logo: <BreadMasyarakat /> },
-        { label: 'Pengaduan', href: '/masyarakat/pengaduan' },
+        { label: 'Pelayanan', logo: <BreadPelayanan /> },
+        { label: 'Pengaduan', href: '/pelayanan/pengaduan' },
         { label: 'Detail Pengaduan' },
     ];
 
@@ -38,8 +26,8 @@ const Detail: React.FC = () => {
             {/* Top */}
             <Breadcrumb items={breadcrumbItems} />
             <Link
-                href="/masyarakat/pengaduan"
-                className="flex gap-2 items-center mt-5 px-5 py-3 bg-primary rounded-lg transition ease-in-out delay-150 hover:-translate-y-1 w-fit text-white"
+                href="/pelayanan/pengaduan"
+                className="flex gap-2 items-center mt-5 px-5 py-3 bg-primary rounded-full transition ease-in-out delay-150 hover:-translate-y-1 w-fit text-white"
             >
                 <BackIcon />
                 Kembali

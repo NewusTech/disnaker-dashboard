@@ -18,6 +18,7 @@ import {
     DropdownMenuLabel,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import DeletePopupTitik from "@/components/AksiPopup";
 
 interface DataTableProps {
     headers: string[];
@@ -122,11 +123,14 @@ const DataTable: React.FC<DataTableProps> = ({ headers, data }) => {
                                                     </button>
                                                 </DropdownMenuItem>
                                                 <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                                                    <Link className="w-full" href={`/masyarakat/kartu-kuning/detail`}>
+                                                    <Link className="w-full" href={`/pelayanan/kartu-kuning/detail`}>
                                                         <div className="flex items-center gap-2 text-gray-600 hover:text-gray-800">
                                                             Detail
                                                         </div>
                                                     </Link>
+                                                </DropdownMenuItem>
+                                                <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                                                    <DeletePopupTitik onDelete={async () => Promise.resolve()} />
                                                 </DropdownMenuItem>
                                             </DropdownMenuGroup>
                                         </DropdownMenuContent>
