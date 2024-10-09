@@ -37,7 +37,7 @@ const DeletePopupTitik: FC<DeletePopupTitikProps> = ({ onDelete, className }) =>
         <div title='Hapus' className='flex items-center w-full text-center'>
             <Dialog open={isOpen} onOpenChange={setIsOpen}>
                 <DialogTrigger asChild>
-                    <div className={`text-gray-600 ${className}`}>Hapus</div>
+                    <div className={`text-gray-600 w-full text-start cursor-pointer ${className}`}>Hapus</div>
                 </DialogTrigger>
                 <DialogContent className='bg-white'>
                     <DialogHeader>

@@ -18,6 +18,7 @@ import PelamarIcon from "../../../public/assets/icons/PelamarIcon";
 import LaporanIcon from "../../../public/assets/icons/LaporanIcon";
 import DatauserIcon from "../../../public/assets/icons/DataUserIcon";
 import PelayananIcon from "../../../public/assets/icons/PelayananIcon";
+import MasterIcon from "../../../public/assets/icons/MasterIcon";
 
 
 interface LayoutPerusahaanProps {
@@ -145,6 +146,59 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                                     </Link>
                                 </AccordionItem>
                                 {/* data-user */}
+                                {/* master data */}
+                                <AccordionItem className="" value="item-19">
+                                    <AccordionTrigger
+                                        className={`nav flex gap-2 mb-2 rounded-[8px] py-[10px] overflow-hidden px-[30px] font-normal ${pathname.startsWith(
+                                            "/master-data"
+                                        )
+                                            ? "bg-white text-primary"
+                                            : "bg-transparent text-white"
+                                            }`}>
+                                        <div className="flex gap-3 items-center">
+                                            <MasterIcon />
+                                            Master Data
+                                        </div>
+                                    </AccordionTrigger>
+                                    <AccordionContent className="bg-primary-600/25 mb-2 rounded-md">
+                                        <Menu link="/master-data/skill">
+                                            <span className="text-[16px]">
+                                                Skill
+                                            </span>
+                                        </Menu>
+                                        <Menu link="/master-data/kategori">
+                                            <span className="text-[16px]">
+                                                Kategori Pekerjaan
+                                            </span>
+                                        </Menu>
+                                        <Menu link="/master-data/provinsi">
+                                            <span className="text-[16px]">
+                                                Provinsi
+                                            </span>
+                                        </Menu>
+                                        <Menu link="/master-data/kelurahan">
+                                            <span className="text-[16px]">
+                                                Kelurahan
+                                            </span>
+                                        </Menu>
+                                        <Menu link="/master-data/kabupaten">
+                                            <span className="text-[16px]">
+                                                Kabupaten
+                                            </span>
+                                        </Menu>
+                                        <Menu link="/master-data/kecamatan">
+                                            <span className="text-[16px]">
+                                                Kecamatan
+                                            </span>
+                                        </Menu>
+                                        <Menu link="/master-data/syarat-ketentuan">
+                                            <span className="text-[16px]">
+                                                Syarat dan Ketentuan
+                                            </span>
+                                        </Menu>
+                                    </AccordionContent>
+                                </AccordionItem>
+                                {/* master data */}
                                 {/* pelayanan */}
                                 <AccordionItem className="" value="item-5">
                                     <AccordionTrigger
