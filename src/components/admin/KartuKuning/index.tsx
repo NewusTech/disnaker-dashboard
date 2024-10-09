@@ -83,9 +83,9 @@ const DataTable: React.FC<DataTableProps> = ({ headers, data }) => {
                     {data.map((user) => (
                         <TableRow key={user.no}>
                             <TableCell className="text-center">{user.no}</TableCell>
-                            <TableCell>{user.nama}</TableCell>
+                            <TableCell className="text-center" >{user.noPengajuan}</TableCell>
+                            <TableCell className="text-center" >{user.nama}</TableCell>
                             <TableCell className="text-center">{user.nik}</TableCell>
-                            <TableCell className="text-center">{user.noPengajuan}</TableCell>
                             <TableCell className="text-center">{user.tanggal}</TableCell>
                             <TableCell className={`text-center font-medium
                                 ${user.status === "pengajuan" ? "text-[#6E6E6E]" : ""}
@@ -104,7 +104,7 @@ const DataTable: React.FC<DataTableProps> = ({ headers, data }) => {
                                 <div className="aksi">
                                     <DropdownMenu>
                                         <DropdownMenuTrigger asChild>
-                                            <div className="flex gap-1 cursor-pointer">
+                                            <div className="flex items-center h-[20px] gap-1 cursor-pointer">
                                                 <div className="w-[5px] h-[5px] rounded-full bg-[#3D3D3D]"></div>
                                                 <div className="w-[5px] h-[5px] rounded-full bg-[#3D3D3D]"></div>
                                                 <div className="w-[5px] h-[5px] rounded-full bg-[#3D3D3D]"></div>
@@ -122,7 +122,7 @@ const DataTable: React.FC<DataTableProps> = ({ headers, data }) => {
                                                     </button>
                                                 </DropdownMenuItem>
                                                 <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                                                    <Link href={`/masyarakat/kartu-kuning/detail`}>
+                                                    <Link className="w-full" href={`/masyarakat/kartu-kuning/detail`}>
                                                         <div className="flex items-center gap-2 text-gray-600 hover:text-gray-800">
                                                             Detail
                                                         </div>

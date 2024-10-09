@@ -1,21 +1,19 @@
-import React from 'react';
+"use client"
+
+import React, { useState } from 'react';
 import Image from 'next/image';
+import Garis from '@/components/ui/garis';
+import PengaduanPopup from '@/components/PengaduanPopup';
+import TerimaPengaduan from '@/components/TerimaPengaduan';
+import TolakPengaduan from '@/components/TolakPengaduan';
 
 // Define the structure of the data props
 interface DetailPengaduanProps {
     data: {
-        nik: string;
-        alamat: string;
         nama: string;
-        agama: string;
-        tempatLahir: string;
-        statusPerkawinan: string;
-        tanggalLahir: string;
-        pekerjaan: string;
-        namaInstansi: string;
-        jurusan: string;
-        keterampilan: string;
-        email: string;
+        judul: string;
+        deskripsi: string;
+        tanggal: string;
         foto: string; // URL for the user's photo
     };
 }
@@ -28,89 +26,147 @@ interface ProfileInfo {
 const ProfileDetail: React.FC<ProfileInfo> = ({ label, value }) => (
     <div className="left w-1/2">
         <div className="label text-[#3572EF]">{label}</div>
-        <div className="teks text-sm">{value}</div>
+        <div className="teks text-sm text-justify">{value}</div>
     </div>
 );
 
 const DetailPengaduan: React.FC<DetailPengaduanProps> = ({ data }) => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const openModal = () => setIsModalOpen(true);
+    const closeModal = () => setIsModalOpen(false);
+
+    // API function to handle the 'Terima' action
+    const handleTerimaPengaduan = async (payload: { status: string; keterangan: string }) => {
+        try {
+            // await axiosPrivate.post("/validasi/korluh-padi/kab", payload);
+            // alert
+            // Swal.fire({
+            //     icon: 'success',
+            //     title: 'Data berhasil divalidasi!',
+            //     text: 'Data sudah disimpan sistem!',
+            //     timer: 1500,
+            //     timerProgressBar: true,
+            //     showConfirmButton: false,
+            //     showClass: {
+            //         popup: 'animate__animated animate__fadeInDown',
+            //     },
+            //     hideClass: {
+            //         popup: 'animate__animated animate__fadeOutUp',
+            //     },
+            //     customClass: {
+            //         title: 'text-2xl font-semibold text-green-600',
+            //         icon: 'text-green-500 animate-bounce',
+            //         timerProgressBar: 'bg-gradient-to-r from-blue-400 to-green-400', // Gradasi warna yang lembut
+            //     },
+            //     backdrop: `rgba(0, 0, 0, 0.4)`,
+            // });
+            // alert
+            console.log(payload)
+            // push
+            console.log("Success to validasi Padi:");
+        } catch (error: any) {
+            // Extract error message from API response
+            const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal memvalidasi data!';
+            // Swal.fire({
+            //     icon: 'error',
+            //     title: 'Terjadi kesalahan!',
+            //     text: errorMessage,
+            //     showConfirmButton: true,
+            //     showClass: { popup: 'animate__animated animate__fadeInDown' },
+            //     hideClass: { popup: 'animate__animated animate__fadeOutUp' },
+            //     customClass: {
+            //         title: 'text-2xl font-semibold text-red-600',
+            //         icon: 'text-red-500 animate-bounce',
+            //     },
+            //     backdrop: 'rgba(0, 0, 0, 0.4)',
+            // });
+            console.error("Failed to create user:", error);
+        } finally {
+            // setLoading(false); // Set loading to false once the process is complete
+        }
+        // mutate(`/validasi/korluh-padi/kab?bulan=${tahun}/${bulan}`);
+    };
+
     return (
         <div>
             {/* Detail */}
             <div className="wrap-all flex flex-col gap-6">
-                {/* Profile Kependudukan */}
-                <div className="wrap flex flex-col gap-4">
-                    <div className="header bg-primary/20 text-primary rounded-lg p-3">
-                        Profile Kependudukan
-                    </div>
-                    <div className="konten flex flex-col gap-4">
-                        <div className="wrap flex gap-1 px-1">
-                            <ProfileDetail label="NIK" value={data.nik} />
-                            <ProfileDetail label="Alamat" value={data.alamat} />
-                        </div>
-                        <div className="wrap flex gap-1 px-1">
-                            <ProfileDetail label="Nama" value={data.nama} />
-                            <ProfileDetail label="Agama" value={data.agama} />
-                        </div>
-                        <div className="wrap flex gap-1 px-1">
-                            <ProfileDetail label="Tempat Lahir" value={data.tempatLahir} />
-                            <ProfileDetail label="Status Perkawinan" value={data.statusPerkawinan} />
-                        </div>
-                        <div className="wrap flex gap-1 px-1">
-                            <ProfileDetail label="Tanggal Lahir" value={data.tanggalLahir} />
-                            <ProfileDetail label="Pekerjaan" value={data.pekerjaan} />
-                        </div>
-                    </div>
-                </div>
                 {/* Informasi Instansi */}
                 <div className="wrap flex flex-col gap-4">
-                    <div className="header bg-primary/20 text-primary rounded-lg p-3">
-                        Profile Instansi
-                    </div>
                     <div className="konten flex flex-col gap-4">
                         <div className="wrap flex gap-1 px-1">
-                            <ProfileDetail label="Nama Instansi" value={data.namaInstansi} />
+                            <ProfileDetail label="Nama" value={data.nama} />
                         </div>
                         <div className="wrap flex gap-1 px-1">
-                            <ProfileDetail label="Jurusan" value={data.jurusan} />
+                            <ProfileDetail label="Judul" value={data.judul} />
                         </div>
                         <div className="wrap flex gap-1 px-1">
-                            <ProfileDetail label="Keterampilan" value={data.keterampilan} />
+                            <ProfileDetail label="Deksripsi" value={data.deskripsi} />
                         </div>
-                    </div>
-                </div>
-                {/* Akun */}
-                <div className="wrap flex flex-col gap-4">
-                    <div className="header bg-primary/20 text-primary rounded-lg p-3">
-                        Akun
-                    </div>
-                    <div className="konten flex flex-col gap-4">
                         <div className="wrap flex gap-1 px-1">
-                            <ProfileDetail label="Email" value={data.email} />
+                            <ProfileDetail label="Tanggal Pengaduan" value={data.tanggal} />
                         </div>
-                    </div>
-                </div>
-                {/* Foto */}
-                <div className="wrap flex flex-col gap-4">
-                    <div className="header bg-primary/20 text-primary rounded-lg p-3">
-                        Foto
-                    </div>
-                    <div className="konten flex flex-col gap-4">
                         <div className="wrap flex gap-1 px-1">
-                            <div className="w-[300px] h-[300px] rounded-lg overflow-hidden">
-                                <Image
-                                    src={data.foto}
-                                    alt="Foto User"
-                                    className="object-cover w-full h-full"
-                                    width={300}
-                                    height={300}
-                                    unoptimized
-                                />
+                            <div className="left w-1/2">
+                                <div className="label text-[#3572EF]">Foto</div>
+                                <div className="teks text-sm">
+                                    <div className="w-full h-[300px] rounded-lg overflow-hidden cursor-pointer" onClick={openModal}>
+                                        <Image
+                                            src={data.foto}
+                                            alt="Foto User"
+                                            className="object-cover w-full h-full"
+                                            width={300}
+                                            height={300}
+                                            unoptimized
+                                        />
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <Garis />
+                <div className="wrap flex justify-center gap-3">
+                    <div className="">
+                        <TolakPengaduan onTolak={handleTerimaPengaduan} />
+                    </div>
+                    <div className="">
+                        <TerimaPengaduan onTerima={handleTerimaPengaduan} />
+                    </div>
+                </div>
             </div>
-            {/* Detail */}
+
+            {/* Manual Modal */}
+            {isModalOpen && (
+                <div onClick={closeModal} className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                    <div
+                        className="relative bg-white p-4 rounded shadow-lg max-w-3xl"
+                        role="dialog"
+                        aria-modal="true"
+                        onClick={(e) => e.stopPropagation()} // Prevent the modal from closing when clicking inside
+                    >
+                        <button
+                            aria-label="Close"
+                            className="absolute top-2 right-2 flex justify-center items-center text-white w-6 h-6 rounded-full bg-primary"
+                            onClick={closeModal}
+                        >
+                            &times;
+                        </button>
+                        <div className="flex justify-center items-center">
+                            <Image
+                                src={data.foto}
+                                alt={`Full-size photo of user`}
+                                className="object-cover"
+                                width={600}
+                                height={600}
+                                unoptimized
+                            />
+                        </div>
+                    </div>
+                </div>
+            )}
+
         </div>
     );
 };

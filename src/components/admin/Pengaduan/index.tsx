@@ -10,6 +10,15 @@ import {
 import Link from "next/link";
 import { CustomSelect } from "@/components/SelectCustom";
 import { Button } from "@/components/ui/button";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuGroup,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import DeletePopupTitik from "@/components/AksiPopup";
 
 interface DataTableProps {
     headers: string[];
@@ -29,7 +38,7 @@ const DataTable: React.FC<DataTableProps> = ({ headers, data }) => {
     const [selectedFoto, setSelectedFoto] = useState<string | null>(null);
     const [selectedUser, setSelectedUser] = useState<any | null>(null); // Store the currently selected user for status update
     const [selectedValue, setSelectedValue] = useState<string | undefined>(undefined);
-    
+
     const statusOptions = [
         { label: "Proses", value: "proses" },
         { label: "Diterima", value: "diterima" },
@@ -80,22 +89,47 @@ const DataTable: React.FC<DataTableProps> = ({ headers, data }) => {
                             <TableCell className="text-center">{user.tanggal}</TableCell>
                             <TableCell className={`text-center font-medium
                                 ${user.status === "diterima" ? "text-[#399918]" : ""}
-                                ${user.status === "proses" ? "text-[#FC6736]" : ""}
-                                ${user.status === "ditutup" ? "text-[#DF1212]" : ""}
+                                ${user.status === "proses" ? "text-[#6E6E6E]" : ""}
+                                ${user.status === "ditolak" ? "text-[#DF1212]" : ""}
                                 `}>
                                 {user.status === "diterima" ? "Diterima" :
-                                        user.status === "proses" ? "Proses" :
-                                            user.status === "ditutup" ? "Ditutup" : "Status Tidak Diketahui"}
+                                    user.status === "proses" ? "Proses" :
+                                        user.status === "ditolak" ? "Ditolak" : "Status Tidak Diketahui"}
                             </TableCell>
 
-                            <TableCell className="text-center flex gap-2">
-                                <button onClick={() => handleOpenPopup(user)} className="p-2 w-[120px] bg-primary text-white rounded-full">
-                                    Ubah Status
-                                </button>
-                                <Link href="/masyarakat/pengaduan/detail" className="p-2 w-[120px] bg-[#3D3D3D]/20 text-[#3D3D3D] rounded-full">
-                                    Detail
-                                </Link>
+                            {/*  */}
+                            <TableCell className="text-center justify-center flex gap-2">
+                                <div className="aksi">
+                                    <DropdownMenu>
+                                        <DropdownMenuTrigger asChild>
+                                            <div className="flex items-center h-[20px] gap-1 cursor-pointer">
+                                                <div className="w-[5px] h-[5px] rounded-full bg-[#3D3D3D]"></div>
+                                                <div className="w-[5px] h-[5px] rounded-full bg-[#3D3D3D]"></div>
+                                                <div className="w-[5px] h-[5px] rounded-full bg-[#3D3D3D]"></div>
+                                            </div>
+                                        </DropdownMenuTrigger>
+                                        <DropdownMenuContent className="w-fit mr-8 mt-1 bg-white">
+                                            <DropdownMenuLabel className="font-semibold text-primary text-sm w-full shadow-md">
+                                                Pilih Aksi
+                                            </DropdownMenuLabel>
+                                            <div className="h-1 w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse"></div>
+                                            <DropdownMenuGroup>
+                                                <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                                                    <Link className="w-full" href={`/masyarakat/pengaduan/detail`}>
+                                                        <div className="flex items-center gap-2 text-gray-600 hover:text-gray-800">
+                                                            Detail
+                                                        </div>
+                                                    </Link>
+                                                </DropdownMenuItem>
+                                                <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                                                    <DeletePopupTitik onDelete={async () => Promise.resolve()} />
+                                                </DropdownMenuItem>
+                                            </DropdownMenuGroup>
+                                        </DropdownMenuContent>
+                                    </DropdownMenu>
+                                </div>
                             </TableCell>
+                            {/*  */}
                         </TableRow>
                     ))}
                 </TableBody>

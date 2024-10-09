@@ -33,7 +33,7 @@ const KartuKuning = () => {
       no: 1,
       nama: "John Doe",
       nik: "123456789",
-      noPengajuan: "john@example.com",
+      noPengajuan: "32425365",
       tanggal: "23 Desember 2023",
       status: "pengajuan",
     },
@@ -41,7 +41,7 @@ const KartuKuning = () => {
       no: 2,
       nama: "Jane Smith",
       nik: "987654321",
-      noPengajuan: "jane@example.com",
+      noPengajuan: "32425365",
       tanggal: "24 Desember 2023",
       status: "terbit",
     },
@@ -49,7 +49,7 @@ const KartuKuning = () => {
       no: 3,
       nama: "Michael Johnson",
       nik: "456789123",
-      noPengajuan: "michael@example.com",
+      noPengajuan: "32425365",
       tanggal: "25 Desember 2023",
       status: "proses",
     },
@@ -57,7 +57,7 @@ const KartuKuning = () => {
       no: 4,
       nama: "Emily Davis",
       nik: "321654987",
-      noPengajuan: "emily@example.com",
+      noPengajuan: "32425365",
       tanggal: "26 Desember 2023",
       status: "ditolak",
     },
@@ -65,7 +65,7 @@ const KartuKuning = () => {
       no: 5,
       nama: "Chris Brown",
       nik: "159753468",
-      noPengajuan: "chris@example.com",
+      noPengajuan: "32425365",
       tanggal: "27 Desember 2023",
       status: "pengajuan",
     },
@@ -73,7 +73,7 @@ const KartuKuning = () => {
 
   // 
   // Define table headers
-  const tableHeaders = ["No", "Nama", "NIK", "No Pengajuan", "Tanggal Dibuat", "Status", "Aksi"];
+  const tableHeaders = ["No", "No Pengajuan", "Nama", "NIK", "Tanggal Dibuat", "Status", "Aksi"];
   // pagination
   const [currentPage, setCurrentPage] = useState(3);
   const onPageChange = (page: number) => {

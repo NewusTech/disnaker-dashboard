@@ -23,7 +23,7 @@ const config = {
         "primary-50": "#97AAEA",
         "primary-hover": "#1B3DAC",
         "succes": "#399918",
-        "Error": "#DF1212",
+        "error": "#DF1212",
         "warning": "#FC6736",
         "line-stroke": "#C7C7CD",
       },

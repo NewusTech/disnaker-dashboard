@@ -8,6 +8,8 @@ import SearchIcon from '../../../../../../public/assets/icons/SearchIcon';
 import { CustomSelect } from '@/components/SelectCustom';
 import PaginationTable from '@/components/PaginationTable';
 import DataTable from '@/components/admin/Pengaduan';
+import { Button } from '@/components/ui/button';
+import Unduh1icon from '../../../../../../public/assets/icons/Unduh1icon';
 
 const PengaduanPage = () => {
   const breadcrumbItems = [
@@ -50,7 +52,7 @@ const PengaduanPage = () => {
       nik: "456789123",
       judul: "Website Lama",
       tanggal: "25 Desember 2023",
-      status: "ditutup",
+      status: "ditolak",
     },
     {
       no: 4,
@@ -66,7 +68,7 @@ const PengaduanPage = () => {
       nik: "159753468",
       judul: "Website Lama",
       tanggal: "27 Desember 2023",
-      status: "ditutup",
+      status: "ditolak",
     },
   ];
 
@@ -89,6 +91,14 @@ const PengaduanPage = () => {
           placeholder='Pencarian'
           leftIcon={<SearchIcon />}
         />
+        <Input
+          type='date'
+          placeholder='Tanggal Awal'
+        />
+        <Input
+          type='date'
+          placeholder='Tanggal Akhir'
+        />
         <CustomSelect
           label="Status Akun"
           options={statusOptions}
@@ -97,6 +107,10 @@ const PengaduanPage = () => {
           onChange={setSelectedValue}
           width="w-full"
         />
+        <Button className='flex gap-3 items-center px-10'>
+            <Unduh1icon />
+            Unduh PDF
+        </Button>
       </div>
       {/* table */}
       <div className="Table mt-3">

@@ -12,19 +12,22 @@ import {
 import { Button } from '@/components/ui/button';
 import Loading from '../ui/Loading';
 
-interface DeletePopupTitikProps {
-    onDelete: () => Promise<void>; // onDelete should return a promise
+interface PengaduanPopupProps {
+    onAksi: () => Promise<void>; // onAksi should return a promise
     className?: string;
+    title?: string;
+    nama?: string;
+    deskripsi?: string;
 }
 
-const DeletePopupTitik: FC<DeletePopupTitikProps> = ({ onDelete, className }) => {
+const PengaduanPopup: FC<PengaduanPopupProps> = ({ onAksi, className, title, deskripsi, nama }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [loading, setLoading] = useState(false);
 
     const handleDelete = async () => {
         setLoading(true); // Set loading to true when starting the delete operation
         try {
-            await onDelete(); // Wait for the delete action to complete
+            await onAksi(); // Wait for the delete action to complete
         } catch (error) {
             console.error("Delete operation failed:", error);
         } finally {
@@ -37,30 +40,30 @@ const DeletePopupTitik: FC<DeletePopupTitikProps> = ({ onDelete, className }) =>
         <div title='Hapus' className='flex items-center w-full text-center'>
             <Dialog open={isOpen} onOpenChange={setIsOpen}>
                 <DialogTrigger asChild>
-                    <div className={`text-gray-600 ${className}`}>Hapus</div>
+                    <Button className={`${className}`}>{nama}</Button>
                 </DialogTrigger>
-                <DialogContent className='bg-white'>
+                <DialogContent className='bg-white max-w-xl'>
                     <DialogHeader>
-                        <DialogTitle>
-                            Apakah kamu yakin menghapus ini?
+                        <DialogTitle className='text-start mt-3'>
+                            {title}
                         </DialogTitle>
-                        <DialogDescription>
-                            Tindakan ini akan membuat data hilang permanen dan akan dihapus di server
+                        <DialogDescription className='text-start'>
+                            {deskripsi}
                             <div className="wrap flex gap-3 justify-end mt-3">
                                 <Button
                                     type='button'
                                     variant="outlinePrimary"
-                                    className='w-[100px]  rounded-full py-2'
+                                    className='w-[100px] rounded-full py-2'
                                     onClick={() => setIsOpen(false)} // Menutup dialog
                                 >
                                     Batal
                                 </Button>
                                 <Button
-                                    className={`w-[100px]  rounded-full py-2 ${loading ? 'bg-gray-500' : 'bg-red-500'}`}
+                                    className={`w-[100px] rounded-full py-2 ${loading ? 'bg-gray-500' : 'bg-primary'}`}
                                     onClick={handleDelete} // Menambahkan fungsi onClick
                                     disabled={loading} // Disable button while loading
                                 >
-                                    {loading ? <Loading /> : "Hapus"}
+                                    {loading ? <Loading /> : `${nama}`}
                                 </Button>
                             </div>
                         </DialogDescription>
@@ -71,4 +74,4 @@ const DeletePopupTitik: FC<DeletePopupTitikProps> = ({ onDelete, className }) =>
     );
 }
 
-export default DeletePopupTitik;
+export default PengaduanPopup;

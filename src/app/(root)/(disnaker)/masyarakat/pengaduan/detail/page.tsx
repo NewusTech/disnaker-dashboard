@@ -4,7 +4,7 @@ import BreadMasyarakat from '../../../../../../../public/assets/icons/Masyarakat
 import BackIcon from '../../../../../../../public/assets/icons/BackIcon';
 import Link from 'next/link';
 import Garis from '@/components/ui/garis';
-import DetailKartuKuning from '@/components/admin/KartuKuning/detail';
+import DetailPengaduan from '@/components/admin/Pengaduan/detail';
 
 interface ProfileInfo {
     label: string;
@@ -26,19 +26,11 @@ const Detail: React.FC = () => {
     ];
 
     const dummyData = {
-        nik: "1871032302000006",
-        alamat: "Sukarame, Bandar Lampung",
         nama: "Irsyad Abi Izzulhaq",
-        agama: "Islam",
-        tempatLahir: "Bandar Lampung",
-        statusPerkawinan: "Belum Kawin",
-        tanggalLahir: "23 - Februari 2002",
-        pekerjaan: "Programmer",
-        namaInstansi: "Universitas Teknokrat Indonesia",
-        jurusan: "Informatika",
-        keterampilan: "UI/UX Design, Front End Developer, Back End Developer dan Graphic Design",
-        email: "Irsyad@gmail.com",
-        foto: "https://img.freepik.com/free-photo/handsome-bearded-guy-posing-against-white-wall_273609-20597.jpg?size=626&ext=jpg&ga=GA1.1.2008272138.1727913600&semt=ais_hybrid",
+        judul: "Proses Kartu Kuning Lambat",
+        deskripsi: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, ",
+        tanggal: "24 - Februari - 2000",
+        foto: "https://radarlampung.disway.id/upload/60451837b04fbd0259e0ffb04545f88a.jpg",
     };
 
     return (
@@ -55,7 +47,7 @@ const Detail: React.FC = () => {
             <Garis />
             {/* Top */}
             {/* Detail */}
-            <DetailKartuKuning data={dummyData} />
+            <DetailPengaduan data={dummyData} />
             {/* Detail */}
         </div>
     );
