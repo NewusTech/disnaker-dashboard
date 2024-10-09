@@ -11,63 +11,63 @@ import { z } from "zod";
 import DeletePopupTitik from "@/components/AksiPopup";
 
 // Define schema for form validation using Zod
-const skillSchema = z.object({
-    skill: z.string().min(1, "Skill harus diisi"),
+const kabupatenSchema = z.object({
+    kabupaten: z.string().min(1, "Kabupaten harus diisi"),
 });
 
 interface FormData {
-    skill: string;
+    kabupaten: string;
 }
 
 interface DataTableProps {
     data: Array<{
         no: number;
-        skill: string;
-        id: number; // Added id here to identify skill
+        kabupaten: string;
+        id: number; // Added id here to identify kabupaten
     }>;
 }
 
 const DataTable: React.FC<DataTableProps> = ({ data }) => {
     const [isOpen, setIsOpen] = useState(false);
-    const [selectedId, setSelectedId] = useState<number | null>(null); // ID of the selected skill
+    const [selectedId, setSelectedId] = useState<number | null>(null); // ID of the selected kabupaten
     const [loading, setLoading] = useState(false);
 
     // Form setup with React Hook Form and Zod for validation
     const { register, handleSubmit, setValue, reset, formState: { errors } } = useForm<FormData>({
-        resolver: zodResolver(skillSchema),
+        resolver: zodResolver(kabupatenSchema),
     });
 
-    // Fetch skill data when a skill is selected for editing
+    // Fetch kabupaten data when a kabupaten is selected for editing
     const handleOpenPopup = async (id: number) => {
         setIsOpen(true);
-        setSelectedId(id); // Set the selected skill ID
+        setSelectedId(id); // Set the selected kabupaten ID
 
         try {
-            //   const response = await axios.get(`/api/skill/${id}`); // Fetch skill data from API
-            //   const skillData = response.data.data;
-            //   setValue("skill", skillData.skill); // Set fetched skill data to form
+            //   const response = await axios.get(`/api/kabupaten/${id}`); // Fetch kabupaten data from API
+            //   const kabupatenData = response.data.data;
+            //   setValue("kabupaten", kabupatenData.kabupaten); // Set fetched kabupaten data to form
         } catch (error) {
-            console.error("Error fetching skill data:", error);
+            console.error("Error fetching kabupaten data:", error);
         }
     };
 
     const handleClosePopup = () => {
         setIsOpen(false);
         reset(); // Reset form values when closing the popup
-        setSelectedId(null); // Clear the selected skill ID
+        setSelectedId(null); // Clear the selected kabupaten ID
     };
 
-    // Handle form submission to update skill
+    // Handle form submission to update kabupaten
     const onSubmit: SubmitHandler<FormData> = async (formData) => {
         if (selectedId === null) return; // Ensure there is a selected ID
 
         setLoading(true);
         try {
-            //   await axios.put(`/api/skill/update/${selectedId}`, formData); // Send update request to API
-            console.log("Skill updated successfully", formData);
+            //   await axios.put(`/api/kabupaten/update/${selectedId}`, formData); // Send update request to API
+            console.log("Kabupaten updated successfully", formData);
             console.log("ID :", selectedId);
         } catch (error) {
-            console.error("Error updating skill:", error);
+            console.error("Error updating kabupaten:", error);
         } finally {
             setLoading(false);
             handleClosePopup();
@@ -80,7 +80,7 @@ const DataTable: React.FC<DataTableProps> = ({ data }) => {
                 <TableHeader>
                     <TableRow>
                         <TableHead className="text-center">No</TableHead>
-                        <TableHead className="text-start">Skill</TableHead>
+                        <TableHead className="text-start">Kabupaten</TableHead>
                         <TableHead className="text-center">Aksi</TableHead>
                     </TableRow>
                 </TableHeader>
@@ -88,7 +88,7 @@ const DataTable: React.FC<DataTableProps> = ({ data }) => {
                     {data.map((user) => (
                         <TableRow key={user.no}>
                             <TableCell className="text-center w-[100px]">{user.no}</TableCell>
-                            <TableCell className="text-start">{user.skill}</TableCell>
+                            <TableCell className="text-start">{user.kabupaten}</TableCell>
                             <TableCell className="text-center justify-center flex gap-2">
                                 <div className="aksi">
                                     <DropdownMenu>
@@ -121,7 +121,7 @@ const DataTable: React.FC<DataTableProps> = ({ data }) => {
                 </TableBody>
             </Table>
 
-            {/* Popup for editing skill */}
+            {/* Popup for editing kabupaten */}
             {isOpen && (
                 <div onClick={handleClosePopup} className="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center">
                     <div onClick={(e) => e.stopPropagation()} className="bg-white p-5 rounded-lg relative w-[500px] md:mx-0 mx-4">
@@ -130,7 +130,7 @@ const DataTable: React.FC<DataTableProps> = ({ data }) => {
                         </button>
                         <div className="heda mb-5 flex flex-col gap-1 justify-center items-center">
                             <div className="text-lg font-medium">
-                                Edit Master Data Skill
+                                Edit Master Data Kabupaten
                             </div>
                             <div className="">
                                 Input data yang diperlukan
@@ -139,12 +139,12 @@ const DataTable: React.FC<DataTableProps> = ({ data }) => {
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <Input
                                 autoFocus
-                                placeholder="Masukkan Skill"
-                                {...register('skill')}
-                                className={errors.skill ? 'border-red-500' : ''}
+                                placeholder="Masukkan Kabupaten"
+                                {...register('kabupaten')}
+                                className={errors.kabupaten ? 'border-red-500' : ''}
                             />
-                            {errors.skill && (
-                                <HelperError>{String(errors.skill.message)}</HelperError> // Convert error to string
+                            {errors.kabupaten && (
+                                <HelperError>{String(errors.kabupaten.message)}</HelperError> // Convert error to string
                             )}
                             <div className="flex gap-3 justify-end mt-5">
                                 <Button

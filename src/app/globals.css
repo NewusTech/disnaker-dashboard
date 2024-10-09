@@ -2,6 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
+/* scrollbar */
+/* Menyesuaikan warna latar belakang dan lebar scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+  margin-left: 10px;
+}
+
+/* Warna track scrollbar */
+::-webkit-scrollbar-track {
+  background: #d9d9d9;
+}
+
+/* Warna thumb scrollbar */
+::-webkit-scrollbar-thumb {
+  background: #2F55D4;
+}
+
+/* Menghilangkan tombol panah scrollbar */
+::-webkit-scrollbar-button {
+  display: none;
+}
+/* scrollbar */
+
 /* multiple select */
 .react-select__control {
   @apply border border-[#E4E4E7] text-sm py-1 rounded-lg !important;
@@ -23,3 +47,4 @@
   @apply bg-blue-200 text-primary-hover !important;
 }
 /* multiple select */
+

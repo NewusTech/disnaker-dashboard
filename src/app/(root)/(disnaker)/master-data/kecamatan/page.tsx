@@ -6,35 +6,35 @@ import { Input } from '@/components/ui/input';
 import SearchIcon from '../../../../../../public/assets/icons/SearchIcon';
 import PaginationTable from '@/components/PaginationTable';
 import { Button } from '@/components/ui/button';
-import DataTable from '@/components/Disnaker/MasterData/Skill';
 import Tambah from '../../../../../../public/assets/icons/Tambah';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import BreadMaster from '../../../../../../public/assets/icons/BreadMaster';
+import DataTable from '@/components/Disnaker/MasterData/Kecamatan';
 
-// Schema validation for new skill
-const skillSchema = z.object({
-    skill: z.string().min(1, "Skill harus diisi"),
+// Schema validation for new kecamatan
+const kecamatanSchema = z.object({
+    kecamatan: z.string().min(1, "Kecamatan harus diisi"),
 });
 
 interface FormData {
-    skill: string;
+    kecamatan: string;
 }
 
-const Skill = () => {
+const Kecamatan = () => {
     const breadcrumbItems = [
         { label: 'Master Data', logo: <BreadMaster /> },
-        { label: 'Skill' },
+        { label: 'Kecamatan' },
     ];
 
     // Dummy data
     const dummyData = [
-        { no: 1, id: 1, skill: "UI/UX Design" },
-        { no: 2, id: 2, skill: "Front-End Dev" },
-        { no: 3, id: 3, skill: "Back-End Dev" },
-        { no: 4, id: 4, skill: "Mobile App Dev" },
-        { no: 5, id: 5, skill: "Project Management" },
+        { no: 1, id: 1, kecamatan: "Way Harong" },
+        { no: 2, id: 2, kecamatan: "Sekampung" },
+        { no: 3, id: 3, kecamatan: "Tegi Datar" },
+        { no: 4, id: 4, kecamatan: "Sidomulyo" },
+        { no: 5, id: 5, kecamatan: "Lebuay Karang" },
     ];
 
     // Pagination state
@@ -47,19 +47,19 @@ const Skill = () => {
 
     // Form setup using React Hook Form and Zod
     const { register, handleSubmit, formState: { errors }, reset } = useForm<FormData>({
-        resolver: zodResolver(skillSchema),
+        resolver: zodResolver(kecamatanSchema),
     });
 
-    // Handle form submission for adding a new skill
+    // Handle form submission for adding a new kecamatan
     const onSubmit: SubmitHandler<FormData> = async (formData) => {
         setLoading(true);
         try {
-            // Simulate API call to add skill
-            console.log("Skill added:", formData);
+            // Simulate API call to add kecamatan
+            console.log("Kecamatan added:", formData);
             setIsPopupOpen(false); // Close pop-up after submission
             reset(); // Reset form
         } catch (error) {
-            console.error("Error adding skill:", error);
+            console.error("Error adding kecamatan:", error);
         } finally {
             setLoading(false);
         }
@@ -81,7 +81,7 @@ const Skill = () => {
                 <Input placeholder="Pencarian" leftIcon={<SearchIcon />} />
                 <Button className="flex gap-3 items-center px-5" onClick={handleOpenPopup}>
                     <Tambah />
-                    Tambah Skill
+                    Tambah Kecamatan
                 </Button>
             </div>
 
@@ -95,7 +95,7 @@ const Skill = () => {
                 <PaginationTable currentPage={currentPage} totalPages={15} onPageChange={onPageChange} />
             </div>
 
-            {/* Pop-up for adding a new skill */}
+            {/* Pop-up for adding a new kecamatan */}
             {isPopupOpen && (
                 <div onClick={handleClosePopup} className="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center">
                     <div
@@ -105,7 +105,7 @@ const Skill = () => {
                         <button onClick={handleClosePopup} className="absolute top-2 right-2 flex justify-center items-center text-white w-6 h-6 rounded-full bg-primary">x</button>
                         <div className="heda mb-5 flex flex-col gap-1 justify-center items-center">
                             <div className="text-lg font-medium">
-                                Tambah Master Data Skill
+                                Tambah Master Data Kecamatan
                             </div>
                             <div className="">
                                 Input data yang diperlukan
@@ -114,11 +114,11 @@ const Skill = () => {
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <Input
                                 autoFocus
-                                placeholder="Masukkan Skill"
-                                {...register('skill')}
-                                className={errors.skill ? 'border-red-500' : ''}
+                                placeholder="Masukkan Kecamatan"
+                                {...register('kecamatan')}
+                                className={errors.kecamatan ? 'border-red-500' : ''}
                             />
-                            {errors.skill && <p className="text-red-500 text-sm mt-1">{errors.skill.message}</p>}
+                            {errors.kecamatan && <p className="text-red-500 text-sm mt-1">{errors.kecamatan.message}</p>}
 
                             <div className="flex justify-end mt-4 gap-3">
                             <Button
@@ -142,4 +142,4 @@ const Skill = () => {
     );
 };
 
-export default Skill;
+export default Kecamatan;

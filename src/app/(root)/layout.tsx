@@ -176,11 +176,6 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                                                 Provinsi
                                             </span>
                                         </Menu>
-                                        <Menu link="/master-data/kelurahan">
-                                            <span className="text-[16px]">
-                                                Kelurahan
-                                            </span>
-                                        </Menu>
                                         <Menu link="/master-data/kabupaten">
                                             <span className="text-[16px]">
                                                 Kabupaten
@@ -189,6 +184,11 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                                         <Menu link="/master-data/kecamatan">
                                             <span className="text-[16px]">
                                                 Kecamatan
+                                            </span>
+                                        </Menu>
+                                        <Menu link="/master-data/kelurahan">
+                                            <span className="text-[16px]">
+                                                Kelurahan
                                             </span>
                                         </Menu>
                                         <Menu link="/master-data/syarat-ketentuan">
