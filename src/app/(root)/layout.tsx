@@ -19,6 +19,8 @@ import LaporanIcon from "../../../public/assets/icons/LaporanIcon";
 import DatauserIcon from "../../../public/assets/icons/DataUserIcon";
 import PelayananIcon from "../../../public/assets/icons/PelayananIcon";
 import MasterIcon from "../../../public/assets/icons/MasterIcon";
+import IndeksIcon from "../../../public/assets/icons/IndeksIcon";
+import EventIcon from "../../../public/assets/icons/EventIcon";
 
 
 interface LayoutPerusahaanProps {
@@ -146,6 +148,32 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                                     </Link>
                                 </AccordionItem>
                                 {/* data-user */}
+                                {/* event */}
+                                <AccordionItem className="" value="item-2">
+                                    <Link
+                                        href="/event"
+                                        className={`nav hover:pl-10 duration-200 transition-all flex pr-4 text-[16px] items-center gap-4 mb-2 rounded-[8px] py-[10px] px-[25px] ${pathname.startsWith("/event")
+                                            ? "bg-white text-primary"
+                                            : "bg-transparent text-white"
+                                            }`} >
+                                        <EventIcon />
+                                        Event
+                                    </Link>
+                                </AccordionItem>
+                                {/* event */}
+                                {/* indeks-kepuasan */}
+                                <AccordionItem className="" value="item-2">
+                                    <Link
+                                        href="/indeks-kepuasan"
+                                        className={`nav hover:pl-10 duration-200 transition-all flex pr-4 text-[16px] items-center gap-4 mb-2 rounded-[8px] py-[10px] px-[25px] ${pathname.startsWith("/indeks-kepuasan")
+                                            ? "bg-white text-primary"
+                                            : "bg-transparent text-white"
+                                            }`} >
+                                        <IndeksIcon />
+                                        Indeks Kepuasan
+                                    </Link>
+                                </AccordionItem>
+                                {/* indeks-kepuasan */}
                                 {/* master data */}
                                 <AccordionItem className="" value="item-19">
                                     <AccordionTrigger

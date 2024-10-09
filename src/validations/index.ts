@@ -72,3 +72,37 @@ export const lowongan = z
 // Convert Zod schema to TypeScript type
 export type lowonganFormData = z.infer<typeof lowongan>;
 
+export const event = z
+  .object({
+    nama_program: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }),
+    kategori: z
+      .string({
+        required_error: "Jawaban tidak boleh kosong!"
+      }),
+    tanggal_mulai: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }),
+    tanggal_selesai: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }),
+    tempat: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }),
+    jam: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }),
+    link: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }),
+    deskripsi: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }),
+    banner: z.
+      instanceof(File).refine(file => file.size > 0, { message: 'Gambar wajib diisi' }),
+  })
+  .required();
+// Convert Zod schema to TypeScript type
+export type eventFormData = z.infer<typeof event>;
+
