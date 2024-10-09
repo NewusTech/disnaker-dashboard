@@ -2,17 +2,19 @@
 
 import Breadcrumb from '@/components/BreadCrumb';
 import React, { useState } from 'react'
-import BreadMasyarakat from '../../../../../../public/assets/icons/MasyarakatBread';
 import { Input } from '@/components/ui/input';
 import SearchIcon from '../../../../../../public/assets/icons/SearchIcon';
 import { CustomSelect } from '@/components/SelectCustom';
 import PaginationTable from '@/components/PaginationTable';
 import DataTable from '@/components/admin/Transmigrasi';
+import BreadPelayanan from '../../../../../../public/assets/icons/BreadPelayanan';
+import { Button } from '@/components/ui/button';
+import Unduh1icon from '../../../../../../public/assets/icons/Unduh1icon';
 
 const TransmigrasiPage = () => {
   const breadcrumbItems = [
     // { label: 'Home', href: '/', logo: <FaHome /> }, 
-    { label: 'Masyarakat', logo: <BreadMasyarakat /> },
+    { label: 'Pelayanan', logo: <BreadPelayanan /> },
     { label: 'Transmigrasi' },  // No logo 
   ];
 
@@ -20,10 +22,9 @@ const TransmigrasiPage = () => {
   const [selectedValue, setSelectedValue] = useState<string | undefined>(undefined);
   const statusOptions = [
     { label: "Semua", value: "semua" },
-    { label: "Permohonan Baru", value: "permohonan baru" },
+    { label: "Pengajuan", value: "Pengajuan" },
     { label: "Proses", value: "proses" },
-    { label: "Bisa Diambil", value: "bisa diambil" },
-    { label: "Sudah Diambil", value: "sudah diambil" },
+    { label: "Terbit", value: "Terbit" },
     { label: "Ditolak", value: "ditolak" },
   ];
   // select
@@ -36,7 +37,7 @@ const TransmigrasiPage = () => {
       nik: "123456789",
       noPengajuan: "123456789",
       tanggal: "23-02-2000",
-      status: "permohonan baru",
+      status: "Pengajuan",
     },
     {
       no: 2,
@@ -52,7 +53,7 @@ const TransmigrasiPage = () => {
       nik: "456789123",
       noPengajuan: "123456789",
       tanggal: "23-02-2000",
-      status: "bisa diambil",
+      status: "Terbit",
     },
     {
       no: 4,
@@ -60,7 +61,7 @@ const TransmigrasiPage = () => {
       nik: "321654987",
       noPengajuan: "123456789",
       tanggal: "23-02-2000",
-      status: "sudah diambil",
+      status: "Terbit",
     },
     {
       no: 5,
@@ -74,7 +75,7 @@ const TransmigrasiPage = () => {
 
   // 
   // Define table headers
-  const tableHeaders = ["No", "Nama", "NIK", "No Pengajuan", "Tanggal Dibuat", "Status", "Aksi"];
+  const tableHeaders = ["No", "No Pengajuan", "Nama", "NIK", "Tanggal Dibuat", "Status", "Aksi"];
   // pagination
   const [currentPage, setCurrentPage] = useState(3);
   const onPageChange = (page: number) => {
@@ -91,6 +92,14 @@ const TransmigrasiPage = () => {
           placeholder='Pencarian'
           leftIcon={<SearchIcon />}
         />
+         <Input
+          type='date'
+          placeholder='Tanggal Awal'
+        />
+        <Input
+          type='date'
+          placeholder='Tanggal Akhir'
+        />
         <CustomSelect
           label="Status Akun"
           options={statusOptions}
@@ -99,6 +108,10 @@ const TransmigrasiPage = () => {
           onChange={setSelectedValue}
           width="w-full"
         />
+        <Button className='flex gap-3 items-center px-10'>
+            <Unduh1icon />
+            Unduh PDF
+        </Button>
       </div>
       {/* table */}
       <div className="Table mt-3">

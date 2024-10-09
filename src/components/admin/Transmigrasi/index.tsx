@@ -10,6 +10,15 @@ import {
 import Link from "next/link";
 import { CustomSelect } from "@/components/SelectCustom";
 import { Button } from "@/components/ui/button";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuGroup,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import DeletePopupTitik from "@/components/AksiPopup";
 
 interface DataTableProps {
     headers: string[];
@@ -31,10 +40,9 @@ const DataTable: React.FC<DataTableProps> = ({ headers, data }) => {
     const [selectedValue, setSelectedValue] = useState<string | undefined>(undefined);
 
     const statusOptions = [
-        { label: "Permohonan Baru", value: "permohonan baru" },
+        { label: "Pengajuan", value: "Pengajuan" },
         { label: "Proses", value: "proses" },
-        { label: "Bisa Diambil", value: "bisa diambil" },
-        { label: "Sudah Diambil", value: "sudah diambil" },
+        { label: "Terbit", value: "Terbit" },
         { label: "Ditolak", value: "ditolak" },
     ];
 
@@ -76,32 +84,60 @@ const DataTable: React.FC<DataTableProps> = ({ headers, data }) => {
                     {data.map((user) => (
                         <TableRow key={user.no}>
                             <TableCell className="text-center">{user.no}</TableCell>
-                            <TableCell>{user.nama}</TableCell>
-                            <TableCell className="text-center">{user.nik}</TableCell>
                             <TableCell className="text-center">{user.noPengajuan}</TableCell>
+                            <TableCell className="text-center">{user.nama}</TableCell>
+                            <TableCell className="text-center">{user.nik}</TableCell>
                             <TableCell className="text-center">{user.tanggal}</TableCell>
                             <TableCell className={`text-center font-medium
-                                ${user.status === "permohonan baru" ? "text-[#6E6E6E]" : ""}
+                                ${user.status === "Pengajuan" ? "text-[#6E6E6E]" : ""}
                                 ${user.status === "proses" ? "text-[#FC6736]" : ""}
-                                ${user.status === "bisa diambil" ? "text-[#22B1E5]" : ""}
-                                ${user.status === "sudah diambil" ? "text-[#399918]" : ""}
+                                ${user.status === "Terbit" ? "text-[#399918]" : ""}
                                 ${user.status === "ditolak" ? "text-[#DF1212]" : ""}
                                 `}>
-                                {user.status === "permohonan baru" ? "Permohonan Baru" :
+                                {user.status === "Pengajuan" ? "Pengajuan" :
                                     user.status === "proses" ? "Proses" :
-                                    user.status === "bisa diambil" ? "Bisa Diambil" :
-                                    user.status === "sudah diambil" ? "Sudah Diambil" :
-                                        user.status === "ditoak" ? "Ditolak" : "Status Tidak Diketahui"}
+                                        user.status === "Terbit" ? "Terbit" :
+                                            user.status === "ditolak" ? "Ditolak" : "Status Tidak Diketahui"}
                             </TableCell>
 
-                            <TableCell className="text-center flex gap-2">
-                                <button onClick={() => handleOpenPopup(user)} className="p-2 w-[120px] bg-primary text-white rounded-full">
-                                    Ubah Status
-                                </button>
-                                <Link href="/masyarakat/transmigrasi/detail" className="p-2 w-[120px] bg-[#3D3D3D]/20 text-[#3D3D3D] rounded-full">
-                                    Detail
-                                </Link>
+                            {/*  */}
+                            <TableCell className="text-center justify-center flex gap-2">
+                                <div className="aksi">
+                                    <DropdownMenu>
+                                        <DropdownMenuTrigger asChild>
+                                            <div className="flex items-center h-[20px] gap-1 cursor-pointer">
+                                                <div className="w-[5px] h-[5px] rounded-full bg-[#3D3D3D]"></div>
+                                                <div className="w-[5px] h-[5px] rounded-full bg-[#3D3D3D]"></div>
+                                                <div className="w-[5px] h-[5px] rounded-full bg-[#3D3D3D]"></div>
+                                            </div>
+                                        </DropdownMenuTrigger>
+                                        <DropdownMenuContent className="w-fit mr-8 mt-1 bg-white">
+                                            <DropdownMenuLabel className="font-semibold text-primary text-sm w-full shadow-md">
+                                                Pilih Aksi
+                                            </DropdownMenuLabel>
+                                            <div className="h-1 w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse"></div>
+                                            <DropdownMenuGroup>
+                                                <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                                                    <button onClick={() => handleOpenPopup(user)} >
+                                                        Ubah Status
+                                                    </button>
+                                                </DropdownMenuItem>
+                                                <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                                                    <Link className="w-full" href={`/pelayanan/transmigrasi/detail`}>
+                                                        <div className="flex items-center gap-2 text-gray-600 hover:text-gray-800">
+                                                            Detail
+                                                        </div>
+                                                    </Link>
+                                                </DropdownMenuItem>
+                                                <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                                                    <DeletePopupTitik onDelete={async () => Promise.resolve()} />
+                                                </DropdownMenuItem>
+                                            </DropdownMenuGroup>
+                                        </DropdownMenuContent>
+                                    </DropdownMenu>
+                                </div>
                             </TableCell>
+                            {/*  */}
                         </TableRow>
                     ))}
                 </TableBody>

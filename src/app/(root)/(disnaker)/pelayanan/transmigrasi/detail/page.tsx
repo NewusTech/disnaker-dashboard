@@ -1,44 +1,32 @@
 import React from 'react';
 import Breadcrumb from '@/components/BreadCrumb';
-import BreadMasyarakat from '../../../../../../../public/assets/icons/MasyarakatBread';
 import BackIcon from '../../../../../../../public/assets/icons/BackIcon';
 import Link from 'next/link';
 import Garis from '@/components/ui/garis';
 import DetailTransmigrasi from '@/components/admin/Transmigrasi/detail';
+import BreadPelayanan from '../../../../../../../public/assets/icons/BreadPelayanan';
 
-interface ProfileInfo {
-    label: string;
-    value: string;
-}
-
-const ProfileDetail: React.FC<ProfileInfo> = ({ label, value }) => (
-    <div className="left w-1/2">
-        <div className="label text-[#3572EF]">{label}</div>
-        <div className="teks text-sm">{value}</div>
-    </div>
-);
 
 const Detail: React.FC = () => {
     const breadcrumbItems = [
-        { label: 'Masyarakat', logo: <BreadMasyarakat /> },
-        { label: 'Transmigrasi', href: '/masyarakat/transmigrasi' },
+        { label: 'Pelayanan', logo: <BreadPelayanan /> },
+        { label: 'Transmigrasi', href: '/pelayanan/transmigrasi' },
         { label: 'Detail Transmigrasi' },
     ];
 
     const dummyData = {
+        status: "Terbit",
+        nama: "Irsyad Abi Izzulhaq",
         nik: "1871032302000006",
         alamat: "Sukarame, Bandar Lampung",
-        nama: "Irsyad Abi Izzulhaq",
-        agama: "Islam",
-        tempatLahir: "Bandar Lampung",
-        statusPerkawinan: "Belum Kawin",
-        tanggalLahir: "23 - Februari 2002",
-        pekerjaan: "Programmer",
-        namaInstansi: "Universitas Teknokrat Indonesia",
-        jurusan: "Informatika",
-        keterampilan: "UI/UX Design, Front End Developer, Back End Developer dan Graphic Design",
-        email: "Irsyad@gmail.com",
-        foto: "https://img.freepik.com/free-photo/handsome-bearded-guy-posing-against-white-wall_273609-20597.jpg?size=626&ext=jpg&ga=GA1.1.2008272138.1727913600&semt=ais_hybrid",
+        kecamatan: "Bandar Lampung",
+        kelurahan: "Belum Kawin",
+        noPengajuan: "345346457",
+        provinsi: "Lampung",
+        kabupaten: "Bandar Lampung",
+        kartuKeluarga : "https://www.bhuanajaya.desa.id/wp-content/uploads/images/kartu-keluarga-kk-82000_1080x675.webp",
+        ktp : "https://umsu.ac.id/artikel/wp-content/uploads/2023/11/cara-mudah-cek-ktp-asli-atau-palsu.jpeg",
+        kartuKuning : "-",
     };
 
     return (
@@ -46,8 +34,8 @@ const Detail: React.FC = () => {
             {/* Top */}
             <Breadcrumb items={breadcrumbItems} />
             <Link
-                href="/masyarakat/transmigrasi"
-                className="flex gap-2 items-center mt-5 px-5 py-3 bg-primary rounded-lg transition ease-in-out delay-150 hover:-translate-y-1 w-fit text-white"
+                href="/pelayanan/transmigrasi"
+                className="flex gap-2 items-center mt-5 px-5 py-3 bg-primary rounded-full transition ease-in-out delay-150 hover:-translate-y-1 w-fit text-white"
             >
                 <BackIcon />
                 Kembali
