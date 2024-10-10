@@ -21,6 +21,8 @@ import PelayananIcon from "../../../public/assets/icons/PelayananIcon";
 import MasterIcon from "../../../public/assets/icons/MasterIcon";
 import IndeksIcon from "../../../public/assets/icons/IndeksIcon";
 import EventIcon from "../../../public/assets/icons/EventIcon";
+import LaporanDinasIcon from "../../../public/assets/icons/LaporanDinasIcon";
+import InstansiIcon from "../../../public/assets/icons/InstansiIcon";
 
 
 interface LayoutPerusahaanProps {
@@ -148,8 +150,49 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                                     </Link>
                                 </AccordionItem>
                                 {/* data-user */}
+                                {/* instansi-disnaker */}
+                                <AccordionItem className="" value="item-8">
+                                    <AccordionTrigger
+                                        className={`nav flex gap-2 mb-2 rounded-[8px] py-[10px] overflow-hidden px-[30px] font-normal ${pathname.startsWith(
+                                            "/instansi-disnaker"
+                                        )
+                                            ? "bg-white text-primary"
+                                            : "bg-transparent text-white"
+                                            }`}>
+                                        <div className="flex gap-3 items-center">
+                                            <InstansiIcon />
+                                            Instansi
+                                        </div>
+                                    </AccordionTrigger>
+                                    <AccordionContent className="bg-primary-600/25 mb-2 rounded-md">
+                                        <Menu link="/instansi-disnaker/lowongan-pekerjaan">
+                                            <span className="text-[16px]">
+                                                Lowongan Pekerjaan
+                                            </span>
+                                        </Menu>
+                                        <Menu link="/instansi-disnaker/lamaran-pekerjaan">
+                                            <span className="text-[16px]">
+                                                Lamaran Pekerjaan
+                                            </span>
+                                        </Menu>
+                                    </AccordionContent>
+                                </AccordionItem>
+                                {/* instansi-disnaker */}
+                                {/* laporan */}
+                                <AccordionItem className="" value="item-3">
+                                    <Link
+                                        href="/laporan-disnaker"
+                                        className={`nav hover:pl-10 duration-200 transition-all flex pr-4 text-[16px] items-center gap-4 mb-2 rounded-[8px] py-[10px] px-[25px] ${pathname.startsWith("/laporan-disnaker")
+                                            ? "bg-white text-primary"
+                                            : "bg-transparent text-white"
+                                            }`} >
+                                        <LaporanDinasIcon />
+                                        Laporan Disnaker
+                                    </Link>
+                                </AccordionItem>
+                                {/* laporan */}
                                 {/* event */}
-                                <AccordionItem className="" value="item-2">
+                                <AccordionItem className="" value="item-4">
                                     <Link
                                         href="/event"
                                         className={`nav hover:pl-10 duration-200 transition-all flex pr-4 text-[16px] items-center gap-4 mb-2 rounded-[8px] py-[10px] px-[25px] ${pathname.startsWith("/event")
@@ -162,7 +205,7 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                                 </AccordionItem>
                                 {/* event */}
                                 {/* indeks-kepuasan */}
-                                <AccordionItem className="" value="item-2">
+                                <AccordionItem className="" value="item-5">
                                     <Link
                                         href="/indeks-kepuasan"
                                         className={`nav hover:pl-10 duration-200 transition-all flex pr-4 text-[16px] items-center gap-4 mb-2 rounded-[8px] py-[10px] px-[25px] ${pathname.startsWith("/indeks-kepuasan")
@@ -175,7 +218,7 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                                 </AccordionItem>
                                 {/* indeks-kepuasan */}
                                 {/* master data */}
-                                <AccordionItem className="" value="item-19">
+                                <AccordionItem className="" value="item-6">
                                     <AccordionTrigger
                                         className={`nav flex gap-2 mb-2 rounded-[8px] py-[10px] overflow-hidden px-[30px] font-normal ${pathname.startsWith(
                                             "/master-data"
@@ -228,7 +271,7 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                                 </AccordionItem>
                                 {/* master data */}
                                 {/* pelayanan */}
-                                <AccordionItem className="" value="item-5">
+                                <AccordionItem className="" value="item-7">
                                     <AccordionTrigger
                                         className={`nav flex gap-2 mb-2 rounded-[8px] py-[10px] overflow-hidden px-[30px] font-normal ${pathname.startsWith(
                                             "/pelayanan"
@@ -264,7 +307,7 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                                 <div className="h-[1px] w-full bg-line-stroke my-3"></div>
                                 {/* BATAS */}
                                 {/* perusahaan */}
-                                <AccordionItem className="" value="item-3">
+                                <AccordionItem className="" value="item-8">
                                     <AccordionTrigger
                                         className={`nav flex gap-2 mb-2 rounded-[8px] py-[10px] overflow-hidden px-[30px] font-normal ${pathname.startsWith(
                                             "/perusahaan"
@@ -292,7 +335,7 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                                 </AccordionItem>
                                 {/* perusahaan */}
                                 {/* pelamar */}
-                                <AccordionItem className="" value="item-4">
+                                <AccordionItem className="" value="item-9">
                                     <AccordionTrigger
                                         className={`nav flex gap-2 mb-2 rounded-[8px] py-[10px] overflow-hidden px-[30px] font-normal ${pathname.startsWith(
                                             "/pelamar"
@@ -320,10 +363,10 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                                 </AccordionItem>
                                 {/* pelamar */}
                                 {/* laporan */}
-                                <AccordionItem className="" value="item-6">
+                                <AccordionItem className="" value="item-10">
                                     <Link
-                                        href="/laporan"
-                                        className={`nav hover:pl-10 duration-200 transition-all flex pr-4 text-[16px] items-center gap-4 mb-2 rounded-[8px] py-[10px] px-[25px] ${pathname.startsWith("/laporan")
+                                        href="/laporan-perusahaan"
+                                        className={`nav hover:pl-10 duration-200 transition-all flex pr-4 text-[16px] items-center gap-4 mb-2 rounded-[8px] py-[10px] px-[25px] ${pathname.startsWith("/laporan-perusahaan")
                                             ? "bg-white text-primary"
                                             : "bg-transparent text-white"
                                             }`} >
