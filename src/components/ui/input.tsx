@@ -2,6 +2,8 @@
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
+import EyeClose from "../../../public/assets/icons/EyeClose";
+import EyeOpen from "../../../public/assets/icons/EyeOpen";
 // import EyeClose from "../../../public/icons/EyeClose";
 // import EyeOpen from "../../../public/icons/EyeOpen";
 
@@ -38,7 +40,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                         className="absolute right-4 cursor-pointer"
                         onClick={toggleShowPassword}
                     >
-                        {showPassword ? "close" : "open"}
+                        {showPassword ? <EyeClose /> : <EyeOpen />}
                     </span>
                 )}
             </div>

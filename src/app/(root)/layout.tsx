@@ -23,6 +23,8 @@ import IndeksIcon from "../../../public/assets/icons/IndeksIcon";
 import EventIcon from "../../../public/assets/icons/EventIcon";
 import LaporanDinasIcon from "../../../public/assets/icons/LaporanDinasIcon";
 import InstansiIcon from "../../../public/assets/icons/InstansiIcon";
+import InsDashboard from "../../../public/assets/icons/InsDashboard";
+import KelolaIcon from "../../../public/assets/icons/KelolaIcon";
 
 
 interface LayoutPerusahaanProps {
@@ -127,7 +129,7 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                                 {/* dashboard */}
                                 <AccordionItem className="" value="item-1">
                                     <Link
-                                        href="/dashboard-perusahaan"
+                                        href="/dashboard"
                                         className={`nav hover:pl-10 duration-200 transition-all flex pr-4 text-[16px] items-center gap-4 mb-2 rounded-[8px] py-[10px] px-[25px] ${pathname.startsWith("/dashboard")
                                             ? "bg-white text-primary"
                                             : "bg-transparent text-white"
@@ -137,19 +139,34 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                                     </Link>
                                 </AccordionItem>
                                 {/* dashboard */}
-                                {/* data-user */}
-                                <AccordionItem className="" value="item-2">
-                                    <Link
-                                        href="/data-user"
-                                        className={`nav hover:pl-10 duration-200 transition-all flex pr-4 text-[16px] items-center gap-4 mb-2 rounded-[8px] py-[10px] px-[25px] ${pathname.startsWith("/data-user")
+                                {/* data-pengguna */}
+                                <AccordionItem className="" value="item-12">
+                                    <AccordionTrigger
+                                        className={`nav flex gap-2 mb-2 rounded-[8px] py-[10px] overflow-hidden px-[30px] font-normal ${pathname.startsWith(
+                                            "/data-pengguna"
+                                        )
                                             ? "bg-white text-primary"
                                             : "bg-transparent text-white"
-                                            }`} >
-                                        <DatauserIcon />
-                                        Data User
-                                    </Link>
+                                            }`}>
+                                        <div className="flex gap-3 items-center">
+                                            <DatauserIcon />
+                                            Data Pengguna
+                                        </div>
+                                    </AccordionTrigger>
+                                    <AccordionContent className="bg-primary-600/25 mb-2 rounded-md">
+                                        <Menu link="/data-pengguna/akun-pengguna">
+                                            <span className="text-[16px]">
+                                                Akun Pengguna
+                                            </span>
+                                        </Menu>
+                                        <Menu link="/data-pengguna/akun-instansi">
+                                            <span className="text-[16px]">
+                                                Akun Instansi
+                                            </span>
+                                        </Menu>
+                                    </AccordionContent>
                                 </AccordionItem>
-                                {/* data-user */}
+                                {/* data-pengguna */}
                                 {/* instansi-disnaker */}
                                 <AccordionItem className="" value="item-8">
                                     <AccordionTrigger
@@ -303,11 +320,52 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                                     </AccordionContent>
                                 </AccordionItem>
                                 {/* pelayanan */}
+                                {/* kelola-akun */}
+                                <AccordionItem className="" value="item-14">
+                                    <AccordionTrigger
+                                        className={`nav flex gap-2 mb-2 rounded-[8px] py-[10px] overflow-hidden px-[30px] font-normal ${pathname.startsWith(
+                                            "/kelola-akun"
+                                        )
+                                            ? "bg-white text-primary"
+                                            : "bg-transparent text-white"
+                                            }`}>
+                                        <div className="flex gap-3 items-center">
+                                            <KelolaIcon />
+                                            Kelola Akun
+                                        </div>
+                                    </AccordionTrigger>
+                                    <AccordionContent className="bg-primary-600/25 mb-2 rounded-md">
+                                        <Menu link="/kelola-akun/admin">
+                                            <span className="text-[16px]">
+                                                Admin
+                                            </span>
+                                        </Menu>
+                                        <Menu link="/kelola-akun/hak-akses">
+                                            <span className="text-[16px]">
+                                                Hak Akses
+                                            </span>
+                                        </Menu>
+                                    </AccordionContent>
+                                </AccordionItem>
+                                {/* kelola-akun */}
                                 {/* BATAS */}
                                 <div className="h-[1px] w-full bg-line-stroke my-3"></div>
                                 {/* BATAS */}
-                                {/* perusahaan */}
+                                {/* dashboard */}
                                 <AccordionItem className="" value="item-8">
+                                    <Link
+                                        href="/instansi-dashboard"
+                                        className={`nav hover:pl-10 duration-200 transition-all flex pr-4 text-[16px] items-center gap-4 mb-2 rounded-[8px] py-[10px] px-[25px] ${pathname.startsWith("/instansi-dashboard")
+                                            ? "bg-white text-primary"
+                                            : "bg-transparent text-white"
+                                            }`} >
+                                        <InsDashboard />
+                                        Dashboard
+                                    </Link>
+                                </AccordionItem>
+                                {/* dashboard */}
+                                {/* perusahaan */}
+                                <AccordionItem className="" value="item-9">
                                     <AccordionTrigger
                                         className={`nav flex gap-2 mb-2 rounded-[8px] py-[10px] overflow-hidden px-[30px] font-normal ${pathname.startsWith(
                                             "/perusahaan"
@@ -335,7 +393,7 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                                 </AccordionItem>
                                 {/* perusahaan */}
                                 {/* pelamar */}
-                                <AccordionItem className="" value="item-9">
+                                <AccordionItem className="" value="item-10">
                                     <AccordionTrigger
                                         className={`nav flex gap-2 mb-2 rounded-[8px] py-[10px] overflow-hidden px-[30px] font-normal ${pathname.startsWith(
                                             "/pelamar"
@@ -363,7 +421,7 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                                 </AccordionItem>
                                 {/* pelamar */}
                                 {/* laporan */}
-                                <AccordionItem className="" value="item-10">
+                                <AccordionItem className="" value="item-11">
                                     <Link
                                         href="/laporan-perusahaan"
                                         className={`nav hover:pl-10 duration-200 transition-all flex pr-4 text-[16px] items-center gap-4 mb-2 rounded-[8px] py-[10px] px-[25px] ${pathname.startsWith("/laporan-perusahaan")

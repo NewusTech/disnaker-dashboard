@@ -14,7 +14,7 @@ import Loading from '../ui/Loading';
 import UndangIcon from '../../../public/assets/icons/UndangIcon';
 
 interface InvitePopupProps {
-    onInvite: (selectedJobs: string[]) => Promise<void>; // Pass selected jobs
+    onInvite: (selectedJobs: string[]) => Promise<void>;
     className?: string;
 }
 
@@ -30,28 +30,25 @@ const InvitePopup: FC<InvitePopupProps> = ({ onInvite, className }) => {
         { label: 'Project Manager', value: 'pm' },
     ];
 
-    // State to track selected job (only one allowed)
     const [selectedJob, setSelectedJob] = useState<string | null>(null);
 
-    // Handle checkbox change
     const handleCheckboxChange = (jobValue: string) => {
-        // Set selected job to the new value or deselect if the same job is clicked again
         setSelectedJob((prevSelectedJob) =>
             prevSelectedJob === jobValue ? null : jobValue
         );
     };
 
     const handleInvite = async () => {
-        setLoading(true); // Set loading to true when starting the invite operation
+        setLoading(true);
         try {
             if (selectedJob) {
-                await onInvite([selectedJob]); // Pass the selected job to the invite handler
+                await onInvite([selectedJob]);
             }
         } catch (error) {
             console.error("Invite operation failed:", error);
         } finally {
-            setLoading(false); // Set loading to false once the operation is complete
-            setIsOpen(false); // Close the dialog
+            setLoading(false);
+            setIsOpen(false);
         }
     };
 
@@ -70,19 +67,16 @@ const InvitePopup: FC<InvitePopupProps> = ({ onInvite, className }) => {
                             Pilih Lowongan Pekerjaan
                         </DialogTitle>
                         <DialogDescription>
-                            {/* Map over jobs */}
                             {jobs.map((job) => (
                                 <div key={job.value} className="flex flex-col">
                                     <div className="flex items-center justify-between">
-                                        <div className="name text-base">
-                                            {job.label}
-                                        </div>
-                                        <div className="checkbox">
+                                        <label className="flex items-center justify-between w-full cursor-pointer">
+                                            <span className="text-base hover:text-primary">{job.label}</span>
                                             <Checkbox
                                                 checked={selectedJob === job.value}
                                                 onCheckedChange={() => handleCheckboxChange(job.value)}
                                             />
-                                        </div>
+                                        </label>
                                     </div>
                                     <div className="garis h-[1px] w-full my-3 bg-line-stroke"></div>
                                 </div>
