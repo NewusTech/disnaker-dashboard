@@ -12,6 +12,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import BreadMaster from '../../../../../../public/assets/icons/BreadMaster';
+import { useGetKelurahan } from '@/api';
 
 // Schema validation for new kelurahan
 const kelurahanSchema = z.object({
@@ -28,18 +29,24 @@ const Kelurahan = () => {
         { label: 'Kelurahan' },
     ];
 
-    // Dummy data
-    const dummyData = [
-        { no: 1, id: 1, kelurahan: "Way Harong" },
-        { no: 2, id: 2, kelurahan: "Sekampung" },
-        { no: 3, id: 3, kelurahan: "Tegi Datar" },
-        { no: 4, id: 4, kelurahan: "Sidomulyo" },
-        { no: 5, id: 5, kelurahan: "Lebuay Karang" },
-    ];
 
     // Pagination state
     const [currentPage, setCurrentPage] = useState(1);
-    const onPageChange = (page: number) => setCurrentPage(page);
+    const onPageChange = (page: number) => {
+        setCurrentPage(page)
+    };
+
+    // serach
+    const [search, setSearch] = useState("");
+    const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSearch(event.target.value);
+        setCurrentPage(1); // Reset to page 1
+    };
+    // serach
+
+    // INTEGRASI
+    const { data, error, isLoading } = useGetKelurahan(currentPage, search);
+    // INTEGRASI
 
     // State for controlling pop-up visibility
     const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -78,7 +85,12 @@ const Kelurahan = () => {
         <div>
             <Breadcrumb items={breadcrumbItems} />
             <div className="mt-3 flex gap-3">
-                <Input placeholder="Pencarian" leftIcon={<SearchIcon />} />
+                <Input
+                    placeholder="Pencarian"
+                    leftIcon={<SearchIcon />}
+                    value={search}
+                    onChange={handleSearchChange}
+                />
                 <Button className="flex gap-3 items-center px-5" onClick={handleOpenPopup}>
                     <Tambah />
                     Tambah Kelurahan
@@ -86,8 +98,9 @@ const Kelurahan = () => {
             </div>
 
             {/* Table */}
+            {/* Table */}
             <div className="Table mt-3">
-                <DataTable data={dummyData} />
+                <DataTable currentPage={currentPage} data={data?.data} />
             </div>
 
             {/* Pagination */}
@@ -121,7 +134,7 @@ const Kelurahan = () => {
                             {errors.kelurahan && <p className="text-red-500 text-sm mt-1">{errors.kelurahan.message}</p>}
 
                             <div className="flex justify-end mt-4 gap-3">
-                            <Button
+                                <Button
                                     type='button'
                                     variant="outlinePrimary"
                                     className='w-[100px]  rounded-full py-2'

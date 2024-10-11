@@ -21,13 +21,13 @@ interface FormData {
 
 interface DataTableProps {
     data: Array<{
-        no: number;
-        kecamatan: string;
-        id: number; // Added id here to identify kecamatan
+        id: number;
+        name: string;
     }>;
+    currentPage: number; // Add currentPage as a prop
 }
 
-const DataTable: React.FC<DataTableProps> = ({ data }) => {
+const DataTable: React.FC<DataTableProps> = ({ data, currentPage }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedId, setSelectedId] = useState<number | null>(null); // ID of the selected kecamatan
     const [loading, setLoading] = useState(false);
@@ -85,39 +85,47 @@ const DataTable: React.FC<DataTableProps> = ({ data }) => {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {data.map((user) => (
-                        <TableRow key={user.no}>
-                            <TableCell className="text-center w-[100px]">{user.no}</TableCell>
-                            <TableCell className="text-start">{user.kecamatan}</TableCell>
-                            <TableCell className="text-center justify-center flex gap-2">
-                                <div className="aksi">
-                                    <DropdownMenu>
-                                        <DropdownMenuTrigger asChild>
-                                            <div className="flex items-center h-[20px] gap-1 cursor-pointer">
-                                                <div className="w-[5px] h-[5px] rounded-full bg-[#3D3D3D]"></div>
-                                                <div className="w-[5px] h-[5px] rounded-full bg-[#3D3D3D]"></div>
-                                                <div className="w-[5px] h-[5px] rounded-full bg-[#3D3D3D]"></div>
-                                            </div>
-                                        </DropdownMenuTrigger>
-                                        <DropdownMenuContent className="w-fit bg-white">
-                                            <DropdownMenuLabel className="font-semibold text-primary text-sm w-full shadow-md">
-                                                Pilih Aksi
-                                            </DropdownMenuLabel>
-                                            <div className="h-1 w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse"></div>
-                                            <DropdownMenuItem>
-                                                <button className="w-full text-start" onClick={() => handleOpenPopup(user.id)}>
-                                                    Edit
-                                                </button>
-                                            </DropdownMenuItem>
-                                            <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                                                <DeletePopupTitik onDelete={async () => Promise.resolve()} />
-                                            </DropdownMenuItem>
-                                        </DropdownMenuContent>
-                                    </DropdownMenu>
-                                </div>
-                            </TableCell>
+                    {data?.length > 0 ? (
+                        data.map((user, index) => (
+                            <TableRow key={user.id}>
+                                <TableCell className="text-center w-[100px]">
+                                    {(currentPage - 1) * 10 + (index + 1)}
+                                </TableCell>
+                                <TableCell className="text-start">{user.name}</TableCell>
+                                <TableCell className="text-center justify-center flex gap-2">
+                                    <div className="aksi">
+                                        <DropdownMenu>
+                                            <DropdownMenuTrigger asChild>
+                                                <div className="flex items-center h-[20px] gap-1 cursor-pointer">
+                                                    <div className="w-[5px] h-[5px] rounded-full bg-[#3D3D3D]"></div>
+                                                    <div className="w-[5px] h-[5px] rounded-full bg-[#3D3D3D]"></div>
+                                                    <div className="w-[5px] h-[5px] rounded-full bg-[#3D3D3D]"></div>
+                                                </div>
+                                            </DropdownMenuTrigger>
+                                            <DropdownMenuContent className="w-fit bg-white">
+                                                <DropdownMenuLabel className="font-semibold text-primary text-sm w-full shadow-md">
+                                                    Pilih Aksi
+                                                </DropdownMenuLabel>
+                                                <div className="h-1 w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse"></div>
+                                                <DropdownMenuItem>
+                                                    <button className="w-full text-start" onClick={() => handleOpenPopup(user.id)}>
+                                                        Edit
+                                                    </button>
+                                                </DropdownMenuItem>
+                                                <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                                                    <DeletePopupTitik onDelete={async () => Promise.resolve()} />
+                                                </DropdownMenuItem>
+                                            </DropdownMenuContent>
+                                        </DropdownMenu>
+                                    </div>
+                                </TableCell>
+                            </TableRow>
+                        ))
+                    ) : (
+                        <TableRow>
+                            <TableCell colSpan={3} className="text-center">Tidak ada data</TableCell>
                         </TableRow>
-                    ))}
+                    )}
                 </TableBody>
             </Table>
 

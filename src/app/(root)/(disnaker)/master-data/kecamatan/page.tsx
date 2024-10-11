@@ -12,6 +12,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import BreadMaster from '../../../../../../public/assets/icons/BreadMaster';
 import DataTable from '@/components/Disnaker/MasterData/Kecamatan';
+import { useGetKecamatan } from '@/api';
 
 // Schema validation for new kecamatan
 const kecamatanSchema = z.object({
@@ -28,18 +29,24 @@ const Kecamatan = () => {
         { label: 'Kecamatan' },
     ];
 
-    // Dummy data
-    const dummyData = [
-        { no: 1, id: 1, kecamatan: "Way Harong" },
-        { no: 2, id: 2, kecamatan: "Sekampung" },
-        { no: 3, id: 3, kecamatan: "Tegi Datar" },
-        { no: 4, id: 4, kecamatan: "Sidomulyo" },
-        { no: 5, id: 5, kecamatan: "Lebuay Karang" },
-    ];
 
     // Pagination state
     const [currentPage, setCurrentPage] = useState(1);
-    const onPageChange = (page: number) => setCurrentPage(page);
+    const onPageChange = (page: number) => {
+        setCurrentPage(page)
+    };
+
+    // serach
+    const [search, setSearch] = useState("");
+    const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSearch(event.target.value);
+        setCurrentPage(1); // Reset to page 1
+    };
+    // serach
+
+    // INTEGRASI
+    const { data, error, isLoading } = useGetKecamatan(currentPage, search);
+    // INTEGRASI
 
     // State for controlling pop-up visibility
     const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -78,7 +85,12 @@ const Kecamatan = () => {
         <div>
             <Breadcrumb items={breadcrumbItems} />
             <div className="mt-3 flex gap-3">
-                <Input placeholder="Pencarian" leftIcon={<SearchIcon />} />
+                <Input
+                    placeholder="Pencarian"
+                    leftIcon={<SearchIcon />}
+                    value={search}
+                    onChange={handleSearchChange}
+                />
                 <Button className="flex gap-3 items-center px-5" onClick={handleOpenPopup}>
                     <Tambah />
                     Tambah Kecamatan
@@ -87,7 +99,7 @@ const Kecamatan = () => {
 
             {/* Table */}
             <div className="Table mt-3">
-                <DataTable data={dummyData} />
+                <DataTable currentPage={currentPage} data={data?.data} />
             </div>
 
             {/* Pagination */}
@@ -121,7 +133,7 @@ const Kecamatan = () => {
                             {errors.kecamatan && <p className="text-red-500 text-sm mt-1">{errors.kecamatan.message}</p>}
 
                             <div className="flex justify-end mt-4 gap-3">
-                            <Button
+                                <Button
                                     type='button'
                                     variant="outlinePrimary"
                                     className='w-[100px]  rounded-full py-2'

@@ -12,6 +12,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import BreadMaster from '../../../../../../public/assets/icons/BreadMaster';
 import DataTable from '@/components/Disnaker/MasterData/Kabupaten';
+import { useGetKabupaten } from '@/api';
 
 // Schema validation for new kabupaten
 const kabupatenSchema = z.object({
@@ -28,22 +29,28 @@ const Kabupaten = () => {
         { label: 'Kabupaten' },
     ];
 
-    // Dummy data
-    const dummyData = [
-        { no: 1, id: 1, kabupaten: "Way Harong" },
-        { no: 2, id: 2, kabupaten: "Sekampung" },
-        { no: 3, id: 3, kabupaten: "Tegi Datar" },
-        { no: 4, id: 4, kabupaten: "Sidomulyo" },
-        { no: 5, id: 5, kabupaten: "Lebuay Karang" },
-    ];
-
     // Pagination state
     const [currentPage, setCurrentPage] = useState(1);
-    const onPageChange = (page: number) => setCurrentPage(page);
+    const onPageChange = (page: number) => {
+        setCurrentPage(page)
+    };
 
+    // serach
+    const [search, setSearch] = useState("");
+    const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSearch(event.target.value);
+        setCurrentPage(1); // Reset to page 1
+      };
+    // serach
+    
+    // INTEGRASI
+    const { data, error, isLoading } = useGetKabupaten(currentPage, search);
+    // INTEGRASI
+    
     // State for controlling pop-up visibility
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [loading, setLoading] = useState(false);
+
 
     // Form setup using React Hook Form and Zod
     const { register, handleSubmit, formState: { errors }, reset } = useForm<FormData>({
@@ -78,7 +85,12 @@ const Kabupaten = () => {
         <div>
             <Breadcrumb items={breadcrumbItems} />
             <div className="mt-3 flex gap-3">
-                <Input placeholder="Pencarian" leftIcon={<SearchIcon />} />
+                <Input
+                    placeholder="Pencarian"
+                    leftIcon={<SearchIcon />}
+                    value={search}
+                    onChange={handleSearchChange}
+                />
                 <Button className="flex gap-3 items-center px-5" onClick={handleOpenPopup}>
                     <Tambah />
                     Tambah Kabupaten
@@ -87,12 +99,16 @@ const Kabupaten = () => {
 
             {/* Table */}
             <div className="Table mt-3">
-                <DataTable data={dummyData} />
+                <DataTable currentPage={currentPage} data={data?.data} />
             </div>
 
             {/* Pagination */}
             <div className="pagi flex items-center justify-center pb-5 lg:pb-0">
-                <PaginationTable currentPage={currentPage} totalPages={15} onPageChange={onPageChange} />
+                <PaginationTable
+                    currentPage={currentPage}
+                    totalPages={data?.pagination?.totalPages as number}
+                    onPageChange={onPageChange}
+                />
             </div>
 
             {/* Pop-up for adding a new kabupaten */}
@@ -121,7 +137,7 @@ const Kabupaten = () => {
                             {errors.kabupaten && <p className="text-red-500 text-sm mt-1">{errors.kabupaten.message}</p>}
 
                             <div className="flex justify-end mt-4 gap-3">
-                            <Button
+                                <Button
                                     type='button'
                                     variant="outlinePrimary"
                                     className='w-[100px]  rounded-full py-2'

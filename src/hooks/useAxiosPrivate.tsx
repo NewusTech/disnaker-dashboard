@@ -8,15 +8,12 @@ export const useAxiosPrivate = () => {
   const refresh = useRefreshToken();
   const [accessToken, setAccessToken] = useLocalStorage("accessToken", "");
 
-  //   const { user } = useUser();
-
   useEffect(() => {
     const requestInterceptor = axiosPrivateInstance.interceptors.request.use(
       (config) => {
         if (!config.headers["Authorization"]) {
-            config.headers["Authorization"] = `Bearer ${accessToken}`;
+          config.headers["Authorization"] = `Bearer ${accessToken}`;
         }
-
         return config;
       },
       (err) => Promise.reject(err)
@@ -25,22 +22,26 @@ export const useAxiosPrivate = () => {
     const responseInterceptor = axiosPrivateInstance.interceptors.response.use(
       (res) => res,
       async (err) => {
-        try {
-          const originalRequest = err?.config;
-          if (err?.response?.status === 403 && !originalRequest.sent) {
-            originalRequest.sent = true;
-            const accessToken = await refresh();
-
-            setAccessToken(accessToken);
-
-            originalRequest.headers["Authorization"] = `Bearer ${accessToken}`;
+        const originalRequest = err?.config;
+        if (err?.response?.status === 403 && !originalRequest.sent) {
+          originalRequest.sent = true;
+          try {
+            const newAccessToken = await refresh();
+            setAccessToken(newAccessToken);
+            originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
             return axiosPrivateInstance(originalRequest);
+          } catch (refreshError) {
+            // Jika refresh token gagal, hapus accessToken dari localStorage
+            setAccessToken("");
+            console.log("Token kadaluarsa, hapus dari localStorage.");
+            return Promise.reject(refreshError);
           }
-          return Promise.reject(err);
-        } catch (error) {
-          console.log(error);
-          return Promise.reject(error);
+        } else if (err?.response?.status === 401) {
+          // Jika status 401 (Unauthorized), hapus accessToken
+          setAccessToken("");
+          console.log("Unauthorized, hapus accessToken.");
         }
+        return Promise.reject(err);
       }
     );
 
