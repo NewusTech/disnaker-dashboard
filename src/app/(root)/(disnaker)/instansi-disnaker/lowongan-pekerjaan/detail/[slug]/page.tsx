@@ -1,17 +1,17 @@
 import Breadcrumb from '@/components/BreadCrumb'
 import React from 'react'
-import BreadPerusahaan from '../../../../../../../public/assets/icons/BreadPerusahaan';
+import BreadPerusahaan from '../../../../../../../../public/assets/icons/BreadPerusahaan';
 import Link from 'next/link';
-import BackIcon from '../../../../../../../public/assets/icons/BackIcon';
-import PerusahaanDetail from '../../../../../../../public/assets/icons/PerusahaanDetail';
-import AlamatDetail from '../../../../../../../public/assets/icons/AlamatDetail';
-import PendidikanDetail from '../../../../../../../public/assets/icons/PendidikanDetail';
-import KelaminDetail from '../../../../../../../public/assets/icons/KelaminDetail';
-import GajiDetail from '../../../../../../../public/assets/icons/GajiDetail';
-import PengalamanDetail from '../../../../../../../public/assets/icons/PengalamanDetail';
-import UsiaDetail from '../../../../../../../public/assets/icons/UsiaDetail';
-import HariDetail from '../../../../../../../public/assets/icons/HariDetail';
-import JamDetail from '../../../../../../../public/assets/icons/JamDetail';
+import BackIcon from '../../../../../../../../public/assets/icons/BackIcon';
+import PerusahaanDetail from '../../../../../../../../public/assets/icons/PerusahaanDetail';
+import AlamatDetail from '../../../../../../../../public/assets/icons/AlamatDetail';
+import PendidikanDetail from '../../../../../../../../public/assets/icons/PendidikanDetail';
+import KelaminDetail from '../../../../../../../../public/assets/icons/KelaminDetail';
+import GajiDetail from '../../../../../../../../public/assets/icons/GajiDetail';
+import PengalamanDetail from '../../../../../../../../public/assets/icons/PengalamanDetail';
+import UsiaDetail from '../../../../../../../../public/assets/icons/UsiaDetail';
+import HariDetail from '../../../../../../../../public/assets/icons/HariDetail';
+import JamDetail from '../../../../../../../../public/assets/icons/JamDetail';
 import { Button } from '@/components/ui/button';
 
 const DetailLowongan = () => {

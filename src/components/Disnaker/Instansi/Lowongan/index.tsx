@@ -178,7 +178,7 @@ const DataTable: React.FC<VacancyResponse> = ({ headers, data, currentPage, sear
                                                     </button>
                                                 </DropdownMenuItem>
                                                 <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                                                    <Link href={`/instansi-disnaker/lowongan-pekerjaan/detail`}>
+                                                    <Link href={`/instansi-disnaker/lowongan-pekerjaan/detail/${user.slug}`}>
                                                         <div className="flex items-center gap-2 text-gray-600 hover:text-gray-800">Detail</div>
                                                     </Link>
                                                 </DropdownMenuItem>
