@@ -59,9 +59,10 @@ interface VacancyResponse {
     data: Vacancy[];
     currentPage: number;
     search: string;
+    statusLowongan: string;
 }
 
-const DataTable: React.FC<VacancyResponse> = ({ headers, data, currentPage, search }) => {
+const DataTable: React.FC<VacancyResponse> = ({ headers, data, currentPage, search, statusLowongan }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedUser, setSelectedUser] = useState<Vacancy | null>(null);
     const [selectedValue, setSelectedValue] = useState<string | undefined>(undefined);
@@ -125,7 +126,7 @@ const DataTable: React.FC<VacancyResponse> = ({ headers, data, currentPage, sear
         } finally {
             setIsLoading(false); // Stop loading
             handleClosePopup(); // Close the popup after operation
-            mutate(`/vacancy/get?page=${currentPage}&limit=10&search=${search}`);
+            mutate(`/vacancy/get?page=${currentPage}&limit=10&search=${search}&status=${statusLowongan}`);
         }
     };
 

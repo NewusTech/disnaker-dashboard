@@ -85,6 +85,7 @@ const Lowongan = () => {
                     data={data?.data}
                     currentPage={currentPage}
                     search={search}
+                    statusLowongan={statusLowongan}
                 />
             </div>
             {/* table */}
