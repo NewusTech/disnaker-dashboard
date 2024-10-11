@@ -15,58 +15,117 @@ import {
     DropdownMenuItem,
     DropdownMenuLabel,
     DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 import DeletePopupTitik from "@/components/AksiPopup";
+import { CustomSelect } from "@/components/SelectCustom";
+import { Button } from "@/components/ui/button";
+import Swal from "sweetalert2";
+import useLocalStorage from "@/hooks/useLocalStorage";
+import useAxiosPrivate from "@/hooks/useAxiosPrivate";
+import { mutate } from "swr";
+import Loading from "@/components/ui/Loading";
+import { Span } from "next/dist/trace";
 
-interface DataTableProps {
-    headers: string[];
-    data: Array<{
-        no: number,
-        instansi: string,
-        lowongan: string,
-        tipe: string,
-        tanggal: string,
-        batas: string,
-        penutup: string,
-        status: string,
-    }>;
+interface Company {
+    id: number;
+    name: string;
+    imageLogo: string;
 }
 
-const DataTable: React.FC<DataTableProps> = ({ headers, data }) => {
+interface VacancyCategory {
+    id: number;
+    name: string;
+}
 
+interface Vacancy {
+    id: number;
+    title: string;
+    slug: string;
+    workLocation: string;
+    jobType: string;
+    desc: string;
+    applicationDeadline: string;
+    salary: string;
+    location: string | null;
+    isPublished: string;
+    createdAt: string;
+    updatedAt: string;
+    Company: Company;
+    VacancyCategory: VacancyCategory;
+}
+
+interface VacancyResponse {
+    headers: string[];
+    data: Vacancy[];
+    currentPage: number;
+    search: string;
+}
+
+const DataTable: React.FC<VacancyResponse> = ({ headers, data, currentPage, search }) => {
     const [isOpen, setIsOpen] = useState(false);
-    const [selectedFoto, setSelectedFoto] = useState<string | null>(null);
-    const [selectedUser, setSelectedUser] = useState<any | null>(null); // Store the currently selected user for status update
+    const [selectedUser, setSelectedUser] = useState<Vacancy | null>(null);
     const [selectedValue, setSelectedValue] = useState<string | undefined>(undefined);
+    const [isLoading, setIsLoading] = useState(false); // Loading state
 
     const statusOptions = [
-        { label: "Pengajuan", value: "pengajuan" },
-        { label: "Proses", value: "proses" },
-        { label: "Terbit", value: "terbit" },
-        { label: "Ditolak", value: "ditolak" },
+        { label: "Publish", value: "true" },
+        { label: "Tidak Publish", value: "false" },
     ];
 
-    const handleOpenPopup = (user: any) => {
+    const handleOpenPopup = (user: Vacancy) => {
         setIsOpen(true);
-        setSelectedUser(user); // Store the selected user
-        setSelectedValue(user.status); // Set the current status for the select
+        setSelectedUser(user);
     };
 
     const handleClosePopup = () => {
         setIsOpen(false);
-        setSelectedFoto(null);
-        setSelectedUser(null); // Clear selected user
+        setSelectedUser(null);
         setSelectedValue(undefined); // Reset selected value
     };
 
-    const handleStatus = () => {
-        if (selectedUser) {
-            // Here you can update the status in your data or make an API call
-            console.log(`Updating status for user ${selectedUser.no} to ${selectedValue}`);
-            // For example, you could update the local state or send a request to your API
+    const [accessToken] = useLocalStorage("accessToken", "");
+    const axiosPrivate = useAxiosPrivate();
 
-            // Close the popup after updating
-            handleClosePopup();
+    const handleStatus = async () => {
+        if (!selectedUser) return;
+
+        setIsLoading(true); // Start loading
+        try {
+            console.log("slug = ", selectedUser.slug);
+            console.log("vacancy id = ", selectedUser.id);
+            console.log("status = ", selectedValue);
+
+            // Send the request to the server
+            await axiosPrivate.put(`/vacancy/status/update/${selectedUser.slug}`, {
+                vacancy_id: selectedUser.id,
+                status: selectedValue,
+            });
+
+            Swal.fire({
+                icon: 'success',
+                title: 'Data berhasil diperbarui!',
+                text: 'Status telah diperbarui di sistem!',
+                timer: 2000,
+                timerProgressBar: true,
+                showConfirmButton: false,
+            });
+            console.log("Success to update vacancy status:");
+        } catch (error: any) {
+            const errorMessage = error.response?.data?.message || 'Gagal memperbarui status!';
+            Swal.fire({
+                icon: 'error',
+                title: 'Terjadi kesalahan!',
+                text: errorMessage,
+                showConfirmButton: true,
+                customClass: {
+                    confirmButton: "bg-primary" // Warna biru untuk tombol konfirmasi
+                },
+            });
+            console.error("Failed to update vacancy status:", error);
+        } finally {
+            setIsLoading(false); // Stop loading
+            handleClosePopup(); // Close the popup after operation
+            mutate(`/vacancy/get?page=${currentPage}&limit=10&search=${search}`);
         }
     };
 
@@ -81,25 +140,24 @@ const DataTable: React.FC<DataTableProps> = ({ headers, data }) => {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {data.map((user) => (
-                        <TableRow key={user.no}>
-                            <TableCell className="text-center">{user.no}</TableCell>
-                            <TableCell>{user.instansi}</TableCell>
-                            <TableCell className="text-center">{user.lowongan}</TableCell>
-                            <TableCell className="text-center">{user.tipe}</TableCell>
-                            <TableCell className="text-center">{user.tanggal}</TableCell>
-                            <TableCell className="text-center">{user.batas}</TableCell>
-                            <TableCell className="text-center">{user.penutup}</TableCell>
-                            <TableCell className={`text-center font-medium
-                                ${user.status === "publish" ? "text-[#399918]" : ""}
-                                ${user.status === "tidak publish" ? "text-[#DF1212]" : ""}
-                                `}>
-                                {user.status === "publish" ? "Publish" :
-                                    user.status === "tidak publish" ? "Tidak Publish" : "Status Tidak Diketahui"}
-                            </TableCell>
+                    {data?.length > 0 ? (
+                        data.map((user, index) => (
+                            <TableRow key={user.id}>
+                                <TableCell className="text-center">
+                                    {(currentPage - 1) * 10 + (index + 1)}
+                                </TableCell>
+                                <TableCell>{user.Company?.name ?? "-"}</TableCell>
+                                <TableCell className="text-center">{user.title ?? "-"}</TableCell>
+                                <TableCell className="text-center">{user.jobType ?? "-"}</TableCell>
+                                <TableCell className="text-center">
+                                    {user.createdAt ? new Date(user.createdAt).toISOString().split('T')[0] : '-'}
+                                </TableCell>
+                                <TableCell className="text-center">{user.applicationDeadline ?? "-"}</TableCell>
+                                <TableCell className={`text-center font-medium ${user.isPublished === "true" ? "text-[#399918]" : user.isPublished === "false" ? "text-[#DF1212]" : ""}`}>
+                                    {user.isPublished === "true" ? "Publish" : user.isPublished === "false" ? "Tidak Publish" : "Status Tidak Diketahui"}
+                                </TableCell>
 
-                            <TableCell className="text-center justify-center flex gap-2">
-                                <div className="aksi">
+                                <TableCell className="text-center justify-center flex gap-2">
                                     <DropdownMenu>
                                         <DropdownMenuTrigger asChild>
                                             <div className="flex items-center h-[20px] gap-1 cursor-pointer">
@@ -114,18 +172,19 @@ const DataTable: React.FC<DataTableProps> = ({ headers, data }) => {
                                             </DropdownMenuLabel>
                                             <div className="h-1 w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse"></div>
                                             <DropdownMenuGroup>
+                                                <DropdownMenuItem>
+                                                    <button onClick={() => handleOpenPopup(user)} className="flex items-center gap-2 text-gray-600 hover:text-gray-800">
+                                                        Ubah Status
+                                                    </button>
+                                                </DropdownMenuItem>
                                                 <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
                                                     <Link href={`/instansi-disnaker/lowongan-pekerjaan/detail`}>
-                                                        <div className="flex items-center gap-2 text-gray-600 hover:text-gray-800">
-                                                            Detail
-                                                        </div>
+                                                        <div className="flex items-center gap-2 text-gray-600 hover:text-gray-800">Detail</div>
                                                     </Link>
                                                 </DropdownMenuItem>
                                                 <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
                                                     <Link href={`/instansi-disnaker/lowongan-pekerjaan/edit`}>
-                                                        <div className="flex items-center gap-2 text-gray-600 hover:text-gray-800">
-                                                            Edit
-                                                        </div>
+                                                        <div className="flex items-center gap-2 text-gray-600 hover:text-gray-800">Edit</div>
                                                     </Link>
                                                 </DropdownMenuItem>
                                                 <DropdownMenuItem className="cursor-pointer" onSelect={(e) => e.preventDefault()}>
@@ -134,12 +193,55 @@ const DataTable: React.FC<DataTableProps> = ({ headers, data }) => {
                                             </DropdownMenuGroup>
                                         </DropdownMenuContent>
                                     </DropdownMenu>
-                                </div>
-                            </TableCell>
+                                </TableCell>
+                            </TableRow>
+                        ))
+                    ) : (
+                        <TableRow>
+                            <TableCell colSpan={8} className="text-center">Tidak ada data</TableCell>
                         </TableRow>
-                    ))}
+                    )}
                 </TableBody>
             </Table>
+            {/* Popup for updating the status */}
+            {isOpen && (
+                <div
+                    className="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center"
+                    onClick={handleClosePopup} // Close popup on overlay click
+                >
+                    <div
+                        className="bg-white p-4 rounded-lg relative max-w-[500px] mx-3 md:mx-0 w-full"
+                        onClick={(e) => e.stopPropagation()} // Prevent click on inner box from closing the popup
+                    >
+                        <button
+                            onClick={handleClosePopup}
+                            className="absolute top-2 right-2 flex justify-center items-center text-white w-6 h-6 rounded-full bg-primary"
+                        >
+                            &times;
+                        </button>
+                        <div>
+                            <h2 className="font-semibold mb-5">Ubah Status</h2>
+                            <CustomSelect
+                                value={selectedValue}
+                                options={statusOptions}
+                                onChange={setSelectedValue}
+                                placeholder="Pilih status"
+                                label="Status Lowongan"
+                                width="w-full"
+                            />
+                            <div className="flex justify-end mt-5">
+                                <Button
+                                    onClick={handleStatus}
+                                    className="py-2 bg-primary text-white rounded-full w-[170px]"
+                                    disabled={isLoading || !selectedValue} // Disable button if loading or no selection
+                                >
+                                    {isLoading ? <Loading /> : <span className="text-sm">Perbarui status</span>} {/* Button text changes based on loading state */}
+                                </Button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

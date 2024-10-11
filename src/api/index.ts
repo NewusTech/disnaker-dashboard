@@ -44,25 +44,6 @@ const useGetPupukData = (currentPage: number, search: string) => {
   };
 };
 
-// Define types for Kabupaten
-export type KabupatenProps = {
-  status: number; 
-  message: string; 
-  data: {
-      id: number; 
-      provinsi_id: number; 
-      name: string; 
-      createdAt: string; 
-      updatedAt: string; 
-  }[]; 
-  pagination: {
-      page: number; 
-      perPage: number; 
-      totalPages: number; 
-      totalCount: number; 
-  };
-};
-
 
 // Hook to fetch Kabupaten data
 const useGetKabupaten = (currentPage: number, search: string) => {
@@ -220,4 +201,66 @@ const useGetSkill = (currentPage: number, search: string) => {
   };
 };
 
-export { useGetPupukData, useGetKabupaten, useGetProvinsi, useGetKecamatan, useGetKelurahan, useGetSkill };
+// Hook to fetch Kategori data
+const useGetKategori = (currentPage: number, search: string) => {
+  const [accessToken] = useLocalStorage('accessToken', '');
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } = useSWR(
+    `/vacancy/category/get?page=${currentPage}&limit=10&search=${search}`,
+    () =>
+      axiosPrivate
+        .get(`/vacancy/category/get`, {
+          params: {
+            page: currentPage,
+            limit: 10,
+            search,
+          },
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then((res) => res.data) // Assuming data is in `res.data.data`
+  );
+
+  return {
+    data,
+    error,
+    mutate,
+    isValidating,
+    isLoading,
+  };
+};
+
+// Hook to fetch LowonganDisnaker data
+const useGetLowonganDisnaker = (currentPage: number, search: string) => {
+  const [accessToken] = useLocalStorage('accessToken', '');
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } = useSWR(
+    `/vacancy/get?page=${currentPage}&limit=10&search=${search}`,
+    () =>
+      axiosPrivate
+        .get(`/vacancy/get`, {
+          params: {
+            page: currentPage,
+            limit: 10,
+            search,
+          },
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then((res) => res.data) // Assuming data is in `res.data.data`
+  );
+
+  return {
+    data,
+    error,
+    mutate,
+    isValidating,
+    isLoading,
+  };
+};
+
+export { useGetPupukData, useGetKabupaten, useGetProvinsi, useGetKecamatan, useGetKelurahan, useGetSkill, useGetKategori, useGetLowonganDisnaker };

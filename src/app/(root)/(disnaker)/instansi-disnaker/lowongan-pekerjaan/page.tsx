@@ -10,6 +10,7 @@ import BreadPerusahaan from '../../../../../../public/assets/icons/BreadPerusaha
 import Link from 'next/link';
 import Tambah from '../../../../../../public/assets/icons/Tambah';
 import DataTable from '@/components/Disnaker/Instansi/Lowongan';
+import { useGetLowonganDisnaker } from '@/api';
 
 const Lowongan = () => {
     const breadcrumbItems = [
@@ -81,16 +82,27 @@ const Lowongan = () => {
         },
     ];
 
-
     // 
     // Define table headers
-    const tableHeaders = ["No", "Nama Instansi", "Lowongan", "Tipe", "Tanggal Posting", "Batas Lamaran", "Penutupan Lamaran", "Status", "Aksi"];
-    // pagination
-    const [currentPage, setCurrentPage] = useState(3);
+    const tableHeaders = ["No", "Nama Instansi", "Lowongan", "Tipe Pekerjaan", "Tanggal Posting", "Penutupan Lamaran", "Status", "Aksi"];
+
+    // Pagination state
+    const [currentPage, setCurrentPage] = useState(1);
     const onPageChange = (page: number) => {
         setCurrentPage(page)
     };
-    // pagination
+
+    // serach
+    const [search, setSearch] = useState("");
+    const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSearch(event.target.value);
+        setCurrentPage(1); // Reset to page 1
+    };
+    // serach
+
+    // INTEGRASI
+    const { data, error, isLoading } = useGetLowonganDisnaker(currentPage, search);
+    // INTEGRASI
 
 
     return (
@@ -98,8 +110,10 @@ const Lowongan = () => {
             <Breadcrumb items={breadcrumbItems} />
             <div className="mt-3 flex gap-3 items-center">
                 <Input
-                    placeholder='Pencarian'
+                    placeholder="Pencarian"
                     leftIcon={<SearchIcon />}
+                    value={search}
+                    onChange={handleSearchChange}
                 />
                 <CustomSelect
                     label="Status Akun"
@@ -120,15 +134,17 @@ const Lowongan = () => {
             <div className="Table mt-3">
                 <DataTable
                     headers={tableHeaders}
-                    data={dummyData}
+                    data={data?.data}
+                    currentPage={currentPage}
+                    search={search}
                 />
             </div>
             {/* table */}
             {/* pagination */}
             <div className="pagi flex items-center justify-center pb-5 lg:pb-0">
                 <PaginationTable
-                    currentPage={1}
-                    totalPages={15}
+                    currentPage={currentPage}
+                    totalPages={data?.pagination?.totalPages as number}
                     onPageChange={onPageChange}
                 />
             </div>

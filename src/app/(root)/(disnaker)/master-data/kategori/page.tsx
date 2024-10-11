@@ -12,6 +12,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import BreadMaster from '../../../../../../public/assets/icons/BreadMaster';
 import DataTable from '@/components/Disnaker/MasterData/Kategori';
+import { useGetKategori } from '@/api';
 
 // Schema validation for new kategori
 const kategoriSchema = z.object({
@@ -28,18 +29,23 @@ const Kategori = () => {
         { label: 'Kategori Pekerjaan' },
     ];
 
-    // Dummy data
-    const dummyData = [
-        { no: 1, id: 1, kategori: "Pendidikan" },
-        { no: 2, id: 2, kategori: "Marketing" },
-        { no: 3, id: 3, kategori: "Kesehatan" },
-        { no: 4, id: 4, kategori: "Teknologi" },
-        { no: 5, id: 5, kategori: "Pertanian" },
-    ];
-
     // Pagination state
     const [currentPage, setCurrentPage] = useState(1);
-    const onPageChange = (page: number) => setCurrentPage(page);
+    const onPageChange = (page: number) => {
+        setCurrentPage(page)
+    };
+
+    // serach
+    const [search, setSearch] = useState("");
+    const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSearch(event.target.value);
+        setCurrentPage(1); // Reset to page 1
+    };
+    // serach
+
+    // INTEGRASI
+    const { data, error, isLoading } = useGetKategori(currentPage, search);
+    // INTEGRASI
 
     // State for controlling pop-up visibility
     const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -78,7 +84,12 @@ const Kategori = () => {
         <div>
             <Breadcrumb items={breadcrumbItems} />
             <div className="mt-3 flex gap-3">
-                <Input placeholder="Pencarian" leftIcon={<SearchIcon />} />
+                <Input
+                    placeholder="Pencarian"
+                    leftIcon={<SearchIcon />}
+                    value={search}
+                    onChange={handleSearchChange}
+                />
                 <Button className="flex gap-3 items-center px-5" onClick={handleOpenPopup}>
                     <Tambah />
                     Tambah Kategori
@@ -87,12 +98,16 @@ const Kategori = () => {
 
             {/* Table */}
             <div className="Table mt-3">
-                <DataTable data={dummyData} />
+                <DataTable currentPage={currentPage} data={data?.data} />
             </div>
 
             {/* Pagination */}
             <div className="pagi flex items-center justify-center pb-5 lg:pb-0">
-                <PaginationTable currentPage={currentPage} totalPages={15} onPageChange={onPageChange} />
+                <PaginationTable
+                    currentPage={currentPage}
+                    totalPages={data?.pagination?.totalPages as number}
+                    onPageChange={onPageChange}
+                />
             </div>
 
             {/* Pop-up for adding a new kategori */}
@@ -121,7 +136,7 @@ const Kategori = () => {
                             {errors.kategori && <p className="text-red-500 text-sm mt-1">{errors.kategori.message}</p>}
 
                             <div className="flex justify-end mt-4 gap-3">
-                            <Button
+                                <Button
                                     type='button'
                                     variant="outlinePrimary"
                                     className='w-[100px]  rounded-full py-2'

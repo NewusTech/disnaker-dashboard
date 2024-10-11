@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/select";
 
 interface SelectProps {
-    label: string;
+    label?: string;
     options: { label: string; value: string | number }[];
     placeholder: string;
     value: string | undefined;
