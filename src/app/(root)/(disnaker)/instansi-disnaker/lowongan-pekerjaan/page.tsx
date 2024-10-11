@@ -23,64 +23,13 @@ const Lowongan = () => {
     const [selectedValue, setSelectedValue] = useState<string | undefined>(undefined);
     const statusOptions = [
         { label: "Semua", value: "semua" },
-        { label: "Publish", value: "publish" },
-        { label: "Tidak Publish", value: "tidak publish" },
+        { label: "Publish", value: "published" },
+        { label: "Tidak Publish", value: "not published" },
     ];
-    // select
 
-    // Dummy data with 'instansi' added
-    const dummyData = [
-        {
-            no: 1,
-            instansi: "PT. Design Media",
-            lowongan: "UI/UX Designer",
-            tipe: "Full Time",
-            tanggal: "2022-01-01",
-            batas: "2022-01-10",
-            penutup: "2022-01-15",
-            status: "publish",
-        },
-        {
-            no: 2,
-            instansi: "PT. Teknologi Nusantara",
-            lowongan: "Backend Developer",
-            tipe: "Part Time",
-            tanggal: "2022-02-01",
-            batas: "2022-02-05",
-            penutup: "2022-02-10",
-            status: "tidak publish",
-        },
-        {
-            no: 3,
-            instansi: "PT. Software Indonesia",
-            lowongan: "Frontend Developer",
-            tipe: "Freelance",
-            tanggal: "2022-03-01",
-            batas: "2022-03-07",
-            penutup: "2022-03-12",
-            status: "publish",
-        },
-        {
-            no: 4,
-            instansi: "PT. Karya Prima",
-            lowongan: "Project Manager",
-            tipe: "Full Time",
-            tanggal: "2022-04-01",
-            batas: "2022-04-05",
-            penutup: "2022-04-10",
-            status: "publish",
-        },
-        {
-            no: 5,
-            instansi: "PT. Inovasi Digital",
-            lowongan: "Quality Assurance",
-            tipe: "Internship",
-            tanggal: "2022-05-01",
-            batas: "2022-05-07",
-            penutup: "2022-05-14",
-            status: "tidak publish",
-        },
-    ];
+    // Ensure statusLowongan is always a string
+    const statusLowongan = selectedValue === "semua" ? "" : selectedValue || ""; // Default to empty string if undefined
+    // select
 
     // 
     // Define table headers
@@ -101,16 +50,15 @@ const Lowongan = () => {
     // serach
 
     // INTEGRASI
-    const { data, error, isLoading } = useGetLowonganDisnaker(currentPage, search);
+    const { data } = useGetLowonganDisnaker(currentPage, search, statusLowongan);
     // INTEGRASI
-
 
     return (
         <div>
             <Breadcrumb items={breadcrumbItems} />
             <div className="mt-3 flex gap-3 items-center">
                 <Input
-                    placeholder="Pencarian"
+                    placeholder="Pencarian Lowongan"
                     leftIcon={<SearchIcon />}
                     value={search}
                     onChange={handleSearchChange}
