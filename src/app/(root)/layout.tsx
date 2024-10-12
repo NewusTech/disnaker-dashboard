@@ -25,6 +25,7 @@ import LaporanDinasIcon from "../../../public/assets/icons/LaporanDinasIcon";
 import InstansiIcon from "../../../public/assets/icons/InstansiIcon";
 import InsDashboard from "../../../public/assets/icons/InsDashboard";
 import KelolaIcon from "../../../public/assets/icons/KelolaIcon";
+import InformasiIcon from "../../../public/assets/icons/InformasiIcon";
 
 
 interface LayoutPerusahaanProps {
@@ -195,6 +196,72 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                                     </AccordionContent>
                                 </AccordionItem>
                                 {/* instansi-disnaker */}
+                                {/* pelayanan */}
+                                <AccordionItem className="" value="item-7">
+                                    <AccordionTrigger
+                                        className={`nav flex gap-2 mb-2 rounded-[8px] py-[10px] overflow-hidden px-[30px] font-normal ${pathname.startsWith(
+                                            "/pelayanan"
+                                        )
+                                            ? "bg-white text-primary"
+                                            : "bg-transparent text-white"
+                                            }`}>
+                                        <div className="flex gap-3 items-center">
+                                            <PelayananIcon />
+                                            Pelayanan
+                                        </div>
+                                    </AccordionTrigger>
+                                    <AccordionContent className="bg-primary-600/25 mb-2 rounded-md">
+                                        <Menu link="/pelayanan/kartu-kuning">
+                                            <span className="text-[16px]">
+                                                Kartu Kuning
+                                            </span>
+                                        </Menu>
+                                        <Menu link="/pelayanan/pengaduan">
+                                            <span className="text-[16px]">
+                                                Pengaduan
+                                            </span>
+                                        </Menu>
+                                        <Menu link="/pelayanan/transmigrasi">
+                                            <span className="text-[16px]">
+                                                Transmigrasi
+                                            </span>
+                                        </Menu>
+                                    </AccordionContent>
+                                </AccordionItem>
+                                {/* pelayanan */}
+                                {/* layanan-ketenagakerjaan */}
+                                <AccordionItem className="" value="item-17">
+                                    <AccordionTrigger
+                                        className={`nav flex gap-2 mb-2 rounded-[8px] py-[10px] overflow-hidden px-[30px] font-normal ${pathname.startsWith(
+                                            "/layanan-ketenagakerjaan"
+                                        )
+                                            ? "bg-white text-primary"
+                                            : "bg-transparent text-white"
+                                            }`}>
+                                        <div className="flex gap-3 items-center">
+                                            <InformasiIcon />
+                                            Ketenagakerjaan
+                                        </div>
+                                    </AccordionTrigger>
+                                    <AccordionContent className="bg-primary-600/25 mb-2 rounded-md">
+                                        <Menu link="/layanan-ketenagakerjaan/pelatihan">
+                                            <span className="text-[16px]">
+                                                Pelatihan
+                                            </span>
+                                        </Menu>
+                                        <Menu link="/layanan-ketenagakerjaan/sertifikasi">
+                                            <span className="text-[16px]">
+                                                Sertifikasi
+                                            </span>
+                                        </Menu>
+                                        <Menu link="/layanan-ketenagakerjaan/konsultasi">
+                                            <span className="text-[16px]">
+                                                Konsultasi
+                                            </span>
+                                        </Menu>
+                                    </AccordionContent>
+                                </AccordionItem>
+                                {/* layanan-ketenagakerjaan */}
                                 {/* laporan */}
                                 <AccordionItem className="" value="item-3">
                                     <Link
@@ -287,39 +354,6 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                                     </AccordionContent>
                                 </AccordionItem>
                                 {/* master data */}
-                                {/* pelayanan */}
-                                <AccordionItem className="" value="item-7">
-                                    <AccordionTrigger
-                                        className={`nav flex gap-2 mb-2 rounded-[8px] py-[10px] overflow-hidden px-[30px] font-normal ${pathname.startsWith(
-                                            "/pelayanan"
-                                        )
-                                            ? "bg-white text-primary"
-                                            : "bg-transparent text-white"
-                                            }`}>
-                                        <div className="flex gap-3 items-center">
-                                            <PelayananIcon />
-                                            Pelayanan
-                                        </div>
-                                    </AccordionTrigger>
-                                    <AccordionContent className="bg-primary-600/25 mb-2 rounded-md">
-                                        <Menu link="/pelayanan/kartu-kuning">
-                                            <span className="text-[16px]">
-                                                Kartu Kuning
-                                            </span>
-                                        </Menu>
-                                        <Menu link="/pelayanan/pengaduan">
-                                            <span className="text-[16px]">
-                                                Pengaduan
-                                            </span>
-                                        </Menu>
-                                        <Menu link="/pelayanan/transmigrasi">
-                                            <span className="text-[16px]">
-                                                Transmigrasi
-                                            </span>
-                                        </Menu>
-                                    </AccordionContent>
-                                </AccordionItem>
-                                {/* pelayanan */}
                                 {/* kelola-akun */}
                                 <AccordionItem className="" value="item-14">
                                     <AccordionTrigger
@@ -348,6 +382,7 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                                     </AccordionContent>
                                 </AccordionItem>
                                 {/* kelola-akun */}
+
                                 {/* BATAS */}
                                 <div className="h-[1px] w-full bg-line-stroke my-3"></div>
                                 {/* BATAS */}

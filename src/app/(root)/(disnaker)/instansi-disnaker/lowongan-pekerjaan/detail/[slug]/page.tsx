@@ -125,7 +125,7 @@ const DetailLowongan = () => {
             </Link>
             <div className="garis w-full h-[1px] bg-[#C7C7CD] my-4"></div>
             {/* detail */}
-            <div className={`w-full py-3 mb-3 text-center font-medium rounded-full ${isPublished ? "bg-primary/20 text-primary" : "bg-error/20 text-error"}`}>
+            <div className={`w-full py-3 mb-3 text-center font-medium rounded-full ${isPublished ? "bg-succes/20 text-succes" : "bg-error/20 text-error"}`}>
                     Status Lowongan : {isPublished ? "Publish" : "Tidak Publish"}
                 </div>
             <div className="wrap flex flex-col gap-5">

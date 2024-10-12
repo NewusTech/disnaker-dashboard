@@ -6,6 +6,7 @@ export const SignIn = z.object({
   username: z.string().min(2).max(50),
 });
 
+// Lowongan
 export const lowongan = z
   .object({
     posisi: z
@@ -72,6 +73,7 @@ export const lowongan = z
 // Convert Zod schema to TypeScript type
 export type lowonganFormData = z.infer<typeof lowongan>;
 
+// Event
 export const event = z
   .object({
     nama_program: z
@@ -105,4 +107,51 @@ export const event = z
   .required();
 // Convert Zod schema to TypeScript type
 export type eventFormData = z.infer<typeof event>;
+
+// Event
+export const pelatihan = z
+  .object({
+    judul_pelatihan: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }),
+    kategori: z
+      .string({
+        required_error: "Jawaban tidak boleh kosong!"
+      }),
+    tempat: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }),
+    kuota_peserta: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }),
+    tanggal_mulai: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }),
+    tanggal_selesai: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }),
+    jam: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }),
+    modul: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }),
+    no_wa: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }),
+    level: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }),
+    link: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }),
+    deskripsi: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }),
+    banner: z.
+      instanceof(File).refine(file => file.size > 0, { message: 'Gambar wajib diisi' }),
+  })
+  .required();
+// Convert Zod schema to TypeScript type
+export type pelatihanFormData = z.infer<typeof pelatihan>;
 
