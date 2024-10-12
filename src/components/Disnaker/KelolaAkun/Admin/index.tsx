@@ -7,7 +7,6 @@ import {
     TableRow,
     TableHead,
 } from "@/components/ui/table";
-import Link from "next/link";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -17,17 +16,15 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import DeletePopupTitik from "@/components/AksiPopup";
+import Link from "next/link";
 
 interface DataTableProps {
     headers: string[];
     data: Array<{
         no: number;
-        namaInstansi: string;
-        judulKonsultasi: string;
-        tanggalMulai: string;
-        tanggalSelesai: string;
-        kategori: string;
-        kuotaPeserta: string;
+        nama: string;
+        email: string;
+        role: string;
     }>;
 }
 
@@ -47,13 +44,9 @@ const DataTable: React.FC<DataTableProps> = ({ headers, data }) => {
                     {data.map((user) => (
                         <TableRow key={user.no}>
                             <TableCell className="text-center">{user.no}</TableCell>
-                            <TableCell className="" >{user.namaInstansi}</TableCell>
-                            <TableCell className="text-center" >{user.judulKonsultasi}</TableCell>
-                            <TableCell className="text-center">{user.kategori}</TableCell>
-                            <TableCell className="text-center">{user.tanggalMulai}</TableCell>
-                            <TableCell className="text-center">{user.tanggalSelesai}</TableCell>
-                            <TableCell className="text-center">{user.kuotaPeserta}</TableCell>
-
+                            <TableCell>{user.nama}</TableCell>
+                            <TableCell className="text-center">{user.email}</TableCell>
+                            <TableCell className="text-center">{user.role}</TableCell>
                             {/*  */}
                             <TableCell className="text-center justify-center flex gap-2">
                                 <div className="aksi">
@@ -72,14 +65,7 @@ const DataTable: React.FC<DataTableProps> = ({ headers, data }) => {
                                             <div className="h-1 w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse"></div>
                                             <DropdownMenuGroup>
                                                 <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                                                    <Link className="w-full" href={`/layanan-ketenagakerjaan/konsultasi/detail`}>
-                                                        <div className="flex items-center gap-2 text-gray-600 hover:text-gray-800">
-                                                            Detail
-                                                        </div>
-                                                    </Link>
-                                                </DropdownMenuItem>
-                                                <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                                                    <Link className="w-full" href={`/layanan-ketenagakerjaan/konsultasi/edit`}>
+                                                    <Link className="w-full" href={`/kelola-akun/admin/edit`}>
                                                         <div className="flex items-center gap-2 text-gray-600 hover:text-gray-800">
                                                             Edit
                                                         </div>

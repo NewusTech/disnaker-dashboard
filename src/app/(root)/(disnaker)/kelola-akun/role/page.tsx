@@ -6,14 +6,12 @@ import { Input } from '@/components/ui/input';
 import SearchIcon from '../../../../../../public/assets/icons/SearchIcon';
 import { CustomSelect } from '@/components/SelectCustom';
 import PaginationTable from '@/components/PaginationTable';
-import { Button } from '@/components/ui/button';
-import PrintIcon from '../../../../../../public/assets/icons/PrintIcon';
 import BreadKelola from '../../../../../../public/assets/icons/BreadKelola';
-import DataTable from '@/components/Disnaker/KelolaAkun/Admin';
 import Tambah from '../../../../../../public/assets/icons/Tambah';
 import Link from 'next/link';
+import DataTable from '@/components/Disnaker/KelolaAkun/Role';
 
-const Admin = () => {
+const Role = () => {
   const breadcrumbItems = [
     // { label: 'Home', href: '/', logo: <FaHome /> }, 
     { label: 'Kelola Akun', logo: <BreadKelola /> },
@@ -32,32 +30,22 @@ const Admin = () => {
   const dummyData = [
     {
       no: 1,
-      nama: "Budi Setiawan",
-      email: "budi.setiawan@disnaker.go.id",
       role: "Super Admin",
     },
     {
       no: 2,
-      nama: "David Rizki",
-      email: "david.rizki@disnaker.go.id",
       role: "Kepala Dinas",
     },
     {
       no: 3,
-      nama: "Andi Wijaya",
-      email: "andi.wijaya@disnaker.go.id",
       role: "Kepala Bidang Pelatihan",
     },
     {
       no: 4,
-      nama: "Siti Nurhaliza",
-      email: "siti.nurhaliza@disnaker.go.id",
       role: "Staff Administrasi",
     },
     {
       no: 5,
-      nama: "Rina Santika",
-      email: "rina.santika@disnaker.go.id",
       role: "Pengawas Ketenagakerjaan",
     },
   ];
@@ -65,7 +53,7 @@ const Admin = () => {
 
 
   // Define table headers
-  const tableHeaders = ["No", "Nama", "Email", "Role", "Aksi"];
+  const tableHeaders = ["No", "Role", "Aksi"];
   // pagination
   const [currentPage, setCurrentPage] = useState(3);
   const onPageChange = (page: number) => {
@@ -91,10 +79,10 @@ const Admin = () => {
           width="w-full"
         />
         <Link
-          href="/kelola-akun/admin/tambah"
+          href="/kelola-akun/role/tambah"
           className="flex flex-shrink-0 gap-2 items-center px-5 py-3 bg-primary hover:bg-primary/80 rounded-lg transition ease-in-out delay-150 hover:-translate-y-1 w-fit text-white">
           <Tambah />
-          Tambah Admin
+          Tambah Role
         </Link>
       </div>
       {/* table */}
@@ -118,4 +106,4 @@ const Admin = () => {
   )
 }
 
-export default Admin
+export default Role

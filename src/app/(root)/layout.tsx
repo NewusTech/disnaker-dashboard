@@ -374,9 +374,9 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                                                 Admin
                                             </span>
                                         </Menu>
-                                        <Menu link="/kelola-akun/hak-akses">
+                                        <Menu link="/kelola-akun/role">
                                             <span className="text-[16px]">
-                                                Hak Akses
+                                                Role
                                             </span>
                                         </Menu>
                                     </AccordionContent>

@@ -240,3 +240,38 @@ export const konsultasi = z
 // Convert Zod schema to TypeScript type
 export type konsultasiFormData = z.infer<typeof konsultasi>;
 
+// Kelola Admin
+export const kelolaAdmin = z
+  .object({
+    name: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }),
+      email: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" })
+      .email({ message: "Alamat email tidak valid" }),
+    password: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }),
+    role: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }),
+  })
+  .required();
+// Convert Zod schema to TypeScript type
+export type kelolaAdminFormData = z.infer<typeof kelolaAdmin>;
+
+// Kelola Role
+export const kelolaRole = z
+  .object({
+    name: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }),
+    permission: z
+      .array(z.preprocess(val => Number(val), z.number()))
+      .min(1, { message: "Jawaban tidak boleh kosong!" }),
+  })
+  .required();
+// Convert Zod schema to TypeScript type
+export type kelolaRoleFormData = z.infer<typeof kelolaRole>;
+
