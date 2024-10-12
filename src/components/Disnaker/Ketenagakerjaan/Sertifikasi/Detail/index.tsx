@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useState } from "react";
 
 // Define the structure of the data props
-interface PelatihanProps {
+interface SertifikasiProps {
     data: {
         judul: string;
         namaInstansi: string;
@@ -38,10 +38,10 @@ const ProfileDetail: React.FC<ProfileInfo> = ({ label, value }) => (
     </div>
 );
 
-const Pelatihan: React.FC<PelatihanProps> = ({ data }) => {
-    const [isModalOpenPelatihan, setIsModalOpenPelatihan] = useState(false);
-    const openModalPelatihan = () => setIsModalOpenPelatihan(true);
-    const closeModalPelatihan = () => setIsModalOpenPelatihan(false);
+const Sertifikasi: React.FC<SertifikasiProps> = ({ data }) => {
+    const [isModalOpenSertifikasi, setIsModalOpenSertifikasi] = useState(false);
+    const openModalSertifikasi = () => setIsModalOpenSertifikasi(true);
+    const closeModalSertifikasi = () => setIsModalOpenSertifikasi(false);
 
     return (
         <div>
@@ -50,7 +50,7 @@ const Pelatihan: React.FC<PelatihanProps> = ({ data }) => {
                 <div className="title text-xl font-semibold">{data.judul}</div>
                 <div className="date text-[#3D3D3DB2]/70">{data.tanggalBuat}</div>
                 <div className="foto ">
-                    <div className="w-full h-[400px] rounded-lg overflow-hidden cursor-pointer" onClick={openModalPelatihan}>
+                    <div className="w-full h-[400px] rounded-lg overflow-hidden cursor-pointer" onClick={openModalSertifikasi}>
                         <Image
                             src={data.banner}
                             alt="Foto User"
@@ -84,17 +84,13 @@ const Pelatihan: React.FC<PelatihanProps> = ({ data }) => {
                         </div>
                         <div className="wrap flex gap-1 px-1">
                             <ProfileDetail label="Jam Mulai" value={data.jam} />
-                            <div className="left w-1/2">
-                                <div className="label text-sm text-[#3D3D3D]/70">Link Materi/Modul</div>
-                                <Link target="blank" href={data.link} className="teks text-[#3D3D3D] hover:text-primary underline">Klik Disini!!</Link>
-                            </div>
-                        </div>
-                        <div className="wrap flex gap-1 px-1">
-                            <ProfileDetail label="Tempat" value={data.tempat} />
                             <ProfileDetail label="Level" value={data.level} />
                         </div>
                         <div className="wrap flex gap-1 px-1">
+                            <ProfileDetail label="Tempat" value={data.tempat} />
                             <ProfileDetail label="Nomor Whatsapp" value={data.noWA} />
+                        </div>
+                        <div className="wrap flex gap-1 px-1">
                             <div className="left w-1/2">
                                 <div className="label text-sm text-[#3D3D3D]/70">Link Pendaftaran</div>
                                 <Link target="blank" href={data.link} className="teks text-[#3D3D3D] hover:text-primary underline">Klik Disini!!</Link>
@@ -105,9 +101,9 @@ const Pelatihan: React.FC<PelatihanProps> = ({ data }) => {
             </div>
             {/* Detail */}
 
-            {/* Pelatihan Modal */}
-            {isModalOpenPelatihan && (
-                <div onClick={closeModalPelatihan} className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+            {/* Sertifikasi Modal */}
+            {isModalOpenSertifikasi && (
+                <div onClick={closeModalSertifikasi} className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
                     <div
                         className="relative bg-white p-4 rounded shadow-lg max-w-3xl"
                         role="dialog"
@@ -117,7 +113,7 @@ const Pelatihan: React.FC<PelatihanProps> = ({ data }) => {
                         <button
                             aria-label="Close"
                             className="absolute top-2 right-2 flex justify-center items-center text-white w-6 h-6 rounded-full bg-primary"
-                            onClick={closeModalPelatihan}
+                            onClick={closeModalSertifikasi}
                         >
                             &times;
                         </button>
@@ -134,9 +130,9 @@ const Pelatihan: React.FC<PelatihanProps> = ({ data }) => {
                     </div>
                 </div>
             )}
-            {/* Pelatihan Modal */}
+            {/* Sertifikasi Modal */}
         </div>
     );
 };
 
-export default Pelatihan;
+export default Sertifikasi;

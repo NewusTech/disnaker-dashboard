@@ -13,20 +13,20 @@ import Label from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import Loading from '@/components/ui/Loading';
-import { pelatihanFormData, pelatihan } from '@/validations';
 import { CustomSelect } from '@/components/SelectCustom';
 import 'react-quill/dist/quill.snow.css';
 import Image from 'next/image';
 import BreadInformasi from '../../../../../../../public/assets/icons/BreadInformasi';
+import { sertifikasiFormData, sertifikasi } from '@/validations';
 
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
-const TambahEvent = () => {
+const EditSertifikasi = () => {
     const [bannerFile, setBannerFile] = useState<File | null>(null); // State for managing banner file
 
     const breadcrumbItems = [
         { label: 'Ketenagakerjaan', logo: <BreadInformasi /> },
-        { label: 'Pelatihan', href: "/layanan-ketenagakerjaan/pelatihan" },
+        { label: 'Pelatihan', href: "/layanan-ketenagakerjaan/sertifikasi" },
         { label: 'Edit' },
     ];
 
@@ -53,8 +53,8 @@ const TambahEvent = () => {
         setValue,
         control,
         formState: { errors },
-    } = useForm<pelatihanFormData>({
-        resolver: zodResolver(pelatihan),
+    } = useForm<sertifikasiFormData>({
+        resolver: zodResolver(sertifikasi),
     });
 
     // Banner
@@ -72,17 +72,16 @@ const TambahEvent = () => {
     const [loading, setLoading] = useState(false);
     const navigate = useRouter();
 
-    const onSubmit: SubmitHandler<pelatihanFormData> = async (data) => {
+    const onSubmit: SubmitHandler<sertifikasiFormData> = async (data) => {
         setLoading(true); // Set loading to true when the form is submitted
         const formData = new FormData();
-        formData.append('judul_pelatihan', data.judul_pelatihan);
+        formData.append('judul_sertifikasi', data.judul_sertifikasi);
         formData.append('kategori', data.kategori);
         formData.append('tempat', data.tempat);
         formData.append('kuota_peserta', data.kuota_peserta);
         formData.append('tanggal_mulai', data.tanggal_mulai);
         formData.append('tanggal_selesai', data.tanggal_selesai);
         formData.append('jam', data.jam);
-        formData.append('modul', data.modul);
         formData.append('no_wa', data.no_wa);
         formData.append('level', data.level);
         formData.append('link', data.link);
@@ -113,7 +112,7 @@ const TambahEvent = () => {
         <div className='flex flex-col gap-4'>
             <Breadcrumb items={breadcrumbItems} />
             <Link
-                href="/layanan-ketenagakerjaan/pelatihan"
+                href="/layanan-ketenagakerjaan/sertifikasi"
                 className="flex gap-2 items-center px-5 py-3 bg-primary hover:bg-primary/80 rounded-full transition ease-in-out delay-150 hover:-translate-y-1 w-fit text-white"
             >
                 <BackIcon />
@@ -130,11 +129,11 @@ const TambahEvent = () => {
                             <Input
                                 type="text"
                                 placeholder="Judul Pelatihan"
-                                {...register('judul_pelatihan')}
-                                className={`${errors.judul_pelatihan ? 'border-red-500' : ''}`}
+                                {...register('judul_sertifikasi')}
+                                className={`${errors.judul_sertifikasi ? 'border-red-500' : ''}`}
                             />
-                            {errors.judul_pelatihan && (
-                                <HelperError>{errors.judul_pelatihan.message}</HelperError>
+                            {errors.judul_sertifikasi && (
+                                <HelperError>{errors.judul_sertifikasi.message}</HelperError>
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full md:w-1/2">
@@ -228,34 +227,6 @@ const TambahEvent = () => {
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full md:w-1/2">
-                            <Label label="Link Materi/Modul" />
-                            <Input
-                                type="text"
-                                placeholder="wwww.modul.com"
-                                {...register('modul')}
-                                className={`${errors.modul ? 'border-red-500' : ''}`}
-                            />
-                            {errors.modul && (
-                                <HelperError>{errors.modul.message}</HelperError>
-                            )}
-                        </div>
-                    </div>
-                    {/*  */}
-                    {/*  */}
-                    <div className="flex flex-col md:flex-row md:justify-between gap-2 md:lg-3 lg:gap-5">
-                        <div className="flex flex-col mb-2 w-full md:w-1/2">
-                            <Label label="Nomor WhatsApp" />
-                            <Input
-                                type="text"
-                                placeholder="Nomor WhatsApp"
-                                {...register('no_wa')}
-                                className={`${errors.no_wa ? 'border-red-500' : ''}`}
-                            />
-                            {errors.no_wa && (
-                                <HelperError>{errors.no_wa.message}</HelperError>
-                            )}
-                        </div>
-                        <div className="flex flex-col mb-2 w-full md:w-1/2">
                             <Label label="Level" />
                             <Controller
                                 name="level"
@@ -277,7 +248,19 @@ const TambahEvent = () => {
                     {/*  */}
                     {/*  */}
                     <div className="flex flex-col md:flex-row md:justify-between gap-2 md:lg-3 lg:gap-5">
-                        <div className="flex flex-col mb-2 w-full">
+                        <div className="flex flex-col mb-2 w-full md:w-1/2">
+                            <Label label="Nomor WhatsApp" />
+                            <Input
+                                type="text"
+                                placeholder="Nomor WhatsApp"
+                                {...register('no_wa')}
+                                className={`${errors.no_wa ? 'border-red-500' : ''}`}
+                            />
+                            {errors.no_wa && (
+                                <HelperError>{errors.no_wa.message}</HelperError>
+                            )}
+                        </div>
+                        <div className="flex flex-col mb-2 w-full md:w-1/2">
                             <Label label="Link Pendaftaran" />
                             <Input
                                 type="text"
@@ -345,7 +328,7 @@ const TambahEvent = () => {
                     {/*  */}
                 </div>
                 <div className="mb-10 flex justify-end gap-3">
-                    <Link href="/layanan-ketenagakerjaan/pelatihan" className='bg-error hover:bg-error/80 w-[180px] text-xs md:text-sm  rounded-full text-white p-2 text-center font-medium flex justify-center items-center transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
+                    <Link href="/layanan-ketenagakerjaan/sertifikasi" className='bg-error hover:bg-error/80 w-[180px] text-xs md:text-sm  rounded-full text-white p-2 text-center font-medium flex justify-center items-center transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
                         Batal
                     </Link>
                     <Button type="submit" variant="primary" size="lg" className="w-[180px] transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300 text-xs md:text-sm rounded-full">
@@ -362,4 +345,4 @@ const TambahEvent = () => {
     )
 }
 
-export default TambahEvent
+export default EditSertifikasi
