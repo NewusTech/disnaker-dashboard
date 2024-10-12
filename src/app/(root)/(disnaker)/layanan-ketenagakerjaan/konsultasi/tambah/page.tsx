@@ -17,16 +17,16 @@ import { CustomSelect } from '@/components/SelectCustom';
 import 'react-quill/dist/quill.snow.css';
 import Image from 'next/image';
 import BreadInformasi from '../../../../../../../public/assets/icons/BreadInformasi';
-import { sertifikasiFormData, sertifikasi } from '@/validations';
+import { konsultasiFormData, konsultasi } from '@/validations';
 
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
-const TambahSertifikasi = () => {
+const TambahKonsultasi = () => {
     const [bannerFile, setBannerFile] = useState<File | null>(null); // State for managing banner file
 
     const breadcrumbItems = [
         { label: 'Ketenagakerjaan', logo: <BreadInformasi /> },
-        { label: 'Pelatihan', href: "/layanan-ketenagakerjaan/sertifikasi" },
+        { label: 'Konsultasi', href: "/layanan-ketenagakerjaan/konsultasi" },
         { label: 'Tambah' },
     ];
 
@@ -53,8 +53,8 @@ const TambahSertifikasi = () => {
         setValue,
         control,
         formState: { errors },
-    } = useForm<sertifikasiFormData>({
-        resolver: zodResolver(sertifikasi),
+    } = useForm<konsultasiFormData>({
+        resolver: zodResolver(konsultasi),
     });
 
     // Banner
@@ -72,10 +72,10 @@ const TambahSertifikasi = () => {
     const [loading, setLoading] = useState(false);
     const navigate = useRouter();
 
-    const onSubmit: SubmitHandler<sertifikasiFormData> = async (data) => {
+    const onSubmit: SubmitHandler<konsultasiFormData> = async (data) => {
         setLoading(true); // Set loading to true when the form is submitted
         const formData = new FormData();
-        formData.append('judul_sertifikasi', data.judul_sertifikasi);
+        formData.append('judul_konsultasi', data.judul_konsultasi);
         formData.append('kategori', data.kategori);
         formData.append('tempat', data.tempat);
         formData.append('kuota_peserta', data.kuota_peserta);
@@ -83,7 +83,6 @@ const TambahSertifikasi = () => {
         formData.append('tanggal_selesai', data.tanggal_selesai);
         formData.append('jam', data.jam);
         formData.append('no_wa', data.no_wa);
-        formData.append('level', data.level);
         formData.append('link', data.link);
         formData.append('deskripsi', data.deskripsi);
         formData.append('banner', data.banner);
@@ -112,7 +111,7 @@ const TambahSertifikasi = () => {
         <div className='flex flex-col gap-4'>
             <Breadcrumb items={breadcrumbItems} />
             <Link
-                href="/layanan-ketenagakerjaan/sertifikasi"
+                href="/layanan-ketenagakerjaan/konsultasi"
                 className="flex gap-2 items-center px-5 py-3 bg-primary hover:bg-primary/80 rounded-full transition ease-in-out delay-150 hover:-translate-y-1 w-fit text-white"
             >
                 <BackIcon />
@@ -129,11 +128,11 @@ const TambahSertifikasi = () => {
                             <Input
                                 type="text"
                                 placeholder="Judul Pelatihan"
-                                {...register('judul_sertifikasi')}
-                                className={`${errors.judul_sertifikasi ? 'border-red-500' : ''}`}
+                                {...register('judul_konsultasi')}
+                                className={`${errors.judul_konsultasi ? 'border-red-500' : ''}`}
                             />
-                            {errors.judul_sertifikasi && (
-                                <HelperError>{errors.judul_sertifikasi.message}</HelperError>
+                            {errors.judul_konsultasi && (
+                                <HelperError>{errors.judul_konsultasi.message}</HelperError>
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full md:w-1/2">
@@ -227,29 +226,7 @@ const TambahSertifikasi = () => {
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full md:w-1/2">
-                            <Label label="Level" />
-                            <Controller
-                                name="level"
-                                control={control}
-                                render={({ field }) => (
-                                    <CustomSelect
-                                        label="Pilih Level"
-                                        options={levelOptions}
-                                        placeholder="Pilih Level"
-                                        value={field.value}
-                                        onChange={(option) => field.onChange(option || '')}
-                                        width={`w-full ${errors.level ? 'border-red-500' : ''}`}
-                                    />
-                                )}
-                            />
-                            {errors.level && <HelperError>{errors.level.message}</HelperError>}
-                        </div>
-                    </div>
-                    {/*  */}
-                    {/*  */}
-                    <div className="flex flex-col md:flex-row md:justify-between gap-2 md:lg-3 lg:gap-5">
-                        <div className="flex flex-col mb-2 w-full md:w-1/2">
-                            <Label label="Nomor WhatsApp" />
+                        <Label label="Nomor WhatsApp" />
                             <Input
                                 type="text"
                                 placeholder="Nomor WhatsApp"
@@ -260,7 +237,11 @@ const TambahSertifikasi = () => {
                                 <HelperError>{errors.no_wa.message}</HelperError>
                             )}
                         </div>
-                        <div className="flex flex-col mb-2 w-full md:w-1/2">
+                    </div>
+                    {/*  */}
+                    {/*  */}
+                    <div className="flex flex-col md:flex-row md:justify-between gap-2 md:lg-3 lg:gap-5">
+                        <div className="flex flex-col mb-2 w-full">
                             <Label label="Link Pendaftaran" />
                             <Input
                                 type="text"
@@ -328,7 +309,7 @@ const TambahSertifikasi = () => {
                     {/*  */}
                 </div>
                 <div className="mb-10 flex justify-end gap-3">
-                    <Link href="/layanan-ketenagakerjaan/sertifikasi" className='bg-error hover:bg-error/80 w-[180px] text-xs md:text-sm  rounded-full text-white p-2 text-center font-medium flex justify-center items-center transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
+                    <Link href="/layanan-ketenagakerjaan/konsultasi" className='bg-error hover:bg-error/80 w-[180px] text-xs md:text-sm  rounded-full text-white p-2 text-center font-medium flex justify-center items-center transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
                         Batal
                     </Link>
                     <Button type="submit" variant="primary" size="lg" className="w-[180px] transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300 text-xs md:text-sm rounded-full">
@@ -345,4 +326,4 @@ const TambahSertifikasi = () => {
     )
 }
 
-export default TambahSertifikasi
+export default TambahKonsultasi
