@@ -21,6 +21,10 @@ import { CustomSelect } from '@/components/SelectCustom';
 import SelectMultipleSkill from '@/components/SkillMultiple';
 import SelectMultiplePendidikan from '@/components/PendidikanMultiple';
 import 'react-quill/dist/quill.snow.css';
+import { useGetKategoriFilter, useGetPendidikanFilter, useGetSkillFilter } from '@/api';
+import { showAlert } from '@/lib/swalAlert';
+import useLocalStorage from '@/hooks/useLocalStorage';
+import useAxiosPrivate from '@/hooks/useAxiosPrivate';
 
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
@@ -31,26 +35,32 @@ const TambahLowongan = () => {
         { label: 'Lowongan Pekerjaan', href: '/instansi-disnaker/lowongan-pekerjaan' },  // No logo 
         { label: 'Tambah', },  // No logo 
     ];
+    
+    const [limit, setLimit] = useState(10000);
+
 
     // kategori
-    const kategoriOptions = [
-        { label: "Kesehatan", value: "semua" },
-        { label: "Teknologi", value: "Teknologi" },
-        { label: "Pertanian", value: "Pertanian" },
-    ];
+    // INTEGRASI
+    const { data : dataKategori } = useGetKategoriFilter();
+    const kategoriOptions = dataKategori?.data.map((category: { name: string; id: number; }) => ({
+        label: category.name,
+        value: category.id,
+    }));
+    // INTEGRASI
     // kategori
+
     // kelamin
     const kelaminOptions = [
-        { label: "Semua Jenis Kelamin", value: "semua" },
+        { label: "Semua Jenis Kelamin", value: "Semua" },
         { label: "Laki-laki", value: "Laki-laki" },
         { label: "Perempuan", value: "Perempuan" },
     ];
     // kelamin
     // tipe pekerjaan
     const tipePekerjaanOptions = [
-        { label: "Full-Time", value: "full-time" },
-        { label: "Part-Time", value: "part-time" },
-        { label: "Freelance", value: "freelance" },
+        { label: "Full-Time", value: "Full Time" },
+        { label: "Part-Time", value: "Part Time" },
+        { label: "Freelance", value: "Freelance" },
         { label: "Magang", value: "magang" },
     ];
     // tipe pekerjaan
@@ -69,68 +79,18 @@ const TambahLowongan = () => {
     // status
 
     // Skill
-    const dataSkill = {
-        status: 200,
-        message: "Get skills successfully",
-        data: [
-            {
-                id: 1,
-                name: "JavaScript"
-            },
-            {
-                id: 2,
-                name: "Python"
-            },
-            {
-                id: 3,
-                name: "React"
-            },
-            {
-                id: 4,
-                name: "Node.js"
-            },
-            {
-                id: 5,
-                name: "TypeScript"
-            }
-        ]
-    };
-
+    const { data : dataSkill } = useGetSkillFilter();
     interface SkillOption {
         id: number;
         name: string;
     }
-    // Pendidikan
-    const dataPendidikan = {
-        status: 200,
-        message: "Get skills successfully",
-        data: [
-            {
-                id: 1,
-                name: "SMP"
-            },
-            {
-                id: 2,
-                name: "SMA"
-            },
-            {
-                id: 3,
-                name: "SMK"
-            },
-            {
-                id: 4,
-                name: "Sarjana Teknik Informatika"
-            },
-            {
-                id: 5,
-                name: "Sarjana Hukum"
-            }
-        ]
-    };
+    // Skill
 
+    // Pendidikan
+    const { data : dataPendidikan } = useGetPendidikanFilter();
     interface PendidikanOption {
         id: number;
-        name: string;
+        level: string;
     }
 
 
@@ -148,19 +108,22 @@ const TambahLowongan = () => {
     // 
     const [loading, setLoading] = useState(false);
     const navigate = useRouter();
+    const [accessToken] = useLocalStorage("accessToken", "");
+    const axiosPrivate = useAxiosPrivate();
 
     const onSubmit: SubmitHandler<lowonganFormData> = async (data) => {
         setLoading(true); // Set loading to true when the form is submitted
         try {
-            // await axiosPrivate.post("/tph/realisasi-padi/create", data);
+            await axiosPrivate.post("/vacancy/create", data);
             console.log(data)
-
+            showAlert('success', 'Data berhasil ditambahkan!');
             // Success alert
 
-            // navigate.push("/tanaman-pangan-holtikutura/realisasi");
+            navigate.push("/instansi-disnaker/lowongan-pekerjaan");
         } catch (error: any) {
             // Extract error message from API response
             const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal menambahkan data!';
+            showAlert('error', errorMessage);
             //   alert
 
             console.error("Failed to create user:", error);
@@ -190,17 +153,17 @@ const TambahLowongan = () => {
                             <Input
                                 type="text"
                                 placeholder="Posisi"
-                                {...register('posisi')}
-                                className={`${errors.posisi ? 'border-red-500' : ''}`}
+                                {...register('title')}
+                                className={`${errors.title ? 'border-red-500' : ''}`}
                             />
-                            {errors.posisi && (
-                                <HelperError>{errors.posisi.message}</HelperError>
+                            {errors.title && (
+                                <HelperError>{errors.title.message}</HelperError>
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full md:w-1/2">
                             <Label label="Kategori" />
                             <Controller
-                                name="kategori"
+                                name="category_id"
                                 control={control}
                                 render={({ field }) => (
                                     <CustomSelect
@@ -209,11 +172,11 @@ const TambahLowongan = () => {
                                         placeholder="Pilih Kategori"
                                         value={field.value}
                                         onChange={(option) => field.onChange(option || '')}
-                                        width={`w-full ${errors.kategori ? 'border-red-500' : ''}`}
+                                        width={`w-full ${errors.category_id ? 'border-red-500' : ''}`}
                                     />
                                 )}
                             />
-                            {errors.kategori && <HelperError>{errors.kategori.message}</HelperError>}
+                            {errors.category_id && <HelperError>{errors.category_id.message}</HelperError>}
                         </div>
                     </div>
                     {/*  */}
@@ -222,7 +185,7 @@ const TambahLowongan = () => {
                         <div className="flex flex-col mb-2 w-full md:w-1/2">
                             <Label label="Jenis Kelamin" />
                             <Controller
-                                name="jenis_kelamin"
+                                name="gender"
                                 control={control}
                                 render={({ field }) => (
                                     <CustomSelect
@@ -231,12 +194,12 @@ const TambahLowongan = () => {
                                         placeholder="Pilih Jenis Kelamin"
                                         value={field.value}
                                         onChange={(option) => field.onChange(option || '')}
-                                        width={`w-full ${errors.jenis_kelamin ? 'border-red-500' : ''}`}
+                                        width={`w-full ${errors.gender ? 'border-red-500' : ''}`}
                                     />
                                 )}
                             />
-                            {errors.jenis_kelamin && (
-                                <HelperError>{errors.jenis_kelamin.message}</HelperError>
+                            {errors.gender && (
+                                <HelperError>{errors.gender.message}</HelperError>
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full md:w-1/2">
@@ -244,11 +207,11 @@ const TambahLowongan = () => {
                             <Input
                                 type="number"
                                 placeholder="Maksimal Usia"
-                                {...register('maksimal_usia')}
-                                className={`${errors.maksimal_usia ? 'border-red-500' : ''}`}
+                                {...register('maxAge')}
+                                className={`${errors.maxAge ? 'border-red-500' : ''}`}
                             />
-                            {errors.maksimal_usia && (
-                                <HelperError>{errors.maksimal_usia.message}</HelperError>
+                            {errors.maxAge && (
+                                <HelperError>{errors.maxAge.message}</HelperError>
                             )}
                         </div>
                     </div>
@@ -258,7 +221,7 @@ const TambahLowongan = () => {
                         <div className="flex flex-col mb-2 w-full md:w-1/2">
                             <Label label="Tipe Pekerjaan" />
                             <Controller
-                                name="tipe_pekerjaan"
+                                name="jobType"
                                 control={control}
                                 render={({ field }) => (
                                     <CustomSelect
@@ -267,18 +230,18 @@ const TambahLowongan = () => {
                                         placeholder="Pilih Tipe Pekerjaan"
                                         value={field.value}
                                         onChange={(option) => field.onChange(option || '')}
-                                        width={`w-full ${errors.tipe_pekerjaan ? 'border-red-500' : ''}`}
+                                        width={`w-full ${errors.jobType ? 'border-red-500' : ''}`}
                                     />
                                 )}
                             />
-                            {errors.tipe_pekerjaan && (
-                                <HelperError>{errors.tipe_pekerjaan.message}</HelperError>
+                            {errors.jobType && (
+                                <HelperError>{errors.jobType.message}</HelperError>
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full md:w-1/2">
                             <Label label="Tipe Lokasi" />
                             <Controller
-                                name="tipe_lokasi"
+                                name="workLocation"
                                 control={control}
                                 render={({ field }) => (
                                     <CustomSelect
@@ -287,12 +250,12 @@ const TambahLowongan = () => {
                                         placeholder="Pilih Tipe Lokasi"
                                         value={field.value}
                                         onChange={(option) => field.onChange(option || '')}
-                                        width={`w-full ${errors.tipe_lokasi ? 'border-red-500' : ''}`}
+                                        width={`w-full ${errors.workLocation ? 'border-red-500' : ''}`}
                                     />
                                 )}
                             />
-                            {errors.tipe_lokasi && (
-                                <HelperError>{errors.tipe_lokasi.message}</HelperError>
+                            {errors.workLocation && (
+                                <HelperError>{errors.workLocation.message}</HelperError>
                             )}
                         </div>
                     </div>
@@ -302,7 +265,7 @@ const TambahLowongan = () => {
                         <div className="flex flex-col mb-2 w-full md:w-1/2">
                             <Label label="Pilih Skill" />
                             <Controller
-                                name="skill"
+                                name="skills"
                                 control={control}
                                 render={({ field: { onChange, value } }) => (
                                     <SelectMultipleSkill
@@ -315,8 +278,8 @@ const TambahLowongan = () => {
                                     />
                                 )}
                             />
-                            {errors.skill && (
-                                <HelperError>{errors.skill.message}</HelperError>
+                            {errors.skills && (
+                                <HelperError>{errors.skills.message}</HelperError>
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full md:w-1/2">
@@ -324,11 +287,11 @@ const TambahLowongan = () => {
                             <Input
                                 type="number"
                                 placeholder="1 Tahun"
-                                {...register('pengalaman')}
-                                className={`${errors.pengalaman ? 'border-red-500' : ''}`}
+                                {...register('minExperience')}
+                                className={`${errors.minExperience ? 'border-red-500' : ''}`}
                             />
-                            {errors.pengalaman && (
-                                <HelperError>{errors.pengalaman.message}</HelperError>
+                            {errors.minExperience && (
+                                <HelperError>{errors.minExperience.message}</HelperError>
                             )}
                         </div>
                     </div>
@@ -338,7 +301,7 @@ const TambahLowongan = () => {
                         <div className="flex flex-col mb-2 w-full md:w-1/2">
                             <Label label="Tingkat Pendidikan" />
                             <Controller
-                                name="pendidikan"
+                                name="educationLevels"
                                 control={control}
                                 render={({ field: { onChange, value } }) => (
                                     <SelectMultiplePendidikan
@@ -351,8 +314,8 @@ const TambahLowongan = () => {
                                     />
                                 )}
                             />
-                            {errors.pendidikan && (
-                                <HelperError>{errors.pendidikan.message}</HelperError>
+                            {errors.educationLevels && (
+                                <HelperError>{errors.educationLevels.message}</HelperError>
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full md:w-1/2">
@@ -360,11 +323,11 @@ const TambahLowongan = () => {
                             <Input
                                 type="number"
                                 placeholder="Nominal Gaji"
-                                {...register('gaji')}
-                                className={`${errors.gaji ? 'border-red-500' : ''}`}
+                                {...register('salary')}
+                                className={`${errors.salary ? 'border-red-500' : ''}`}
                             />
-                            {errors.gaji && (
-                                <HelperError>{errors.gaji.message}</HelperError>
+                            {errors.salary && (
+                                <HelperError>{errors.salary.message}</HelperError>
                             )}
                         </div>
                     </div>
@@ -376,11 +339,11 @@ const TambahLowongan = () => {
                             <Input
                                 type="text"
                                 placeholder="Senin - Sabtu"
-                                {...register('hari_kerja')}
-                                className={`${errors.hari_kerja ? 'border-red-500' : ''}`}
+                                {...register('workingDay')}
+                                className={`${errors.workingDay ? 'border-red-500' : ''}`}
                             />
-                            {errors.hari_kerja && (
-                                <HelperError>{errors.hari_kerja.message}</HelperError>
+                            {errors.workingDay && (
+                                <HelperError>{errors.workingDay.message}</HelperError>
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full md:w-1/2">
@@ -388,11 +351,11 @@ const TambahLowongan = () => {
                             <Input
                                 type="text" // Changed to "text" to match schema, or use "number" if needed
                                 placeholder="09:00 - 17:00 WIB"
-                                {...register('jam_kerja')}
-                                className={`${errors.jam_kerja ? 'border-red-500' : ''}`}
+                                {...register('workingHour')}
+                                className={`${errors.workingHour ? 'border-red-500' : ''}`}
                             />
-                            {errors.jam_kerja && (
-                                <HelperError>{errors.jam_kerja.message}</HelperError>
+                            {errors.workingHour && (
+                                <HelperError>{errors.workingHour.message}</HelperError>
                             )}
                         </div>
                     </div>
@@ -404,14 +367,30 @@ const TambahLowongan = () => {
                             <Input
                                 type="date"
                                 placeholder="Penutupan Lamaran"
-                                {...register('penutupan_lamaran')}
-                                className={`${errors.penutupan_lamaran ? 'border-red-500' : ''}`}
+                                {...register('applicationDeadline')}
+                                className={`${errors.applicationDeadline ? 'border-red-500' : ''}`}
                             />
-                            {errors.penutupan_lamaran && (
-                                <HelperError>{errors.penutupan_lamaran.message}</HelperError>
+                            {errors.applicationDeadline && (
+                                <HelperError>{errors.applicationDeadline.message}</HelperError>
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full md:w-1/2">
+                            <Label label="Penempatan Kerja" />
+                            <Input
+                                type="text"
+                                placeholder="Penempatan Kerja"
+                                {...register('location')}
+                                className={`${errors.location ? 'border-red-500' : ''}`}
+                            />
+                            {errors.location && (
+                                <HelperError>{errors.location.message}</HelperError>
+                            )}
+                        </div>
+                    </div>
+                    {/*  */}
+                    {/*  */}
+                    <div className="flex flex-col md:flex-row md:justify-between gap-2 md:lg-3 lg:gap-5">
+                        <div className="flex flex-col mb-2 w-full">
                             <Label label="Status" />
                             <Controller
                                 name="status"
@@ -423,7 +402,7 @@ const TambahLowongan = () => {
                                         placeholder="Pilih Status"
                                         value={field.value}
                                         onChange={(option) => field.onChange(option || '')}
-                                        width={`w-full ${errors.tipe_lokasi ? 'border-red-500' : ''}`}
+                                        width={`w-full ${errors.status ? 'border-red-500' : ''}`}
                                     />
                                 )}
                             />
@@ -439,12 +418,12 @@ const TambahLowongan = () => {
                             <Label label="Deskripsi Pekerjaan" />
                             <div className="text-editor bg-white border border-[#D9D9D9] rounded-lg overflow-hidden">
                                 <ReactQuill
-                                    className='h-[250px]'
-                                    onChange={(value) => setValue('deskripsi', value)}
+                                    className='h-[250px] overflow-auto'
+                                    onChange={(value) => setValue('desc', value)}
                                 />
                             </div>
-                            {errors.deskripsi && (
-                                <HelperError>{errors.deskripsi.message}</HelperError>
+                            {errors.desc && (
+                                <HelperError>{errors.desc.message}</HelperError>
                             )}
                         </div>
                     </div>
@@ -455,12 +434,12 @@ const TambahLowongan = () => {
                             <Label label="Tanggung Jawab" />
                             <div className="text-editor bg-white border border-[#D9D9D9] rounded-lg overflow-hidden">
                                 <ReactQuill
-                                    className='h-[250px]'
-                                    onChange={(value) => setValue('tanggung_jawab', value)}
+                                    className='h-[250px] overflow-auto'
+                                    onChange={(value) => setValue('responsibility', value)}
                                 />
                             </div>
-                            {errors.tanggung_jawab && (
-                                <HelperError>{errors.tanggung_jawab.message}</HelperError>
+                            {errors.responsibility && (
+                                <HelperError>{errors.responsibility.message}</HelperError>
                             )}
                         </div>
                     </div>
@@ -471,12 +450,12 @@ const TambahLowongan = () => {
                             <Label label="Persyaratan" />
                             <div className="text-editor bg-white border border-[#D9D9D9] rounded-lg overflow-hidden">
                                 <ReactQuill
-                                    className='h-[250px]'
-                                    onChange={(value) => setValue('persyaratan', value)}
+                                    className='h-[250px] overflow-auto'
+                                    onChange={(value) => setValue('requirement', value)}
                                 />
                             </div>
-                            {errors.persyaratan && (
-                                <HelperError>{errors.persyaratan.message}</HelperError>
+                            {errors.requirement && (
+                                <HelperError>{errors.requirement.message}</HelperError>
                             )}
                         </div>
                     </div>

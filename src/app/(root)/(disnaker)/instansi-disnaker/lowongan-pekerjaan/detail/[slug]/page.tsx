@@ -126,8 +126,8 @@ const DetailLowongan = () => {
             <div className="garis w-full h-[1px] bg-[#C7C7CD] my-4"></div>
             {/* detail */}
             <div className={`w-full py-3 mb-3 text-center font-medium rounded-full ${isPublished ? "bg-succes/20 text-succes" : "bg-error/20 text-error"}`}>
-                    Status Lowongan : {isPublished ? "Publish" : "Tidak Publish"}
-                </div>
+                Status Lowongan : {isPublished ? "Publish" : "Tidak Publish"}
+            </div>
             <div className="wrap flex flex-col gap-5">
                 <div className="head flex flex-col gap-3">
                     <div className="title font-semibold text-xl">{data?.data.title ?? "-"}</div>
@@ -155,7 +155,10 @@ const DetailLowongan = () => {
                 {/* deskripsi */}
                 <div className="deskripsi flex flex-col gap-1">
                     <div className="title font-medium text-lg">Deksripsi</div>
-                    <div className="teks text-justify">{data?.data?.desc ?? "-"}</div>
+                    <div
+                        className="prose max-w-none text-justify"
+                        dangerouslySetInnerHTML={{ __html: data?.data?.desc || "Tidak Ada Deskripsi" }}
+                    />
                 </div>
                 {/* detail */}
                 <div className="detail flex flex-col gap-1">
@@ -250,28 +253,30 @@ const DetailLowongan = () => {
                 {/* tanggung jawab */}
                 <div className="flex flex-col gap-1">
                     <div className="title font-medium text-lg">Tanggung Jawab</div>
-                    <div className="teks">
-                        {data?.data?.responsibility ?? "-"}
-                    </div>
+                    <div
+                        className="prose max-w-none text-justify"
+                        dangerouslySetInnerHTML={{ __html: data?.data?.responsibility || "Tidak Ada Tanggung Jawab" }}
+                    />
                 </div>
                 {/* persyaratan */}
                 <div className="flex flex-col gap-1">
                     <div className="title font-medium text-lg">Persyaratan</div>
-                    <div className="teks">
-                        {data?.data?.requirement ?? "-"}
-                    </div>
+                    <div
+                        className="prose max-w-none text-justify"
+                        dangerouslySetInnerHTML={{ __html: data?.data?.requirement || "Tidak Ada Persyaratan" }}
+                    />
                 </div>
                 {/* skill */}
                 <div className="flex flex-col gap-1">
                     <div className="title font-medium text-lg">Skill Yang Dibutuhkan</div>
                     <div className="wrap-card flex gap-3 mt-2 flex-wrap">
-                        {data?.data?.VacancySkills?.length ? (
-                            data?.data?.VacancySkills.map((skill) => (
+                        {data?.data?.Skills?.length ? (
+                            data?.data?.Skills.map((skill) => (
                                 <div
-                                    key={skill?.Skill?.id} // Ensure each item has a unique key
+                                    key={skill?.id} // Ensure each item has a unique key
                                     className="card flex-shrink-0 p-2 rounded-md border border-[#C7C7CD] transition ease-in-out delay-150 hover:-translate-y-1 hover:border-primary hover:shadow-md"
                                 >
-                                    {skill?.Skill?.name} {/* Display the skill name */}
+                                    {skill?.name} {/* Display the skill name */}
                                 </div>
                             ))
                         ) : (
@@ -287,14 +292,14 @@ const DetailLowongan = () => {
                         onClick={handleTidakPublish}
                         className='w-[200px] rounded-full bg-[#DF1212] hover:bg-[#DF1212]/80'
                     >
-                       {isLoadingUnpublish ? <Loading/> : 'Tidak Publish'}
+                        {isLoadingUnpublish ? <Loading /> : 'Tidak Publish'}
                     </Button>
                     <Button
                         disabled={isPublished}
                         onClick={handlePublish}
                         className='w-[200px] rounded-full'
                     >
-                        {isLoadingPublish ? <Loading/> : 'Publish'}
+                        {isLoadingPublish ? <Loading /> : 'Publish'}
                     </Button>
                 </div>
             </div>

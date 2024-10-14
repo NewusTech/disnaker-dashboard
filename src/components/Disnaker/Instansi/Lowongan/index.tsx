@@ -25,6 +25,7 @@ import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 import { mutate } from "swr";
 import Loading from "@/components/ui/Loading";
 import { Span } from "next/dist/trace";
+import { showAlert } from "@/lib/swalAlert";
 
 interface Company {
     id: number;
@@ -130,6 +131,26 @@ const DataTable: React.FC<VacancyResponse> = ({ headers, data, currentPage, sear
         }
     };
 
+    const handleDelete = async (slug: string) => {
+        try {
+          await axiosPrivate.delete(`/vacancy/delete/${slug}`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          });
+          // alert
+          showAlert('success', 'Data berhasil dihapus!');
+
+          // alert
+          // Update the local data after successful deletion
+        } catch (error: any) {
+          // Extract error message from API response
+          const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal menghapus data!';
+          showAlert('error', errorMessage);
+          //   alert
+        } mutate(`/vacancy/get?page=${currentPage}&limit=10&search=${search}&status=${statusLowongan}`);;
+      };
+
     return (
         <div className="Table mt-3">
             <Table>
@@ -179,17 +200,17 @@ const DataTable: React.FC<VacancyResponse> = ({ headers, data, currentPage, sear
                                                     </button>
                                                 </DropdownMenuItem>
                                                 <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                                                    <Link href={`/instansi-disnaker/lowongan-pekerjaan/detail/${user.slug}`}>
+                                                    <Link  className="w-full" href={`/instansi-disnaker/lowongan-pekerjaan/detail/${user.slug}`}>
                                                         <div className="flex items-center gap-2 text-gray-600 hover:text-gray-800">Detail</div>
                                                     </Link>
                                                 </DropdownMenuItem>
                                                 <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                                                    <Link href={`/instansi-disnaker/lowongan-pekerjaan/edit`}>
+                                                    <Link  className="w-full" href={`/instansi-disnaker/lowongan-pekerjaan/edit`}>
                                                         <div className="flex items-center gap-2 text-gray-600 hover:text-gray-800">Edit</div>
                                                     </Link>
                                                 </DropdownMenuItem>
                                                 <DropdownMenuItem className="cursor-pointer" onSelect={(e) => e.preventDefault()}>
-                                                    <DeletePopupTitik onDelete={async () => Promise.resolve()} />
+                                                    <DeletePopupTitik onDelete={() => handleDelete(user.slug)} />
                                                 </DropdownMenuItem>
                                             </DropdownMenuGroup>
                                         </DropdownMenuContent>

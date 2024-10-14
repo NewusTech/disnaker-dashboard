@@ -9,62 +9,66 @@ export const SignIn = z.object({
 // Lowongan
 export const lowongan = z
   .object({
-    posisi: z
+    title: z
       .string()
       .min(1, { message: "Jawaban tidak boleh kosong!" }),
-    kategori: z
-      .string({
-        required_error: "Jawaban tidak boleh kosong!"
-      })
-      ,
-    jenis_kelamin: z
+    category_id: z.preprocess(
+        (val) => Number(val),
+        z.number({
+          required_error: "Jawaban tidak boleh kosong!"
+        })),
+    gender: z
       .string({
         required_error: "Jawaban tidak boleh kosong!"
       }),
-    maksimal_usia: z
+    maxAge: z
       .preprocess((val) => Number(val), z.number()
       .min(1, { message: "Jawaban tidak boleh kosong!" })),
-    tipe_pekerjaan: z
+    jobType: z
       .string({
         required_error: "Jawaban tidak boleh kosong!"
       }),
-    tipe_lokasi: z
+    workLocation: z
       .string({
         required_error: "Jawaban tidak boleh kosong!"
       }),
-    skill: z
+    skills: z
       .array(z.preprocess(val => Number(val), z.number()))
       .min(1, { message: "Jawaban tidak boleh kosong!" }),
-    pengalaman: z
+    minExperience: z
       .preprocess((val) => Number(val), z.number()
       .min(1, { message: "Jawaban tidak boleh kosong!" })),
-    pendidikan: z
+    educationLevels: z
       .array(z.preprocess(val => Number(val), z.number()))
       .min(1, { message: "Jawaban tidak boleh kosong!" }),
-    gaji: z
+    salary: z
       .preprocess((val) => Number(val), z.number()
       .min(1, { message: "Jawaban tidak boleh kosong!" })),
-    hari_kerja: z
+    workingHour: z
       .string()
       .min(1, { message: "Jawaban tidak boleh kosong!" }),
-    jam_kerja: z
+    workingDay: z
       .string()
       .min(1, { message: "Jawaban tidak boleh kosong!" }),
-    penutupan_lamaran: z
+    applicationDeadline: z
       .string()
       .min(1, { message: "Jawaban tidak boleh kosong!" }),
     status: z
       .string({
         required_error: "Jawaban tidak boleh kosong!"
       }),
-    deskripsi: z
+    location: z
       .string()
       .min(1, { message: "Jawaban tidak boleh kosong!" }),
-    tanggung_jawab: z
+    desc: z
       .string({
         required_error: "Jawaban tidak boleh kosong!"
       }),
-    persyaratan: z
+    responsibility: z
+      .string({
+        required_error: "Jawaban tidak boleh kosong!"
+      }),
+    requirement: z
       .string({
         required_error: "Jawaban tidak boleh kosong!"
       }),

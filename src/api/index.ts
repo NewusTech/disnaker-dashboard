@@ -288,7 +288,7 @@ interface VacancyData {
   Company: CompanyData;
   VacancyCategory: VacancyCategoryData;
   EducationLevels: EducationLevel[];
-  VacancySkills: VacancySkill[];
+  Skills: Skills[];
 }
 
 interface CompanyData {
@@ -323,11 +323,9 @@ interface VacancyEducationLevel {
   updatedAt: string;
 }
 
-interface VacancySkill {
+interface Skills {
   id: number;
-  vacancy_id: number;
-  skill_id: number;
-  Skill: SkillData;
+  name: string;
 }
 
 interface SkillData {
@@ -363,8 +361,6 @@ const useGetLowonganGetSlug = (slug: string) => {
   };
 };
 
-
-// Hook to fetch User data
 const useGetUserAll = (currentPage: number, search: string, status: string) => {
   const [accessToken] = useLocalStorage("accessToken", "");
   const axiosPrivate = useAxiosPrivate();
@@ -422,7 +418,116 @@ const useGetInstansiAll = (currentPage: number, search: string, status: string) 
   };
 };
 
+// Hook to fetch Kategori Filter data
+const useGetKategoriFilter = () => {
+  const [accessToken] = useLocalStorage("accessToken", "");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } = useSWR(
+    `/vacancy/category/get?limit=9999`,
+    () =>
+      axiosPrivate
+        .get(
+          `/vacancy/category/get?limit=9999`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        )
+        .then((res) => res.data) // Ensure `res.data` contains the desired data
+  );
+
+  return {
+    data,
+    error,
+    mutate,
+    isValidating,
+    isLoading,
+  };
+};
+
+// Hook to fetch Skill Filter data
+interface Skill {
+  id: number;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface GetSkillResponse {
+  status: number;
+  message: string;
+  data: Skill[];
+}
+
+const useGetSkillFilter = () => {
+  const [accessToken] = useLocalStorage("accessToken", "");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } = useSWR<GetSkillResponse>(
+    `/skill/get?limit=1000`,
+    () =>
+      axiosPrivate
+        .get(`/skill/get?limit=1000`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then((res) => res.data) // Ensure `res.data` contains the desired data
+  );
+
+  return {
+    data,
+    error,
+    mutate,
+    isValidating,
+    isLoading,
+  };
+};
+
+// Hook to fetch Pendidikan Filter data
+interface EducationLevel {
+  id: number;
+  level: string;
+}
+
+interface GetEducationLevelResponse {
+  status: number;
+  message: string;
+  data: EducationLevel[];
+}
+
+
+const useGetPendidikanFilter = () => {
+  const [accessToken] = useLocalStorage("accessToken", "");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } = useSWR<GetEducationLevelResponse>(
+    `/education-level/get?limit=1000`,
+    () =>
+      axiosPrivate
+        .get(`/education-level/get?limit=1000`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then((res) => res.data) // Ensure `res.data` contains the desired data
+  );
+
+  return {
+    data,
+    error,
+    mutate,
+    isValidating,
+    isLoading,
+  };
+};
+
 export {
+  useGetPendidikanFilter,
+  useGetSkillFilter,
+  useGetKategoriFilter,
   useGetInstansiAll,
   useGetUserAll,
   useGetPupukData,

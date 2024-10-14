@@ -4,7 +4,7 @@ import Select, { MultiValue } from 'react-select';
 // Define the structure of the options for Kecamatan
 interface PendidikanOption {
     id: number;
-    name: string;
+    level: string;
 }
 
 // Define the props for the SelectMultiplePendidikan component
@@ -33,13 +33,13 @@ const SelectMultiplePendidikan: React.FC<SelectMultiplePendidikanProps> = ({
     // Map options to react-select format
     const options = pendidikanOptions.map((pendidikan) => ({
         value: pendidikan.id,
-        label: pendidikan.name,
+        label: pendidikan.level,
     }));
 
     // Map selected options to react-select format
     const selectedOptions = selectedPendidikan.map((pendidikan) => ({
         value: pendidikan.id,
-        label: pendidikan.name,
+        label: pendidikan.level,
     }));
 
     return (

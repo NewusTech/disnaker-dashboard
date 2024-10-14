@@ -14,7 +14,7 @@ interface SelectProps {
     label?: string;
     options: { label: string; value: string | number }[];
     placeholder: string;
-    value: string | undefined;
+    value: string | undefined | number;
     onChange: (value: string) => void;
     width?: string; // Optional prop to control width (default to 180px)
 }
@@ -35,7 +35,7 @@ export const CustomSelect: React.FC<SelectProps> = ({
             <SelectContent className="bg-white">
                 <SelectGroup>
                     <SelectLabel>{label}</SelectLabel>
-                    {options.map((option) => (
+                    {options?.map((option) => (
                         <SelectItem key={option.value} value={String(option.value)}>
                             {option.label}
                         </SelectItem>
