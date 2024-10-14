@@ -58,7 +58,7 @@ const Lowongan = () => {
             <Breadcrumb items={breadcrumbItems} />
             <div className="mt-3 flex gap-5 items-center">
                 <Input
-                    placeholder="Pencarian Lowongan"
+                    placeholder="Pencarian"
                     leftIcon={<SearchIcon />}
                     value={search}
                     onChange={handleSearchChange}

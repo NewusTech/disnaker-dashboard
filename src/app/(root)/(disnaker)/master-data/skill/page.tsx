@@ -13,14 +13,20 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import BreadMaster from '../../../../../../public/assets/icons/BreadMaster';
 import { useGetSkill } from '@/api';
+import useLocalStorage from '@/hooks/useLocalStorage';
+import useAxiosPrivate from '@/hooks/useAxiosPrivate';
+import { showAlert } from '@/lib/swalAlert';
+import { mutate } from 'swr';
+import Loading from '@/components/ui/Loading';
+
 
 // Schema validation for new skill
 const skillSchema = z.object({
-    skill: z.string().min(1, "Skill harus diisi"),
+    name: z.string().min(1, "Skill harus diisi"),
 });
 
 interface FormData {
-    skill: string;
+    name: string;
 }
 
 const Skill = () => {
@@ -44,7 +50,7 @@ const Skill = () => {
     // serach
 
     // INTEGRASI
-    const { data, error, isLoading } = useGetSkill(currentPage, search);
+    const { data } = useGetSkill(currentPage, search);
     // INTEGRASI
 
     // State for controlling pop-up visibility
@@ -57,18 +63,25 @@ const Skill = () => {
     });
 
     // Handle form submission for adding a new skill
-    const onSubmit: SubmitHandler<FormData> = async (formData) => {
-        setLoading(true);
+    const [accessToken] = useLocalStorage("accessToken", "");
+    const axiosPrivate = useAxiosPrivate();
+
+    const onSubmit: SubmitHandler<FormData> = async (data) => {
+        setLoading(true); // Set loading to true when the form is submitted
         try {
-            // Simulate API call to add skill
-            console.log("Skill added:", formData);
+            await axiosPrivate.post("/skill/create", data);
+            showAlert('success', 'Data berhasil ditambahkan!');
             setIsPopupOpen(false); // Close pop-up after submission
             reset(); // Reset form
-        } catch (error) {
-            console.error("Error adding skill:", error);
+            // Success alert
+        } catch (error: any) {
+            // Extract error message from API response
+            const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal menambahkan data!';
+            showAlert('error', errorMessage);
+            //   alert
         } finally {
-            setLoading(false);
-        }
+            setLoading(false); // Set loading to false once the process is complete
+        }mutate(`/skill/get?page=${currentPage}&limit=10&search=${search}`);
     };
 
     // Open pop-up
@@ -83,7 +96,7 @@ const Skill = () => {
     return (
         <div>
             <Breadcrumb items={breadcrumbItems} />
-            <div className="mt-3 flex gap-3">
+            <div className="mt-3 flex gap-5">
                 <Input
                     placeholder="Pencarian"
                     leftIcon={<SearchIcon />}
@@ -98,7 +111,7 @@ const Skill = () => {
 
             {/* Table */}
             <div className="Table mt-3">
-                <DataTable currentPage={currentPage} data={data?.data} />
+                <DataTable currentPage={currentPage} data={data?.data} search={search} />
             </div>
 
             {/* Pagination */}
@@ -130,10 +143,10 @@ const Skill = () => {
                             <Input
                                 autoFocus
                                 placeholder="Masukkan Skill"
-                                {...register('skill')}
-                                className={errors.skill ? 'border-red-500' : ''}
+                                {...register('name')}
+                                className={errors.name ? 'border-red-500' : ''}
                             />
-                            {errors.skill && <p className="text-red-500 text-sm mt-1">{errors.skill.message}</p>}
+                            {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>}
 
                             <div className="flex justify-end mt-4 gap-3">
                                 <Button
@@ -144,8 +157,8 @@ const Skill = () => {
                                 >
                                     Batal
                                 </Button>
-                                <Button className='rounded-full' type="submit" disabled={loading}>
-                                    {loading ? 'Loading..' : 'Tambah'}
+                                <Button className='rounded-full w-[110px]' type="submit" disabled={loading}>
+                                    {loading ? <Loading /> : 'Tambah'}
                                 </Button>
                             </div>
                         </form>

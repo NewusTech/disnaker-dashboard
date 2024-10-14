@@ -9,14 +9,20 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import DeletePopupTitik from "@/components/AksiPopup";
+import useLocalStorage from "@/hooks/useLocalStorage";
+import useAxiosPrivate from "@/hooks/useAxiosPrivate";
+import { showAlert } from "@/lib/swalAlert";
+import useSWR, { mutate } from "swr";
+import Loading from "@/components/ui/Loading";
+
 
 // Define schema for form validation using Zod
 const skillSchema = z.object({
-    skill: z.string().min(1, "Skill harus diisi"),
+    name: z.string().min(1, "Skill harus diisi"),
 });
 
 interface FormData {
-    skill: string;
+    name: string;
 }
 
 interface DataTableProps {
@@ -25,9 +31,10 @@ interface DataTableProps {
         name: string;
     }>;
     currentPage: number; // Add currentPage as a prop
+    search: string;
 }
 
-const DataTable: React.FC<DataTableProps> = ({ data, currentPage }) => {
+const DataTable: React.FC<DataTableProps> = ({ data, currentPage, search }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedId, setSelectedId] = useState<number | null>(null); // ID of the selected skill
     const [loading, setLoading] = useState(false);
@@ -39,15 +46,23 @@ const DataTable: React.FC<DataTableProps> = ({ data, currentPage }) => {
 
     // Fetch skill data when a skill is selected for editing
     const handleOpenPopup = async (id: number) => {
-        setIsOpen(true);
-        setSelectedId(id); // Set the selected skill ID
+        setSelectedId(id); // Set the selected ID
+        setIsOpen(true); // Open the popup
 
         try {
-            //   const response = await axios.get(`/api/skill/${id}`); // Fetch skill data from API
-            //   const skillData = response.data.data;
-            //   setValue("skill", skillData.skill); // Set fetched skill data to form
+            const response = await axiosPrivate.get(`/skill/get/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            const skillData = response.data?.data;
+
+            if (skillData) {
+                // Set the form values with the fetched skill data
+                setValue('name', skillData.name);
+            }
         } catch (error) {
-            console.error("Error fetching skill data:", error);
+            console.error("Failed to fetch skill data:", error);
         }
     };
 
@@ -57,22 +72,47 @@ const DataTable: React.FC<DataTableProps> = ({ data, currentPage }) => {
         setSelectedId(null); // Clear the selected skill ID
     };
 
-    // Handle form submission to update skill
-    const onSubmit: SubmitHandler<FormData> = async (formData) => {
-        if (selectedId === null) return; // Ensure there is a selected ID
+    const [accessToken] = useLocalStorage("accessToken", "");
+    const axiosPrivate = useAxiosPrivate();
 
-        setLoading(true);
+    // Handle form submission to update skill
+    const onSubmit: SubmitHandler<FormData> = async (data) => {
+        setLoading(true); // Set loading to true when the form is submitted
         try {
-            //   await axios.put(`/api/skill/update/${selectedId}`, formData); // Send update request to API
-            console.log("Skill updated successfully", formData);
-            console.log("ID :", selectedId);
-        } catch (error) {
-            console.error("Error updating skill:", error);
-        } finally {
-            setLoading(false);
+            await axiosPrivate.put(`/skill/update/${selectedId}`, data);
+            showAlert('success', 'Data berhasil ditambahkan!');
+            reset(); // Reset form
             handleClosePopup();
-        }
+            // Success alert
+        } catch (error: any) {
+            // Extract error message from API response
+            const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal menambahkan data!';
+            showAlert('error', errorMessage);
+            //   alert
+        } finally {
+            setLoading(false); // Set loading to false once the process is complete
+        }mutate(`/skill/get?page=${currentPage}&limit=10&search=${search}`);
     };
+
+    const handleDelete = async (id: number) => {
+        try {
+          await axiosPrivate.delete(`/skill/delete/${id}`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          });
+          // alert
+          showAlert('success', 'Data berhasil dihapus!');
+
+          // alert
+          // Update the local data after successful deletion
+        } catch (error: any) {
+          // Extract error message from API response
+          const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal menghapus data!';
+          showAlert('error', errorMessage);
+          //   alert
+        } mutate(`/skill/get?page=${currentPage}&limit=10&search=${search}`);
+      };
 
     return (
         <div className="Table mt-3">
@@ -113,7 +153,7 @@ const DataTable: React.FC<DataTableProps> = ({ data, currentPage }) => {
                                                     </button>
                                                 </DropdownMenuItem>
                                                 <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                                                    <DeletePopupTitik onDelete={async () => Promise.resolve()} />
+                                                <DeletePopupTitik onDelete={() => handleDelete(user.id)} />
                                                 </DropdownMenuItem>
                                             </DropdownMenuContent>
                                         </DropdownMenu>
@@ -148,11 +188,11 @@ const DataTable: React.FC<DataTableProps> = ({ data, currentPage }) => {
                             <Input
                                 autoFocus
                                 placeholder="Masukkan Skill"
-                                {...register('skill')}
-                                className={errors.skill ? 'border-red-500' : ''}
+                                {...register('name')}
+                                className={errors.name ? 'border-red-500' : ''}
                             />
-                            {errors.skill && (
-                                <HelperError>{String(errors.skill.message)}</HelperError> // Convert error to string
+                            {errors.name && (
+                                <HelperError>{String(errors.name.message)}</HelperError> // Convert error to string
                             )}
                             <div className="flex gap-3 justify-end mt-5">
                                 <Button
@@ -163,8 +203,8 @@ const DataTable: React.FC<DataTableProps> = ({ data, currentPage }) => {
                                 >
                                     Batal
                                 </Button>
-                                <Button type="submit" className="py-2 rounded-full" disabled={loading}>
-                                    {loading ? 'Loading...' : 'Simpan'}
+                                <Button type="submit" className="py-2 rounded-full w-[110px]" disabled={loading}>
+                                    {loading ? <Loading /> : 'Simpan'}
                                 </Button>
                             </div>
                         </form>
