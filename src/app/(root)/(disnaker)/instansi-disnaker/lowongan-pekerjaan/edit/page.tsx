@@ -33,7 +33,7 @@ const EditLowongan = () => {
         // { label: 'Home', href: '/', logo: <FaHome /> }, 
         { label: 'Instansi', logo: <BreadPerusahaan /> },
         { label: 'Lowongan Pekerjaan', href: '/instansi-disnaker/lowongan-pekerjaan' },  // No logo 
-        { label: 'Tambah', },  // No logo 
+        { label: 'Edit', },  // No logo 
     ];
     
     const [limit, setLimit] = useState(10000);
