@@ -126,7 +126,7 @@ const Pelatihan = () => {
                 />
                 <Link
                     href="/layanan-ketenagakerjaan/pelatihan/tambah"
-                    className="flex flex-shrink-0 gap-2 items-center px-5 py-3 bg-primary hover:bg-primary/80 rounded-lg transition ease-in-out delay-150 hover:-translate-y-1 w-fit text-white">
+                    className="flex flex-shrink-0 gap-2 items-center px-5 py-2.5 bg-primary hover:bg-primary/80 rounded-full transition ease-in-out delay-150 hover:-translate-y-1 w-fit text-white">
                     <Tambah />
                     Tambah Pelatihan
                 </Link>

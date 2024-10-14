@@ -115,44 +115,44 @@ export type eventFormData = z.infer<typeof event>;
 // Pelatihan
 export const pelatihan = z
   .object({
-    judul_pelatihan: z
+    title: z
       .string()
       .min(1, { message: "Jawaban tidak boleh kosong!" }),
-    kategori: z
+    category_id: z
       .string({
         required_error: "Jawaban tidak boleh kosong!"
       }),
-    tempat: z
+    location: z
       .string()
       .min(1, { message: "Jawaban tidak boleh kosong!" }),
-    kuota_peserta: z
+    quota: z
+      .preprocess((val) => Number(val), z.number()
+      .min(1, { message: "Jawaban tidak boleh kosong!" })),
+    startDate: z
       .string()
       .min(1, { message: "Jawaban tidak boleh kosong!" }),
-    tanggal_mulai: z
+    endDate: z
       .string()
       .min(1, { message: "Jawaban tidak boleh kosong!" }),
-    tanggal_selesai: z
+    time: z
       .string()
       .min(1, { message: "Jawaban tidak boleh kosong!" }),
-    jam: z
+    linkModule: z
       .string()
       .min(1, { message: "Jawaban tidak boleh kosong!" }),
-    modul: z
-      .string()
-      .min(1, { message: "Jawaban tidak boleh kosong!" }),
-    no_wa: z
+    phoneNumber: z
       .string()
       .min(1, { message: "Jawaban tidak boleh kosong!" }),
     level: z
       .string()
       .min(1, { message: "Jawaban tidak boleh kosong!" }),
-    link: z
+    regisLink: z
       .string()
       .min(1, { message: "Jawaban tidak boleh kosong!" }),
-    deskripsi: z
+    desc: z
       .string()
       .min(1, { message: "Jawaban tidak boleh kosong!" }),
-    banner: z.
+    image: z.
       instanceof(File).refine(file => file.size > 0, { message: 'Gambar wajib diisi' }),
   })
   .required();

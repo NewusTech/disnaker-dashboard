@@ -18,6 +18,10 @@ import { CustomSelect } from '@/components/SelectCustom';
 import 'react-quill/dist/quill.snow.css';
 import Image from 'next/image';
 import BreadInformasi from '../../../../../../../public/assets/icons/BreadInformasi';
+import { useGetKategoriFilter } from '@/api';
+import useLocalStorage from '@/hooks/useLocalStorage';
+import useAxiosPrivate from '@/hooks/useAxiosPrivate';
+import { showAlert } from '@/lib/swalAlert';
 
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
@@ -31,12 +35,13 @@ const TambahEvent = () => {
     ];
 
     // kategori
-    const kategoriOptions = [
-        { label: "Sertifikasi", value: "Sertifikasi" },
-        { label: "Pelatihan", value: "Pelatihan" },
-        { label: "Event", value: "Event" },
-        { label: "Konsultasi", value: "Konsultasi" },
-    ];
+    // INTEGRASI
+    const { data : dataKategori } = useGetKategoriFilter();
+    const kategoriOptions = dataKategori?.data.map((category: { name: string; id: number; }) => ({
+        label: category.name,
+        value: category.id,
+    }));
+    // INTEGRASI
     // kategori
     // level
     const levelOptions = [
@@ -62,7 +67,7 @@ const TambahEvent = () => {
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {
-            setValue('banner', file);
+            setValue('image', file);
             setImagePreview(URL.createObjectURL(file));
         }
     };
@@ -71,38 +76,43 @@ const TambahEvent = () => {
     // 
     const [loading, setLoading] = useState(false);
     const navigate = useRouter();
+    const [accessToken] = useLocalStorage("accessToken", "");
+    const axiosPrivate = useAxiosPrivate();
 
     const onSubmit: SubmitHandler<pelatihanFormData> = async (data) => {
         setLoading(true); // Set loading to true when the form is submitted
         const formData = new FormData();
-        formData.append('judul_pelatihan', data.judul_pelatihan);
-        formData.append('kategori', data.kategori);
-        formData.append('tempat', data.tempat);
-        formData.append('kuota_peserta', data.kuota_peserta);
-        formData.append('tanggal_mulai', data.tanggal_mulai);
-        formData.append('tanggal_selesai', data.tanggal_selesai);
-        formData.append('jam', data.jam);
-        formData.append('modul', data.modul);
-        formData.append('no_wa', data.no_wa);
+        formData.append('title', data.title);
+        formData.append('category_id', data.category_id);
+        formData.append('location', data.location);
+        formData.append('quota', data.quota.toString());
+        formData.append('startDate', data.startDate);
+        formData.append('endDate', data.endDate);
+        formData.append('time', data.time);
+        formData.append('linkModule', data.linkModule);
+        formData.append('phoneNumber', data.phoneNumber);
         formData.append('level', data.level);
-        formData.append('link', data.link);
-        formData.append('deskripsi', data.deskripsi);
-        formData.append('banner', data.banner);
+        formData.append('regisLink', data.regisLink);
+        formData.append('desc', data.desc);
+        formData.append('image', data.image);
 
 
         try {
-            // await axiosPrivate.post("/galeri/create", formData, {
-            //     headers: {
-            //         'Content-Type': 'multipart/form-data',
-            //     },
-            // });
-            console.log(data);
+            await axiosPrivate.post("/training/create", formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+            // console.log(data);
             // alert
+            showAlert('success', 'Data berhasil ditambahkan!');
             // alert
-            // navigate.push('/data-master/kelola-galeri');
+            navigate.push('/layanan-ketenagakerjaan/pelatihan');
             // reset();
         } catch (error: any) {
             // Extract error message from API response
+            const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal menambahkan data!';
+            showAlert('error', errorMessage);
         } finally {
             setLoading(false); // Set loading to false once the process is complete
         }
@@ -130,17 +140,17 @@ const TambahEvent = () => {
                             <Input
                                 type="text"
                                 placeholder="Judul Pelatihan"
-                                {...register('judul_pelatihan')}
-                                className={`${errors.judul_pelatihan ? 'border-red-500' : ''}`}
+                                {...register('title')}
+                                className={`${errors.title ? 'border-red-500' : ''}`}
                             />
-                            {errors.judul_pelatihan && (
-                                <HelperError>{errors.judul_pelatihan.message}</HelperError>
+                            {errors.title && (
+                                <HelperError>{errors.title.message}</HelperError>
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full md:w-1/2">
                             <Label label="Kategori" />
                             <Controller
-                                name="kategori"
+                                name="category_id"
                                 control={control}
                                 render={({ field }) => (
                                     <CustomSelect
@@ -149,11 +159,11 @@ const TambahEvent = () => {
                                         placeholder="Pilih Kategori"
                                         value={field.value}
                                         onChange={(option) => field.onChange(option || '')}
-                                        width={`w-full ${errors.kategori ? 'border-red-500' : ''}`}
+                                        width={`w-full ${errors.category_id ? 'border-red-500' : ''}`}
                                     />
                                 )}
                             />
-                            {errors.kategori && <HelperError>{errors.kategori.message}</HelperError>}
+                            {errors.category_id && <HelperError>{errors.category_id.message}</HelperError>}
                         </div>
                     </div>
                     {/*  */}
@@ -164,11 +174,11 @@ const TambahEvent = () => {
                             <Input
                                 type="text"
                                 placeholder="Tempat"
-                                {...register('tempat')}
-                                className={`${errors.tempat ? 'border-red-500' : ''}`}
+                                {...register('location')}
+                                className={`${errors.location ? 'border-red-500' : ''}`}
                             />
-                            {errors.tempat && (
-                                <HelperError>{errors.tempat.message}</HelperError>
+                            {errors.location && (
+                                <HelperError>{errors.location.message}</HelperError>
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full md:w-1/2">
@@ -176,11 +186,11 @@ const TambahEvent = () => {
                             <Input
                                 type="number"
                                 placeholder="Kuota Peserta"
-                                {...register('kuota_peserta')}
-                                className={`${errors.kuota_peserta ? 'border-red-500' : ''}`}
+                                {...register('quota')}
+                                className={`${errors.quota ? 'border-red-500' : ''}`}
                             />
-                            {errors.kuota_peserta && (
-                                <HelperError>{errors.kuota_peserta.message}</HelperError>
+                            {errors.quota && (
+                                <HelperError>{errors.quota.message}</HelperError>
                             )}
                         </div>
                     </div>
@@ -192,11 +202,11 @@ const TambahEvent = () => {
                             <Input
                                 type="date"
                                 placeholder="Tanggal Mulai"
-                                {...register('tanggal_mulai')}
-                                className={`${errors.tanggal_mulai ? 'border-red-500' : ''}`}
+                                {...register('startDate')}
+                                className={`${errors.startDate ? 'border-red-500' : ''}`}
                             />
-                            {errors.tanggal_mulai && (
-                                <HelperError>{errors.tanggal_mulai.message}</HelperError>
+                            {errors.startDate && (
+                                <HelperError>{errors.startDate.message}</HelperError>
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full md:w-1/2">
@@ -204,11 +214,11 @@ const TambahEvent = () => {
                             <Input
                                 type="date"
                                 placeholder="Tanggal Selesai"
-                                {...register('tanggal_selesai')}
-                                className={`${errors.tanggal_selesai ? 'border-red-500' : ''}`}
+                                {...register('endDate')}
+                                className={`${errors.endDate ? 'border-red-500' : ''}`}
                             />
-                            {errors.tanggal_selesai && (
-                                <HelperError>{errors.tanggal_selesai.message}</HelperError>
+                            {errors.endDate && (
+                                <HelperError>{errors.endDate.message}</HelperError>
                             )}
                         </div>
                     </div>
@@ -220,11 +230,11 @@ const TambahEvent = () => {
                             <Input
                                 type="text"
                                 placeholder="11:00 Wib - 15:00 Wib"
-                                {...register('jam')}
-                                className={`${errors.jam ? 'border-red-500' : ''}`}
+                                {...register('time')}
+                                className={`${errors.time ? 'border-red-500' : ''}`}
                             />
-                            {errors.jam && (
-                                <HelperError>{errors.jam.message}</HelperError>
+                            {errors.time && (
+                                <HelperError>{errors.time.message}</HelperError>
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full md:w-1/2">
@@ -232,11 +242,11 @@ const TambahEvent = () => {
                             <Input
                                 type="text"
                                 placeholder="wwww.modul.com"
-                                {...register('modul')}
-                                className={`${errors.modul ? 'border-red-500' : ''}`}
+                                {...register('linkModule')}
+                                className={`${errors.linkModule ? 'border-red-500' : ''}`}
                             />
-                            {errors.modul && (
-                                <HelperError>{errors.modul.message}</HelperError>
+                            {errors.linkModule && (
+                                <HelperError>{errors.linkModule.message}</HelperError>
                             )}
                         </div>
                     </div>
@@ -248,11 +258,11 @@ const TambahEvent = () => {
                             <Input
                                 type="text"
                                 placeholder="Nomor WhatsApp"
-                                {...register('no_wa')}
-                                className={`${errors.no_wa ? 'border-red-500' : ''}`}
+                                {...register('phoneNumber')}
+                                className={`${errors.phoneNumber ? 'border-red-500' : ''}`}
                             />
-                            {errors.no_wa && (
-                                <HelperError>{errors.no_wa.message}</HelperError>
+                            {errors.phoneNumber && (
+                                <HelperError>{errors.phoneNumber.message}</HelperError>
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full md:w-1/2">
@@ -282,11 +292,11 @@ const TambahEvent = () => {
                             <Input
                                 type="text"
                                 placeholder="www.example.com"
-                                {...register('link')}
-                                className={`${errors.link ? 'border-red-500' : ''}`}
+                                {...register('regisLink')}
+                                className={`${errors.regisLink ? 'border-red-500' : ''}`}
                             />
-                            {errors.link && (
-                                <HelperError>{errors.link.message}</HelperError>
+                            {errors.regisLink && (
+                                <HelperError>{errors.regisLink.message}</HelperError>
                             )}
                         </div>
                     </div>
@@ -298,11 +308,11 @@ const TambahEvent = () => {
                             <div className="text-editor bg-white border border-[#D9D9D9] rounded-lg overflow-hidden">
                                 <ReactQuill
                                     className='h-[270px]'
-                                    onChange={(value) => setValue('deskripsi', value)}
+                                    onChange={(value) => setValue('desc', value)}
                                 />
                             </div>
-                            {errors.deskripsi && (
-                                <HelperError>{errors.deskripsi.message}</HelperError>
+                            {errors.desc && (
+                                <HelperError>{errors.desc.message}</HelperError>
                             )}
                         </div>
                     </div>
@@ -336,8 +346,8 @@ const TambahEvent = () => {
                                     )}
                                 </label>
                             </div>
-                            {errors.banner && (
-                                <HelperError>{errors.banner.message}</HelperError>
+                            {errors.image && (
+                                <HelperError>{errors.image.message}</HelperError>
                             )}
                         </div>
                     </div>

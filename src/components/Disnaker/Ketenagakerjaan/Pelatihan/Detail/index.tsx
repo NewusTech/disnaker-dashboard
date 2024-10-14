@@ -5,25 +5,44 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
-// Define the structure of the data props
-interface PelatihanProps {
-    data: {
-        judul: string;
-        namaInstansi: string;
-        kuotaPeserta: string;
-        level: string;
-        noWA: string;
-        modul: string;
-        tanggalBuat: string;
-        banner: string;
-        deskripsi: string;
-        tempat: string;
-        jam: string;
-        tanggalMulai: string;
-        tanggalSelesai: string;
-        kategori: string;
-        link: string;
-    };
+// Define the interface for Company
+interface Company {
+    id: number;
+    name: string;
+}
+
+// Define the interface for VacancyCategory
+interface VacancyCategory {
+    id: number;
+    name: string;
+}
+
+// Define the interface for the Training data
+interface Training {
+    id: number;
+    company_id: number;
+    category_id: number;
+    title: string;
+    desc: string;
+    location: string;
+    quota: number;
+    startDate: string; // Alternatively, use Date if you want to handle dates
+    endDate: string;   // Alternatively, use Date if you want to handle dates
+    time: string;
+    linkModule: string;
+    phoneNumber: string;
+    level: string;
+    regisLink: string;
+    image: string;
+    createdAt: string; // Alternatively, use Date if you want to handle dates
+    updatedAt: string; // Alternatively, use Date if you want to handle dates
+    Company: Company;
+    VacancyCategory: VacancyCategory;
+}
+
+// Define the interface for the API response
+interface TrainingResponse {
+    data: Training;
 }
 
 interface ProfileInfo {
@@ -38,7 +57,8 @@ const ProfileDetail: React.FC<ProfileInfo> = ({ label, value }) => (
     </div>
 );
 
-const Pelatihan: React.FC<PelatihanProps> = ({ data }) => {
+
+const Pelatihan: React.FC<TrainingResponse> = ({ data }) => {
     const [isModalOpenPelatihan, setIsModalOpenPelatihan] = useState(false);
     const openModalPelatihan = () => setIsModalOpenPelatihan(true);
     const closeModalPelatihan = () => setIsModalOpenPelatihan(false);
@@ -47,12 +67,14 @@ const Pelatihan: React.FC<PelatihanProps> = ({ data }) => {
         <div>
             {/* Detail */}
             <div className="head flex flex-col gap-3">
-                <div className="title text-xl font-semibold">{data.judul}</div>
-                <div className="date text-[#3D3D3DB2]/70">{data.tanggalBuat}</div>
+                <div className="title text-xl font-semibold">{data?.title ?? "-"}</div>
+                <div className="date text-[#3D3D3DB2]/70">
+                    {data?.createdAt ? new Date(data?.createdAt).toISOString().split('T')[0] : '-'}
+                </div>
                 <div className="foto ">
                     <div className="w-full h-[400px] rounded-lg overflow-hidden cursor-pointer" onClick={openModalPelatihan}>
                         <Image
-                            src={data.banner}
+                            src={data?.image ?? "-"}
                             alt="Foto User"
                             className="object-cover w-full h-full"
                             width={800}
@@ -62,7 +84,10 @@ const Pelatihan: React.FC<PelatihanProps> = ({ data }) => {
                     </div>
                 </div>
                 <div className="Deksripsi mt-4">
-                    {data.deskripsi}
+                    <div
+                        className="prose max-w-none text-justify"
+                        dangerouslySetInnerHTML={{ __html: data?.desc || "Tidak Ada Deskripsi" }}
+                    />
                 </div>
             </div>
             <Garis />
@@ -71,33 +96,33 @@ const Pelatihan: React.FC<PelatihanProps> = ({ data }) => {
                 <div className="wrap flex flex-col gap-4">
                     <div className="konten flex flex-col gap-4">
                         <div className="wrap flex gap-1 px-1">
-                            <ProfileDetail label="Judul Pelatihan" value={data.judul} />
-                            <ProfileDetail label="Kategori" value={data.kategori} />
+                            <ProfileDetail label="Judul Pelatihan" value={data?.title ?? "-"} />
+                            <ProfileDetail label="Kategori" value={data?.VacancyCategory?.name ?? "-"} />
                         </div>
                         <div className="wrap flex gap-1 px-1">
-                            <ProfileDetail label="Nama Instansi" value={data.namaInstansi} />
-                            <ProfileDetail label="Kuota Peserta" value={data.kuotaPeserta} />
+                            <ProfileDetail label="Nama Instansi" value={data?.Company?.name ?? "-"} />
+                            <ProfileDetail label="Kuota Peserta" value={data?.quota?.toString() ?? "-"} />
                         </div>
                         <div className="wrap flex gap-1 px-1">
-                            <ProfileDetail label="Tanggal Mulai" value={data.tanggalMulai} />
-                            <ProfileDetail label="Tanggal Selesai" value={data.tanggalSelesai} />
+                            <ProfileDetail label="Tanggal Mulai" value={data?.startDate ?? "-"} />
+                            <ProfileDetail label="Tanggal Selesai" value={data?.endDate ?? "-"} />
                         </div>
                         <div className="wrap flex gap-1 px-1">
-                            <ProfileDetail label="Jam Mulai" value={data.jam} />
+                            <ProfileDetail label="Jam Mulai" value={data?.time ?? "-"} />
                             <div className="left w-1/2">
                                 <div className="label text-sm text-[#3D3D3D]/70">Link Materi/Modul</div>
-                                <Link target="blank" href={data.link} className="teks text-[#3D3D3D] hover:text-primary underline">Klik Disini!!</Link>
+                                <Link target="blank" href={data?.linkModule ?? "-"} className="teks text-[#3D3D3D] hover:text-primary underline">Klik Disini!!</Link>
                             </div>
                         </div>
                         <div className="wrap flex gap-1 px-1">
-                            <ProfileDetail label="Tempat" value={data.tempat} />
-                            <ProfileDetail label="Level" value={data.level} />
+                            <ProfileDetail label="Tempat" value={data?.location ?? "-"} />
+                            <ProfileDetail label="Level" value={data?.level ?? "-"} />
                         </div>
                         <div className="wrap flex gap-1 px-1">
-                            <ProfileDetail label="Nomor Whatsapp" value={data.noWA} />
+                            <ProfileDetail label="Nomor Whatsapp" value={data?.phoneNumber ?? "-"} />
                             <div className="left w-1/2">
                                 <div className="label text-sm text-[#3D3D3D]/70">Link Pendaftaran</div>
-                                <Link target="blank" href={data.link} className="teks text-[#3D3D3D] hover:text-primary underline">Klik Disini!!</Link>
+                                <Link target="blank" href={data?.regisLink ?? "-"} className="teks text-[#3D3D3D] hover:text-primary underline">Klik Disini!!</Link>
                             </div>
                         </div>
                     </div>
@@ -123,7 +148,7 @@ const Pelatihan: React.FC<PelatihanProps> = ({ data }) => {
                         </button>
                         <div className="flex justify-center items-center">
                             <Image
-                                src={data.banner}
+                                src={data?.image}
                                 alt={`Full-size photo of user`}
                                 className="object-cover"
                                 width={800}

@@ -14,8 +14,8 @@ interface SelectProps {
     label?: string;
     options: { label: string; value: string | number }[];
     placeholder: string;
-    value?: string | undefined | number;
-    onChange: (value: string) => void;
+    value?: string | undefined | number | null | any;
+    onChange: (value: string | undefined | number | null | any) => void;
     width?: string; // Optional prop to control width (default to 180px)
 }
 

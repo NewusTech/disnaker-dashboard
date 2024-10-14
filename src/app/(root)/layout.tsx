@@ -503,7 +503,7 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                 </div>
             </div>
             {/* KONTEN */}
-            <div className="konten z-10 lg:px-0 px-[10px] lg:mr-[20px] lg:ml-[350px] md:pt-[15px] pt-[70px] h-full">
+            <div className="konten z-10 lg:px-0 px-[10px] lg:mr-[20px] lg:ml-[350px] md:pt-[15px] pt-[70px] h-full pb-5">
                 <div className="konten overflow-auto h-[90%] p-3 lg:p-6 bg-white rounded-xl">
                     {/* konten */}
                     {props.children}

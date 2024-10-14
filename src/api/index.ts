@@ -552,7 +552,77 @@ const useGetPelatihan = (currentPage: number, search: string, status: string) =>
   };
 };
 
+// get id pelatihan
+// Define the interface for Company
+interface Company {
+  id: number;
+  name: string;
+}
+
+// Define the interface for VacancyCategory
+interface VacancyCategory {
+  id: number;
+  name: string;
+}
+
+// Define the interface for the Training data
+interface Training {
+  id: number;
+  company_id: number;
+  category_id: number;
+  title: string;
+  desc: string;
+  location: string;
+  quota: number;
+  startDate: string; // Alternatively, use Date if you want to handle dates
+  endDate: string;   // Alternatively, use Date if you want to handle dates
+  time: string;
+  linkModule: string;
+  phoneNumber: string;
+  level: string;
+  regisLink: string;
+  image: string;
+  createdAt: string; // Alternatively, use Date if you want to handle dates
+  updatedAt: string; // Alternatively, use Date if you want to handle dates
+  Company: Company;
+  VacancyCategory: VacancyCategory;
+}
+
+// Define the interface for the API response
+interface TrainingResponse {
+  status: number;
+  message: string;
+  data: Training;
+}
+
+const useGetPelatihanGetId = (id: string) => {
+  const [accessToken] = useLocalStorage("accessToken", "");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } =
+    useSWR(
+      `/training/get/${id}`,
+      () =>
+        axiosPrivate
+          .get(`/training/get/${id}`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
+          .then((res) => res.data) // Ensure `res.data` contains the desired data
+    );
+
+  return {
+    data,
+    error,
+    mutate,
+    isValidating,
+    isLoading,
+  };
+};
+
 export {
+  useGetPelatihanGetId,
   useGetPelatihan,
   useGetPendidikanFilter,
   useGetSkillFilter,
