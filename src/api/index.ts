@@ -498,7 +498,6 @@ interface GetEducationLevelResponse {
   data: EducationLevel[];
 }
 
-
 const useGetPendidikanFilter = () => {
   const [accessToken] = useLocalStorage("accessToken", "");
   const axiosPrivate = useAxiosPrivate();
@@ -524,7 +523,37 @@ const useGetPendidikanFilter = () => {
   };
 };
 
+// Hook to fetch Pelatihan
+const useGetPelatihan = (currentPage: number, search: string, status: string) => {
+  const [accessToken] = useLocalStorage("accessToken", "");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } = useSWR(
+    `/training/get?page=${currentPage}&limit=10&search=${search}&status=${status}`,
+    () =>
+      axiosPrivate
+        .get(
+          `/training/get?page=${currentPage}&limit=10&search=${search}&status=${status}`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        )
+        .then((res) => res.data) // Ensure `res.data` contains the desired data
+  );
+
+  return {
+    data,
+    error,
+    mutate,
+    isValidating,
+    isLoading,
+  };
+};
+
 export {
+  useGetPelatihan,
   useGetPendidikanFilter,
   useGetSkillFilter,
   useGetKategoriFilter,

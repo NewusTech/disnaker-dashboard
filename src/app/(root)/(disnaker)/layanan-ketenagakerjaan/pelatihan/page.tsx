@@ -10,6 +10,7 @@ import Tambah from '../../../../../../public/assets/icons/Tambah';
 import Link from 'next/link';
 import DataTable from '@/components/Disnaker/Ketenagakerjaan/Pelatihan';
 import BreadInformasi from '../../../../../../public/assets/icons/BreadInformasi';
+import { useGetPelatihan } from '@/api';
 
 const Pelatihan = () => {
     const breadcrumbItems = [
@@ -81,12 +82,28 @@ const Pelatihan = () => {
     // 
     // Define table headers
     const tableHeaders = ["No", "Nama Instansi", "Judul Pelatihan", "Kategori", "Tanggal Mulai", "Tanggal Selesai", "Kuota Peserta", "Aksi"];
-    // pagination
-    const [currentPage, setCurrentPage] = useState(3);
+
+    // Ensure statusLowongan is always a string
+    const status = selectedValue === "semua" ? "" : selectedValue || ""; // Default to empty string if undefined
+    // select
+
+    // Pagination state
+    const [currentPage, setCurrentPage] = useState(1);
     const onPageChange = (page: number) => {
         setCurrentPage(page)
     };
-    // pagination
+
+    // serach
+    const [search, setSearch] = useState("");
+    const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSearch(event.target.value);
+        setCurrentPage(1); // Reset to page 1
+    };
+    // serach
+
+    // INTEGRASI
+    const { data } = useGetPelatihan(currentPage, search, status);
+    // INTEGRASI
 
 
     return (
@@ -96,6 +113,8 @@ const Pelatihan = () => {
                 <Input
                     placeholder='Pencarian'
                     leftIcon={<SearchIcon />}
+                    value={search}
+                    onChange={handleSearchChange}
                 />
                 <CustomSelect
                     label="Kategori"
@@ -116,15 +135,18 @@ const Pelatihan = () => {
             <div className="Table mt-3">
                 <DataTable
                     headers={tableHeaders}
-                    data={dummyData}
+                    data={data?.data}
+                    currentPage={currentPage}
+                    search={search}
+                    status={status}
                 />
             </div>
             {/* table */}
             {/* pagination */}
             <div className="pagi flex items-center justify-center pb-5 lg:pb-0">
                 <PaginationTable
-                    currentPage={1}
-                    totalPages={15}
+                    currentPage={currentPage}
+                    totalPages={data?.pagination?.totalPages as number}
                     onPageChange={onPageChange}
                 />
             </div>
