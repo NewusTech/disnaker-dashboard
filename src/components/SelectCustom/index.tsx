@@ -14,7 +14,7 @@ interface SelectProps {
     label?: string;
     options: { label: string; value: string | number }[];
     placeholder: string;
-    value: string | undefined | number;
+    value?: string | undefined | number;
     onChange: (value: string) => void;
     width?: string; // Optional prop to control width (default to 180px)
 }
@@ -25,11 +25,11 @@ export const CustomSelect: React.FC<SelectProps> = ({
     placeholder,
     value,
     onChange,
-    width = "w-[180px]",
+    width = "w-[180px",
 }) => {
     return (
-        <Select onValueChange={onChange}>
-            <SelectTrigger className={width}>
+        <Select onValueChange={onChange} value={value}>
+            <SelectTrigger className={`rounded-full ${width}`}>
                 <SelectValue placeholder={placeholder} />
             </SelectTrigger>
             <SelectContent className="bg-white">

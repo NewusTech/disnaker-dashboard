@@ -28,7 +28,7 @@
 
 /* multiple select */
 .react-select__control {
-  @apply border border-[#E4E4E7] text-sm py-1 rounded-lg !important;
+  @apply border border-[#E4E4E7] text-sm py-1 rounded-full !important;
 }
 
 .react-select__option--is-selected {

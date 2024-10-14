@@ -1,16 +1,16 @@
 "use client";
 import Breadcrumb from '@/components/BreadCrumb'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import dynamic from 'next/dynamic';
-import BreadPerusahaan from '../../../../../../../public/assets/icons/BreadPerusahaan';
+import BreadPerusahaan from '../../../../../../../../public/assets/icons/BreadPerusahaan';
 import Link from 'next/link';
-import BackIcon from '../../../../../../../public/assets/icons/BackIcon';
+import BackIcon from '../../../../../../../../public/assets/icons/BackIcon';
 import Garis from '@/components/ui/garis';
 import HelperError from '@/components/ui/HelperError';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import Label from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -21,7 +21,7 @@ import { CustomSelect } from '@/components/SelectCustom';
 import SelectMultipleSkill from '@/components/SkillMultiple';
 import SelectMultiplePendidikan from '@/components/PendidikanMultiple';
 import 'react-quill/dist/quill.snow.css';
-import { useGetKategoriFilter, useGetPendidikanFilter, useGetSkillFilter } from '@/api';
+import { useGetKategoriFilter, useGetLowonganGetSlug, useGetPendidikanFilter, useGetSkillFilter } from '@/api';
 import { showAlert } from '@/lib/swalAlert';
 import useLocalStorage from '@/hooks/useLocalStorage';
 import useAxiosPrivate from '@/hooks/useAxiosPrivate';
@@ -35,13 +35,11 @@ const EditLowongan = () => {
         { label: 'Lowongan Pekerjaan', href: '/instansi-disnaker/lowongan-pekerjaan' },  // No logo 
         { label: 'Edit', },  // No logo 
     ];
-    
-    const [limit, setLimit] = useState(10000);
 
 
     // kategori
     // INTEGRASI
-    const { data : dataKategori } = useGetKategoriFilter();
+    const { data: dataKategori } = useGetKategoriFilter();
     const kategoriOptions = dataKategori?.data.map((category: { name: string; id: number; }) => ({
         label: category.name,
         value: category.id,
@@ -79,7 +77,7 @@ const EditLowongan = () => {
     // status
 
     // Skill
-    const { data : dataSkill } = useGetSkillFilter();
+    const { data: dataSkill } = useGetSkillFilter();
     interface SkillOption {
         id: number;
         name: string;
@@ -87,7 +85,7 @@ const EditLowongan = () => {
     // Skill
 
     // Pendidikan
-    const { data : dataPendidikan } = useGetPendidikanFilter();
+    const { data: dataPendidikan } = useGetPendidikanFilter();
     interface PendidikanOption {
         id: number;
         level: string;
@@ -99,11 +97,60 @@ const EditLowongan = () => {
         handleSubmit,
         reset,
         setValue,
+        getValues,
+        watch,
         control,
         formState: { errors },
     } = useForm<lowonganFormData>({
         resolver: zodResolver(lowongan),
     });
+
+    // GET ONE SLUG
+    // Integrasi API
+    const { slug } = useParams();
+    const { data: dataLowongan } = useGetLowonganGetSlug(slug as string);
+
+    useEffect(() => {
+        if (dataLowongan?.data) {
+            setValue("title", dataLowongan.data.title ?? '');
+            setValue("category_id", dataLowongan.data.category_id ?? '');
+            setValue("gender", dataLowongan.data.gender ?? '');
+            setValue("maxAge", dataLowongan.data.maxAge ?? '');
+            setValue("jobType", dataLowongan.data.jobType ?? '');
+            setValue("workLocation", dataLowongan.data.workLocation ?? '');
+            // 
+            const skillList = Array.isArray(dataLowongan.data.Skills)
+                ? dataLowongan.data.Skills.map(item => item.id)
+                : [];
+            setValue("skills", skillList ?? '');
+            setValue("minExperience", dataLowongan.data.minExperience ?? '');
+            // 
+            const educationList = Array.isArray(dataLowongan.data.EducationLevels)
+                ? dataLowongan.data.EducationLevels.map(item => item.VacancyEducationLevel.educationLevel_id)
+                : [];
+            setValue("educationLevels", educationList ?? '');
+            setValue("salary", dataLowongan.data.salary ?? '');
+            setValue("workingHour", dataLowongan.data.workingHour ?? '');
+            setValue("workingDay", dataLowongan.data.workingDay ?? '');
+            setValue("applicationDeadline", dataLowongan.data.applicationDeadline ?? '');
+            setValue("status", dataLowongan.data.isPublished ?? '');
+            setValue("location", dataLowongan.data.location ?? '');
+            setValue("desc", dataLowongan.data.desc ?? '');
+            setValue("responsibility", dataLowongan.data.responsibility ?? '');
+            setValue("requirement", dataLowongan.data.requirement ?? '');
+        }
+    }, [dataLowongan, setValue]);
+
+    const handleDeskChange = (content: string) => {
+        setValue('desc', content); // Update form value when editor content changes
+    };
+    const handleRequirementChange = (content: string) => {
+        setValue('requirement', content); // Update form value when editor content changes
+    };
+    const handleResponsibilityChange = (content: string) => {
+        setValue('responsibility', content); // Update form value when editor content changes
+    };
+    // GET ONE SLUG
 
     // 
     const [loading, setLoading] = useState(false);
@@ -114,15 +161,15 @@ const EditLowongan = () => {
     const onSubmit: SubmitHandler<lowonganFormData> = async (data) => {
         setLoading(true); // Set loading to true when the form is submitted
         try {
-            await axiosPrivate.post("/vacancy/create", data);
+            await axiosPrivate.put(`/vacancy/update/${slug}`, data);
             console.log(data)
-            showAlert('success', 'Data berhasil ditambahkan!');
+            showAlert('success', 'Data berhasil diperbarui!');
             // Success alert
 
             navigate.push("/instansi-disnaker/lowongan-pekerjaan");
         } catch (error: any) {
             // Extract error message from API response
-            const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal menambahkan data!';
+            const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal memperbarui data!';
             showAlert('error', errorMessage);
             //   alert
 
@@ -170,8 +217,8 @@ const EditLowongan = () => {
                                         label="Pilih Kategori"
                                         options={kategoriOptions}
                                         placeholder="Pilih Kategori"
-                                        value={field.value}
-                                        onChange={(option) => field.onChange(option || '')}
+                                        value={String(watch('category_id')) || ''}
+                                        onChange={(value) => setValue("category_id", Number(value))}
                                         width={`w-full ${errors.category_id ? 'border-red-500' : ''}`}
                                     />
                                 )}
@@ -419,7 +466,8 @@ const EditLowongan = () => {
                             <div className="text-editor bg-white border border-[#D9D9D9] rounded-lg overflow-hidden">
                                 <ReactQuill
                                     className='h-[250px] overflow-auto'
-                                    onChange={(value) => setValue('desc', value)}
+                                    value={getValues('desc')} 
+                                    onChange={handleDeskChange}
                                 />
                             </div>
                             {errors.desc && (
@@ -435,7 +483,8 @@ const EditLowongan = () => {
                             <div className="text-editor bg-white border border-[#D9D9D9] rounded-lg overflow-hidden">
                                 <ReactQuill
                                     className='h-[250px] overflow-auto'
-                                    onChange={(value) => setValue('responsibility', value)}
+                                    value={getValues('responsibility')} 
+                                    onChange={handleResponsibilityChange}
                                 />
                             </div>
                             {errors.responsibility && (
@@ -451,7 +500,8 @@ const EditLowongan = () => {
                             <div className="text-editor bg-white border border-[#D9D9D9] rounded-lg overflow-hidden">
                                 <ReactQuill
                                     className='h-[250px] overflow-auto'
-                                    onChange={(value) => setValue('requirement', value)}
+                                    value={getValues('requirement')} 
+                                    onChange={handleRequirementChange}
                                 />
                             </div>
                             {errors.requirement && (

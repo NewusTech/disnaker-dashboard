@@ -56,7 +56,7 @@ const Lowongan = () => {
     return (
         <div>
             <Breadcrumb items={breadcrumbItems} />
-            <div className="mt-3 flex gap-3 items-center">
+            <div className="mt-3 flex gap-5 items-center">
                 <Input
                     placeholder="Pencarian Lowongan"
                     leftIcon={<SearchIcon />}
@@ -73,7 +73,7 @@ const Lowongan = () => {
                 />
                 <Link
                     href="/instansi-disnaker/lowongan-pekerjaan/tambah"
-                    className="flex flex-shrink-0 gap-2 items-center px-5 py-3 bg-primary hover:bg-primary/80 rounded-lg transition ease-in-out delay-150 hover:-translate-y-1 w-fit text-white">
+                    className="flex flex-shrink-0 gap-2 items-center px-5 py-2.5 bg-primary hover:bg-primary/80 rounded-full transition ease-in-out delay-150 hover:-translate-y-1 w-fit text-white">
                     <Tambah />
                     Tambah Lowongan
                 </Link>

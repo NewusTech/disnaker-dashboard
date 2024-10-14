@@ -282,7 +282,7 @@ interface VacancyData {
   workLocation: string;
   isPublished: string;
   applicationDeadline: string;
-  salary: string;
+  salary: number;
   createdAt: string;
   updatedAt: string;
   Company: CompanyData;
