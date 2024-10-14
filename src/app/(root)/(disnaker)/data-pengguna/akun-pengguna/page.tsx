@@ -10,6 +10,7 @@ import PaginationTable from '@/components/PaginationTable';
 import DataTable from '@/components/Disnaker/DataPengguna/AkunPengguna';
 import Link from 'next/link';
 import Tambah from '../../../../../../public/assets/icons/Tambah';
+import { useGetUserAll } from '@/api';
 
 const DataPengguna = () => {
     const breadcrumbItems = [
@@ -22,63 +23,35 @@ const DataPengguna = () => {
     const [selectedValue, setSelectedValue] = useState<string | undefined>(undefined);
     const statusOptions = [
         { label: "Semua", value: "semua" },
-        { label: "Aktif", value: "aktif" },
-        { label: "Tidak Aktif", value: "tidak aktif" },
+        { label: "Aktif", value: "active" },
+        { label: "Tidak Aktif", value: "unactive" },
     ];
     // select
 
-    // Dummy data
-    const dummyData = [
-        {
-            no: 1,
-            nama: "John Doe",
-            nik: "123456789",
-            email: "john@example.com",
-            noTelepon: "087453453453",
-            status: "aktif",
-        },
-        {
-            no: 2,
-            nama: "Jane Smith",
-            nik: "987654321",
-            email: "jane@example.com",
-            noTelepon: "087453453453",
-            status: "Tidak Aktif",
-        },
-        {
-            no: 3,
-            nama: "Michael Johnson",
-            nik: "112233445",
-            email: "michael@example.com",
-            noTelepon: "087453453453",
-            status: "aktif",
-        },
-        {
-            no: 4,
-            nama: "Emily Davis",
-            nik: "998877665",
-            email: "emily@example.com",
-            noTelepon: "087453453453",
-            status: "Tidak Aktif",
-        },
-        {
-            no: 5,
-            nama: "Chris Lee",
-            nik: "556677889",
-            email: "chris@example.com",
-            noTelepon: "087453453453",
-            status: "aktif",
-        },
-    ];
-    // 
     // Define table headers
     const tableHeaders = ["No", "Nama", "NIK", "Email", "No Telepon", "Status", "Aksi"];
-    // pagination
-    const [currentPage, setCurrentPage] = useState(3);
+
+    // Ensure statusLowongan is always a string
+    const status = selectedValue === "semua" ? "" : selectedValue || ""; // Default to empty string if undefined
+    // select
+
+    // Pagination state
+    const [currentPage, setCurrentPage] = useState(1);
     const onPageChange = (page: number) => {
         setCurrentPage(page)
     };
-    // pagination
+
+    // serach
+    const [search, setSearch] = useState("");
+    const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSearch(event.target.value);
+        setCurrentPage(1); // Reset to page 1
+    };
+    // serach
+
+    // INTEGRASI
+    const { data } = useGetUserAll(currentPage, search, status);
+    // INTEGRASI
 
 
     return (
@@ -88,6 +61,8 @@ const DataPengguna = () => {
                 <Input
                     placeholder='Pencarian'
                     leftIcon={<SearchIcon />}
+                    value={search}
+                    onChange={handleSearchChange}
                 />
                 <CustomSelect
                     label="Status Akun"
@@ -108,15 +83,18 @@ const DataPengguna = () => {
             <div className="Table mt-3">
                 <DataTable
                     headers={tableHeaders}
-                    data={dummyData}
+                    data={data?.data}
+                    currentPage={currentPage}
+                    search={search}
+                    status={status}
                 />
             </div>
             {/* table */}
             {/* pagination */}
             <div className="pagi flex items-center justify-center pb-5 lg:pb-0">
                 <PaginationTable
-                    currentPage={1}
-                    totalPages={15}
+                    currentPage={currentPage}
+                    totalPages={data?.pagination?.totalPages as number}
                     onPageChange={onPageChange}
                 />
             </div>

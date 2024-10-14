@@ -10,6 +10,7 @@ import PaginationTable from '@/components/PaginationTable';
 import Link from 'next/link';
 import Tambah from '../../../../../../public/assets/icons/Tambah';
 import DataTable from '@/components/Disnaker/DataPengguna/AkunInstansi';
+import { useGetInstansiAll } from '@/api';
 
 const DataInstansi = () => {
     const breadcrumbItems = [
@@ -22,64 +23,36 @@ const DataInstansi = () => {
     const [selectedValue, setSelectedValue] = useState<string | undefined>(undefined);
     const statusOptions = [
         { label: "Semua", value: "semua" },
-        { label: "Aktif", value: "aktif" },
-        { label: "Tidak Aktif", value: "tidak aktif" },
+        { label: "Aktif", value: "active" },
+        { label: "Tidak Aktif", value: "unactive" },
     ];
     // select
-
-    // Dummy data
-    const dummyData = [
-        {
-            no: 1,
-            nama: "PT. Rhino Tech",
-            email: "rhino@mail.com",
-            kategori: "teknologi",
-            jumlah: "234",
-            status: "aktif",
-        },
-        {
-            no: 2,
-            nama: "CV. Mandiri Sejahtera",
-            email: "mandiri@mail.com",
-            kategori: "perdagangan",
-            jumlah: "123",
-            status: "tidak aktif",
-        },
-        {
-            no: 3,
-            nama: "UD. Sumber Jaya",
-            email: "sumberjaya@mail.com",
-            kategori: "kontraktor",
-            jumlah: "23",
-            status: "tidak aktif",
-        },
-        {
-            no: 4,
-            nama: "PT. Bumi Lestari",
-            email: "bumilestari@mail.com",
-            kategori: "pertanian",
-            jumlah: "45",
-            status: "aktif",
-        },
-        {
-            no: 5,
-            nama: "Yayasan Kesehatan",
-            email: "yayasan@mail.com",
-            kategori: "sosial",
-            jumlah: "142",
-            status: "aktif",
-        },
-    ];
 
     // 
     // Define table headers
     const tableHeaders = ["No", "Nama Instansi", "Email", "Kategori Instansi", "Jumlah Karyawan", "Status", "Aksi"];
-    // pagination
-    const [currentPage, setCurrentPage] = useState(3);
+
+    // Ensure statusLowongan is always a string
+    const status = selectedValue === "semua" ? "" : selectedValue || ""; // Default to empty string if undefined
+    // select
+
+    // Pagination state
+    const [currentPage, setCurrentPage] = useState(1);
     const onPageChange = (page: number) => {
         setCurrentPage(page)
     };
-    // pagination
+
+    // serach
+    const [search, setSearch] = useState("");
+    const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSearch(event.target.value);
+        setCurrentPage(1); // Reset to page 1
+    };
+    // serach
+
+    // INTEGRASI
+    const { data } = useGetInstansiAll(currentPage, search, status);
+    // INTEGRASI
 
 
     return (
@@ -89,6 +62,8 @@ const DataInstansi = () => {
                 <Input
                     placeholder='Pencarian'
                     leftIcon={<SearchIcon />}
+                    value={search}
+                    onChange={handleSearchChange}
                 />
                 <CustomSelect
                     label="Status Akun"
@@ -109,15 +84,18 @@ const DataInstansi = () => {
             <div className="Table mt-3">
                 <DataTable
                     headers={tableHeaders}
-                    data={dummyData}
+                    data={data?.data}
+                    currentPage={currentPage}
+                    search={search}
+                    status={status}
                 />
             </div>
             {/* table */}
             {/* pagination */}
             <div className="pagi flex items-center justify-center pb-5 lg:pb-0">
                 <PaginationTable
-                    currentPage={1}
-                    totalPages={15}
+                    currentPage={currentPage}
+                    totalPages={data?.pagination?.totalPages as number}
                     onPageChange={onPageChange}
                 />
             </div>
