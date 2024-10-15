@@ -805,7 +805,65 @@ const useGetLamaranDisnaker = (currentPage: number, search: string, status: stri
   };
 };
 
+// Hook to fetch Berita
+const useGetBerita = (currentPage: number, search: string, status: string) => {
+  const [accessToken] = useLocalStorage("accessToken", "");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } = useSWR(
+    `/artikel/get?page=${currentPage}&limit=10&search=${search}&status=${status}`,
+    () =>
+      axiosPrivate
+        .get(
+          `/artikel/get?page=${currentPage}&limit=10&search=${search}&status=${status}`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        )
+        .then((res) => res.data) // Ensure `res.data` contains the desired data
+  );
+
+  return {
+    data,
+    error,
+    mutate,
+    isValidating,
+    isLoading,
+  };
+};
+
+// get id berita
+const useGetBeritaGetSlug = (slug: string) => {
+  const [accessToken] = useLocalStorage("accessToken", "");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } =
+    useSWR(
+      `/artikel/get/${slug}`,
+      () =>
+        axiosPrivate
+          .get(`/artikel/get/${slug}`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
+          .then((res) => res.data) // Ensure `res.data` contains the desired data
+    );
+
+  return {
+    data,
+    error,
+    mutate,
+    isValidating,
+    isLoading,
+  };
+};
+
 export {
+  useGetBeritaGetSlug,
+  useGetBerita,
   useGetLamaranDisnaker,
   useGetLaporanDisnaker,
   useGetEventGetId,

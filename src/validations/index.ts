@@ -411,7 +411,7 @@ export const konsultasiEdit = z
     desc: z
       .string()
       .min(1, { message: "Jawaban tidak boleh kosong!" }),
-      image: z
+    image: z
       .instanceof(File).optional()
       .refine(file => !file || file.size > 0, { message: 'Gambar wajib diisi!' }),
   })
@@ -452,4 +452,44 @@ export const kelolaRole = z
   .required();
 // Convert Zod schema to TypeScript type
 export type kelolaRoleFormData = z.infer<typeof kelolaRole>;
+
+// Berita
+export const berita = z
+  .object({
+    title: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }),
+    kategori_id: z
+      .string({
+        required_error: "Jawaban tidak boleh kosong!"
+      }),
+    desc: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }),
+    image: z.
+      instanceof(File).refine(file => file.size > 0, { message: 'Gambar wajib diisi' }),
+  })
+  .required();
+// Convert Zod schema to TypeScript type
+export type beritaFormData = z.infer<typeof berita>;
+
+// Berita Edit
+export const beritaEdit = z
+  .object({
+    title: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }),
+    kategori_id: z
+      .string({
+        required_error: "Jawaban tidak boleh kosong!"
+      }),
+    desc: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }),
+    image: z
+      .instanceof(File).optional()
+      .refine(file => !file || file.size > 0, { message: 'Gambar wajib diisi!' }),
+  })
+// Convert Zod schema to TypeScript type
+export type beritaEditFormData = z.infer<typeof beritaEdit>;
 

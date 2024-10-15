@@ -26,6 +26,7 @@ import InstansiIcon from "../../../public/assets/icons/InstansiIcon";
 import InsDashboard from "../../../public/assets/icons/InsDashboard";
 import KelolaIcon from "../../../public/assets/icons/KelolaIcon";
 import InformasiIcon from "../../../public/assets/icons/InformasiIcon";
+import BeritaIcon from "../../../public/assets/icons/BeritaIcon";
 
 
 interface LayoutPerusahaanProps {
@@ -284,6 +285,21 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                                             <LaporanDinasIcon />
                                         </div>
                                         Laporan Disnaker
+                                    </Link>
+                                </AccordionItem>
+                                {/* laporan */}
+                                {/* berita */}
+                                <AccordionItem className="" value="item-3">
+                                    <Link
+                                        href="/berita"
+                                        className={`nav hover:pl-10 duration-200 transition-all flex pr-4 text-[16px] items-center gap-[12px] mb-2 rounded-[8px] py-[10px] px-[24px] ${pathname.startsWith("/berita")
+                                            ? "bg-white text-primary"
+                                            : "bg-transparent text-white"
+                                            }`} >
+                                        <div className="w-[35px]">
+                                            <BeritaIcon />
+                                        </div>
+                                        Berita
                                     </Link>
                                 </AccordionItem>
                                 {/* laporan */}
