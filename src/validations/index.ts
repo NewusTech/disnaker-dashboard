@@ -159,49 +159,141 @@ export const pelatihan = z
 // Convert Zod schema to TypeScript type
 export type pelatihanFormData = z.infer<typeof pelatihan>;
 
-// Sertifikasi
-export const sertifikasi = z
+// Pelatihan Edit
+export const pelatihanEdit = z
   .object({
-    judul_sertifikasi: z
+    title: z
       .string()
       .min(1, { message: "Jawaban tidak boleh kosong!" }),
-    kategori: z
+    category_id: z
       .string({
         required_error: "Jawaban tidak boleh kosong!"
       }),
-    tempat: z
+    location: z
       .string()
       .min(1, { message: "Jawaban tidak boleh kosong!" }),
-    kuota_peserta: z
+    quota: z
+      .preprocess((val) => Number(val), z.number()
+      .min(1, { message: "Jawaban tidak boleh kosong!" })),
+    startDate: z
       .string()
       .min(1, { message: "Jawaban tidak boleh kosong!" }),
-    tanggal_mulai: z
+    endDate: z
       .string()
       .min(1, { message: "Jawaban tidak boleh kosong!" }),
-    tanggal_selesai: z
+    time: z
       .string()
       .min(1, { message: "Jawaban tidak boleh kosong!" }),
-    jam: z
+    linkModule: z
       .string()
       .min(1, { message: "Jawaban tidak boleh kosong!" }),
-    no_wa: z
+    phoneNumber: z
       .string()
       .min(1, { message: "Jawaban tidak boleh kosong!" }),
     level: z
       .string()
       .min(1, { message: "Jawaban tidak boleh kosong!" }),
-    link: z
+    regisLink: z
       .string()
       .min(1, { message: "Jawaban tidak boleh kosong!" }),
-    deskripsi: z
+    desc: z
       .string()
       .min(1, { message: "Jawaban tidak boleh kosong!" }),
-    banner: z.
+    image: z
+      .instanceof(File).optional()
+      .refine(file => !file || file.size > 0, { message: 'Gambar wajib diisi!' }),
+  });
+// Convert Zod schema to TypeScript type
+export type pelatihanEditFormData = z.infer<typeof pelatihanEdit>;
+
+// Sertifikasi
+export const sertifikasi = z
+  .object({
+    title: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }),
+    category_id: z
+      .string({
+        required_error: "Jawaban tidak boleh kosong!"
+      }),
+    location: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }),
+    quota: z
+      .preprocess((val) => Number(val), z.number()
+      .min(1, { message: "Jawaban tidak boleh kosong!" })),
+    startDate: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }),
+    endDate: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }),
+    time: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }),
+    phoneNumber: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }),
+    level: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }),
+    regisLink: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }),
+    desc: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }),
+    image: z.
       instanceof(File).refine(file => file.size > 0, { message: 'Gambar wajib diisi' }),
   })
   .required();
 // Convert Zod schema to TypeScript type
 export type sertifikasiFormData = z.infer<typeof sertifikasi>;
+
+// Sertifikasi Edit
+export const sertifikasiEdit = z
+  .object({
+    title: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }), // Wajib
+    category_id: z
+      .string({
+        required_error: "Jawaban tidak boleh kosong!",
+      }), // Wajib
+    location: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }), // Wajib
+    quota: z
+      .preprocess((val) => Number(val), z.number()
+      .min(1, { message: "Jawaban tidak boleh kosong!" })), // Wajib
+    startDate: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }), // Wajib
+    endDate: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }), // Wajib
+    time: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }), // Wajib
+    phoneNumber: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }), // Wajib
+    level: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }), // Wajib
+    regisLink: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }), // Wajib
+    desc: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }), // Wajib
+    image: z
+    .instanceof(File).optional()
+    .refine(file => !file || file.size > 0, { message: 'Gambar wajib diisi!' }),
+  });
+
+// Convert Zod schema to TypeScript type
+export type sertifikasiEditFormData = z.infer<typeof sertifikasiEdit>;
 
 // Konsultasi
 export const konsultasi = z

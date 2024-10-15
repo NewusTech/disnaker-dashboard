@@ -111,7 +111,17 @@ const Pelatihan: React.FC<TrainingResponse> = ({ data }) => {
                             <ProfileDetail label="Jam Mulai" value={data?.time ?? "-"} />
                             <div className="left w-1/2">
                                 <div className="label text-sm text-[#3D3D3D]/70">Link Materi/Modul</div>
-                                <Link target="blank" href={data?.linkModule ?? "-"} className="teks text-[#3D3D3D] hover:text-primary underline">Klik Disini!!</Link>
+                                <Link
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    href={`${data?.linkModule?.startsWith('http://') || data?.linkModule?.startsWith('https://')
+                                        ? data?.linkModule
+                                        : `https://${data?.linkModule}`
+                                        }`}
+                                    className="teks text-[#3D3D3D] hover:text-primary underline"
+                                >
+                                    Klik Disini!!
+                                </Link>
                             </div>
                         </div>
                         <div className="wrap flex gap-1 px-1">
@@ -122,7 +132,17 @@ const Pelatihan: React.FC<TrainingResponse> = ({ data }) => {
                             <ProfileDetail label="Nomor Whatsapp" value={data?.phoneNumber ?? "-"} />
                             <div className="left w-1/2">
                                 <div className="label text-sm text-[#3D3D3D]/70">Link Pendaftaran</div>
-                                <Link target="blank" href={data?.regisLink ?? "-"} className="teks text-[#3D3D3D] hover:text-primary underline">Klik Disini!!</Link>
+                                <Link
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    href={`${data?.regisLink?.startsWith('http://') || data?.regisLink?.startsWith('https://')
+                                        ? data?.regisLink
+                                        : `https://${data?.regisLink}`
+                                        }`}
+                                    className="teks text-[#3D3D3D] hover:text-primary underline"
+                                >
+                                    Klik Disini!!
+                                </Link>
                             </div>
                         </div>
                     </div>

@@ -13,7 +13,7 @@ import Label from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import Loading from '@/components/ui/Loading';
-import { pelatihanFormData, pelatihan } from '@/validations';
+import { pelatihanEdit, pelatihanEditFormData } from '@/validations';
 import { CustomSelect } from '@/components/SelectCustom';
 import 'react-quill/dist/quill.snow.css';
 import Image from 'next/image';
@@ -57,8 +57,8 @@ const EditPelatihan = () => {
         getValues,
         control,
         formState: { errors },
-    } = useForm<pelatihanFormData>({
-        resolver: zodResolver(pelatihan),
+    } = useForm<pelatihanEditFormData>({
+        resolver: zodResolver(pelatihanEdit),
     });
 
     // GET ONE SLUG
@@ -70,24 +70,30 @@ const EditPelatihan = () => {
 
     useEffect(() => {
         if (dataUser?.data) {
-            setValue("title", dataUser?.data?.title ?? '');
-            setValue("category_id", dataUser?.data?.category_id ?? '');
-            setValue("desc", dataUser?.data?.desc ?? '');
-            setValue("location", dataUser?.data?.location ?? '');
-            setValue("quota", dataUser?.data?.quota ?? '');
-            setValue("startDate", dataUser?.data?.startDate ?? '');
-            setValue("endDate", dataUser?.data?.endDate ?? '');
-            setValue("time", dataUser?.data?.time ?? '');
-            setValue("linkModule", dataUser?.data?.linkModule ?? '');
-            setValue("phoneNumber", dataUser?.data?.phoneNumber ?? '');
-            setValue("level", dataUser?.data?.level ?? '');
-            setValue("regisLink", dataUser?.data?.regisLink ?? '');
-            setValue("desc", dataUser?.data?.desc ?? '');
-            if (dataUser?.data?.image) {
-                setImagePreview(dataUser?.data?.image);
-            }
+            const timer = setTimeout(() => {
+                setValue("title", dataUser?.data?.title ?? '');
+                setValue("category_id", dataUser?.data?.category_id ?? '');
+                setValue("desc", dataUser?.data?.desc ?? '');
+                setValue("location", dataUser?.data?.location ?? '');
+                setValue("quota", dataUser?.data?.quota ?? '');
+                setValue("startDate", dataUser?.data?.startDate ?? '');
+                setValue("endDate", dataUser?.data?.endDate ?? '');
+                setValue("time", dataUser?.data?.time ?? '');
+                setValue("linkModule", dataUser?.data?.linkModule ?? '');
+                setValue("phoneNumber", dataUser?.data?.phoneNumber ?? '');
+                setValue("level", dataUser?.data?.level ?? '');
+                setValue("regisLink", dataUser?.data?.regisLink ?? '');
+                setValue("desc", dataUser?.data?.desc ?? '');
+    
+                if (dataUser?.data?.image) {
+                    setImagePreview(dataUser?.data?.image);
+                }
+            }, 1000); // Delay in milliseconds (1000 ms = 1 second)
+    
+            return () => clearTimeout(timer); // Clean up timeout on component unmount or when dataUser changes
         }
     }, [dataUser, setValue]);
+    
 
     const handleDeskChange = (content: string) => {
         setValue('desc', content); // Update form value when editor content changes
@@ -111,7 +117,7 @@ const EditPelatihan = () => {
     const [accessToken] = useLocalStorage("accessToken", "");
     const axiosPrivate = useAxiosPrivate();
 
-    const onSubmit: SubmitHandler<pelatihanFormData> = async (data) => {
+    const onSubmit: SubmitHandler<pelatihanEditFormData> = async (data) => {
         setLoading(true); // Set loading to true when the form is submitted
         const formData = new FormData();
         formData.append('title', data.title);
@@ -126,8 +132,10 @@ const EditPelatihan = () => {
         formData.append('level', data.level);
         formData.append('regisLink', data.regisLink);
         formData.append('desc', data.desc);
-        formData.append('image', data.image);
-
+        // Memeriksa jika image ada sebelum menambahkannya ke formData
+        if (data.image) {
+            formData.append('image', data.image);
+        }
 
         try {
             await axiosPrivate.put(`/training/update/${id}`, formData, {

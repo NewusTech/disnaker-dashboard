@@ -6,24 +6,39 @@ import Link from "next/link";
 import { useState } from "react";
 
 // Define the structure of the data props
-interface SertifikasiProps {
-    data: {
-        judul: string;
-        namaInstansi: string;
-        kuotaPeserta: string;
-        level: string;
-        noWA: string;
-        modul: string;
-        tanggalBuat: string;
-        banner: string;
-        deskripsi: string;
-        tempat: string;
-        jam: string;
-        tanggalMulai: string;
-        tanggalSelesai: string;
-        kategori: string;
-        link: string;
-    };
+interface Company {
+    id: number;
+    name: string;
+}
+
+interface VacancyCategory {
+    id: number;
+    name: string;
+}
+
+interface Certification {
+    id: number;
+    company_id: number;
+    category_id: number;
+    title: string;
+    desc: string;
+    location: string;
+    quota: number;
+    startDate: string;
+    endDate: string;
+    time: string;
+    phoneNumber: string;
+    level: string;
+    regisLink: string;
+    image: string;
+    createdAt: string;
+    updatedAt: string;
+    Company: Company;
+    VacancyCategory: VacancyCategory;
+}
+
+interface CertificationResponse {
+    data: Certification;
 }
 
 interface ProfileInfo {
@@ -38,7 +53,7 @@ const ProfileDetail: React.FC<ProfileInfo> = ({ label, value }) => (
     </div>
 );
 
-const Sertifikasi: React.FC<SertifikasiProps> = ({ data }) => {
+const Sertifikasi: React.FC<CertificationResponse> = ({ data }) => {
     const [isModalOpenSertifikasi, setIsModalOpenSertifikasi] = useState(false);
     const openModalSertifikasi = () => setIsModalOpenSertifikasi(true);
     const closeModalSertifikasi = () => setIsModalOpenSertifikasi(false);
@@ -47,12 +62,14 @@ const Sertifikasi: React.FC<SertifikasiProps> = ({ data }) => {
         <div>
             {/* Detail */}
             <div className="head flex flex-col gap-3">
-                <div className="title text-xl font-semibold">{data.judul}</div>
-                <div className="date text-[#3D3D3DB2]/70">{data.tanggalBuat}</div>
+                <div className="title text-xl font-semibold">{data?.title ?? "-"}</div>
+                <div className="date text-[#3D3D3DB2]/70">
+                    {data?.createdAt ? new Date(data?.createdAt).toISOString().split('T')[0] : '-'}
+                </div>
                 <div className="foto ">
                     <div className="w-full h-[400px] rounded-lg overflow-hidden cursor-pointer" onClick={openModalSertifikasi}>
                         <Image
-                            src={data.banner}
+                            src={data?.image}
                             alt="Foto User"
                             className="object-cover w-full h-full"
                             width={800}
@@ -62,7 +79,10 @@ const Sertifikasi: React.FC<SertifikasiProps> = ({ data }) => {
                     </div>
                 </div>
                 <div className="Deksripsi mt-4">
-                    {data.deskripsi}
+                    <div
+                        className="prose max-w-none text-justify"
+                        dangerouslySetInnerHTML={{ __html: data?.desc || "Tidak Ada Deskripsi" }}
+                    />
                 </div>
             </div>
             <Garis />
@@ -71,29 +91,39 @@ const Sertifikasi: React.FC<SertifikasiProps> = ({ data }) => {
                 <div className="wrap flex flex-col gap-4">
                     <div className="konten flex flex-col gap-4">
                         <div className="wrap flex gap-1 px-1">
-                            <ProfileDetail label="Judul Pelatihan" value={data.judul} />
-                            <ProfileDetail label="Kategori" value={data.kategori} />
+                            <ProfileDetail label="Judul Pelatihan" value={data?.title ?? "-"} />
+                            <ProfileDetail label="Kategori" value={data?.VacancyCategory?.name ?? "-"} />
                         </div>
                         <div className="wrap flex gap-1 px-1">
-                            <ProfileDetail label="Nama Instansi" value={data.namaInstansi} />
-                            <ProfileDetail label="Kuota Peserta" value={data.kuotaPeserta} />
+                            <ProfileDetail label="Nama Instansi" value={data?.Company?.name ?? "-"} />
+                            <ProfileDetail label="Kuota Peserta" value={data?.quota?.toString() ?? "-"} />
                         </div>
                         <div className="wrap flex gap-1 px-1">
-                            <ProfileDetail label="Tanggal Mulai" value={data.tanggalMulai} />
-                            <ProfileDetail label="Tanggal Selesai" value={data.tanggalSelesai} />
+                            <ProfileDetail label="Tanggal Mulai" value={data?.startDate ?? "-"} />
+                            <ProfileDetail label="Tanggal Selesai" value={data?.endDate ?? "-"} />
                         </div>
                         <div className="wrap flex gap-1 px-1">
-                            <ProfileDetail label="Jam Mulai" value={data.jam} />
-                            <ProfileDetail label="Level" value={data.level} />
+                            <ProfileDetail label="Jam Mulai" value={data?.time ?? "-"} />
+                            <ProfileDetail label="Level" value={data?.level ?? "-"} />
                         </div>
                         <div className="wrap flex gap-1 px-1">
-                            <ProfileDetail label="Tempat" value={data.tempat} />
-                            <ProfileDetail label="Nomor Whatsapp" value={data.noWA} />
+                            <ProfileDetail label="Tempat" value={data?.location ?? "-"} />
+                            <ProfileDetail label="Nomor Whatsapp" value={data?.phoneNumber ?? "-"} />
                         </div>
                         <div className="wrap flex gap-1 px-1">
                             <div className="left w-1/2">
                                 <div className="label text-sm text-[#3D3D3D]/70">Link Pendaftaran</div>
-                                <Link target="blank" href={data.link} className="teks text-[#3D3D3D] hover:text-primary underline">Klik Disini!!</Link>
+                                <Link
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    href={`${data?.regisLink?.startsWith('http://') || data?.regisLink?.startsWith('https://')
+                                            ? data?.regisLink
+                                            : `https://${data?.regisLink}`
+                                        }`}
+                                    className="teks text-[#3D3D3D] hover:text-primary underline"
+                                >
+                                    Klik Disini!!
+                                </Link>
                             </div>
                         </div>
                     </div>
@@ -119,7 +149,7 @@ const Sertifikasi: React.FC<SertifikasiProps> = ({ data }) => {
                         </button>
                         <div className="flex justify-center items-center">
                             <Image
-                                src={data.banner}
+                                src={data?.image ?? "-"}
                                 alt={`Full-size photo of user`}
                                 className="object-cover"
                                 width={800}

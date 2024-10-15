@@ -1,25 +1,25 @@
-"use client";
+"use client"
 import React from 'react';
 import Breadcrumb from '@/components/BreadCrumb';
 import BackIcon from '../../../../../../../../public/assets/icons/BackIcon';
 import Link from 'next/link';
 import Garis from '@/components/ui/garis';
-import Pelatihan from '@/components/Disnaker/Ketenagakerjaan/Pelatihan/Detail';
+import Sertifikasi from '@/components/Disnaker/Ketenagakerjaan/Sertifikasi/Detail';
 import BreadInformasi from '../../../../../../../../public/assets/icons/BreadInformasi';
-import { useParams } from 'next/navigation';
-import { useGetPelatihanGetId } from '@/api';
 import LoadingPage from '@/components/ui/LoadingPage';
+import { useParams } from 'next/navigation';
+import { useGetSertifikasiGetId } from '@/api';
 
 const Detail: React.FC = () => {
     const breadcrumbItems = [
         { label: 'Ketenagakerjaan', logo: <BreadInformasi /> },
-        { label: 'Pelatihan', href: "/layanan-ketenagakerjaan/pelatihan" },
+        { label: 'Sertifikasi', href:"/layanan-ketenagakerjaan/sertifikasi" },
         { label: 'Detail' },
     ];
 
     // Integrasi API
     const { id } = useParams();
-    const { data, isLoading, error } = useGetPelatihanGetId(id as string);
+    const { data, isLoading, error } = useGetSertifikasiGetId(id as string);
 
     if (isLoading) {
         return <div >
@@ -30,21 +30,23 @@ const Detail: React.FC = () => {
     if (error) {
         return <div className="text-center mt-10 text-red-500">Failed to load data</div>;
     }
+    
 
     return (
         <div>
             {/* Top */}
             <Breadcrumb items={breadcrumbItems} />
             <Link
-                href="/layanan-ketenagakerjaan/pelatihan"
-                className="flex gap-2 items-center mt-5 px-5 py-3 bg-primary rounded-full transition ease-in-out delay-150 hover:-translate-y-1 w-fit text-white"
+                href="/layanan-ketenagakerjaan/sertifikasi"
+                className="flex gap-2 items-center mt-5 px-5 py-2.5 bg-primary rounded-full transition ease-in-out delay-150 hover:-translate-y-1 w-fit text-white"
             >
                 <BackIcon />
                 Kembali
             </Link>
             <Garis />
+            {/* Top */}
             {/* Detail */}
-            <Pelatihan data={data?.data} />
+            <Sertifikasi data={data?.data} />
             {/* Detail */}
         </div>
     );

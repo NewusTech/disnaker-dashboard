@@ -30,56 +30,6 @@ const Pelatihan = () => {
     ];
     // select
 
-    // Dummy data
-    const dummyData = [
-        {
-            no: 1,
-            namaInstansi: "CV. Creative Digital",
-            judulPelatihan: "Pelatihan Marketing",
-            kategori: "Marketing",
-            tanggalMulai: "23 Desember 2023",
-            tanggalSelesai: "26 Desember 2023",
-            kuotaPeserta: "54",
-        },
-        {
-            no: 2,
-            namaInstansi: "PT. Teknologi Cerdas",
-            judulPelatihan: "Pelatihan Pengembangan Aplikasi",
-            kategori: "IT",
-            tanggalMulai: "15 Januari 2024",
-            tanggalSelesai: "20 Januari 2024",
-            kuotaPeserta: "30",
-        },
-        {
-            no: 3,
-            namaInstansi: "Lembaga Pendidikan ABC",
-            judulPelatihan: "Pelatihan Desain Grafis",
-            kategori: "Desain",
-            tanggalMulai: "5 Februari 2024",
-            tanggalSelesai: "10 Februari 2024",
-            kuotaPeserta: "40",
-        },
-        {
-            no: 4,
-            namaInstansi: "Yayasan Ilmu Digital",
-            judulPelatihan: "Pelatihan Keuangan dan Akuntansi",
-            kategori: "Keuangan",
-            tanggalMulai: "18 Maret 2024",
-            tanggalSelesai: "22 Maret 2024",
-            kuotaPeserta: "25",
-        },
-        {
-            no: 5,
-            namaInstansi: "PT. Solusi Kreatif",
-            judulPelatihan: "Pelatihan Manajemen Proyek",
-            kategori: "Manajemen",
-            tanggalMulai: "10 April 2024",
-            tanggalSelesai: "14 April 2024",
-            kuotaPeserta: "35",
-        },
-    ];
-
-    // 
     // Define table headers
     const tableHeaders = ["No", "Nama Instansi", "Judul Pelatihan", "Kategori", "Tanggal Mulai", "Tanggal Selesai", "Kuota Peserta", "Aksi"];
 
