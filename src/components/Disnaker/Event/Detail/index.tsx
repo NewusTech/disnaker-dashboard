@@ -5,19 +5,32 @@ import Link from "next/link";
 import { useState } from "react";
 
 // Define the structure of the data props
-interface EventProps {
-    data: {
-        judul: string;
-        tanggalBuat: string;
-        banner: string;
-        deskripsi: string;
-        tempat: string;
-        jam: string;
-        tanggalMulai: string;
-        tanggalSelesai: string;
-        kategori: string;
-        link: string;
-    };
+
+interface UserEventResponse {
+    data: UserEvent;
+}
+
+interface UserEvent {
+    id: number;
+    title: string;
+    slug: string;
+    desc: string;
+    category_id: number;
+    image: string;
+    startDate: string; // You can use Date after parsing
+    endDate: string; // You can use Date after parsing
+    regisLink: string;
+    phoneNumber: string;
+    time: string;
+    location: string;
+    createdAt: string; // You can use Date after parsing
+    updatedAt: string; // You can use Date after parsing
+    VacancyCategory: VacancyCategory;
+}
+
+interface VacancyCategory {
+    id: number;
+    name: string;
 }
 
 interface ProfileInfo {
@@ -32,7 +45,7 @@ const ProfileDetail: React.FC<ProfileInfo> = ({ label, value }) => (
     </div>
 );
 
-const Event: React.FC<EventProps> = ({ data }) => {
+const Event: React.FC<UserEventResponse> = ({ data }) => {
     const [isModalOpenEvent, setIsModalOpenEvent] = useState(false);
     const openModalEvent = () => setIsModalOpenEvent(true);
     const closeModalEvent = () => setIsModalOpenEvent(false);
@@ -41,12 +54,14 @@ const Event: React.FC<EventProps> = ({ data }) => {
         <div>
             {/* Detail */}
             <div className="head flex flex-col gap-3">
-                <div className="title text-xl font-semibold">{data.judul}</div>
-                <div className="date text-[#3D3D3DB2]/70">{data.tanggalBuat}</div>
+                <div className="title text-xl font-semibold">{data?.title ?? "-"}</div>
+                <div className="date text-[#3D3D3DB2]/70">
+                    {data?.createdAt ? new Date(data?.createdAt).toISOString().split('T')[0] : '-'}
+                </div>
                 <div className="foto ">
                     <div className="w-full h-[300px] rounded-lg overflow-hidden cursor-pointer" onClick={openModalEvent}>
                         <Image
-                            src={data.banner}
+                            src={data?.image}
                             alt="Foto User"
                             className="object-cover w-full h-full"
                             width={800}
@@ -56,7 +71,10 @@ const Event: React.FC<EventProps> = ({ data }) => {
                     </div>
                 </div>
                 <div className="Deksripsi">
-                    {data.deskripsi}
+                    <div
+                        className="prose max-w-none text-justify"
+                        dangerouslySetInnerHTML={{ __html: data?.desc || "Tidak Ada Deskripsi" }}
+                    />
                 </div>
             </div>
             <div className="wrap-all flex flex-col gap-6 mt-4">
@@ -64,18 +82,28 @@ const Event: React.FC<EventProps> = ({ data }) => {
                 <div className="wrap flex flex-col gap-4">
                     <div className="konten flex flex-col gap-4">
                         <div className="wrap flex gap-1 px-1">
-                            <ProfileDetail label="Tempat" value={data.tempat} />
-                            <ProfileDetail label="Jam" value={data.jam} />
+                            <ProfileDetail label="Tempat" value={data?.location ?? "-"} />
+                            <ProfileDetail label="Jam" value={data?.time ?? "-"} />
                         </div>
                         <div className="wrap flex gap-1 px-1">
-                            <ProfileDetail label="Tanggal Mulai" value={data.tanggalMulai} />
-                            <ProfileDetail label="Tanggal Selesai" value={data.tanggalSelesai} />
+                            <ProfileDetail label="Tanggal Mulai" value={data?.startDate ?? "-"} />
+                            <ProfileDetail label="Tanggal Selesai" value={data?.endDate ?? "-"} />
                         </div>
                         <div className="wrap flex gap-1 px-1">
-                            <ProfileDetail label="Kategori" value={data.kategori} />
+                            <ProfileDetail label="Kategori" value={data?.VacancyCategory.name ?? "-"} />
                             <div className="left w-1/2">
                                 <div className="label text-[#3572EF]">Link Pendaftaran :</div>
-                                <Link target="blank" href={data.link} className="teks text-sm underline">Klik Disini!!</Link>
+                                <Link
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    href={`${data?.regisLink?.startsWith('http://') || data?.regisLink?.startsWith('https://')
+                                        ? data?.regisLink
+                                        : `https://${data?.regisLink}`
+                                        }`}
+                                    className="teks text-[#3D3D3D] hover:text-primary underline"
+                                >
+                                    Klik Disini!!
+                                </Link>
                             </div>
                         </div>
                     </div>
@@ -101,7 +129,7 @@ const Event: React.FC<EventProps> = ({ data }) => {
                         </button>
                         <div className="flex justify-center items-center">
                             <Image
-                                src={data.banner}
+                                src={data?.image}
                                 alt={`Full-size photo of user`}
                                 className="object-cover"
                                 width={800}

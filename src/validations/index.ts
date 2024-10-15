@@ -80,37 +80,78 @@ export type lowonganFormData = z.infer<typeof lowongan>;
 // Event
 export const event = z
   .object({
-    nama_program: z
+    title: z
       .string()
       .min(1, { message: "Jawaban tidak boleh kosong!" }),
-    kategori: z
+    category_id: z
       .string({
         required_error: "Jawaban tidak boleh kosong!"
       }),
-    tanggal_mulai: z
+    location: z
       .string()
       .min(1, { message: "Jawaban tidak boleh kosong!" }),
-    tanggal_selesai: z
+    startDate: z
       .string()
       .min(1, { message: "Jawaban tidak boleh kosong!" }),
-    tempat: z
+    endDate: z
       .string()
       .min(1, { message: "Jawaban tidak boleh kosong!" }),
-    jam: z
+    time: z
       .string()
       .min(1, { message: "Jawaban tidak boleh kosong!" }),
-    link: z
+    phoneNumber: z
       .string()
       .min(1, { message: "Jawaban tidak boleh kosong!" }),
-    deskripsi: z
+    regisLink: z
       .string()
       .min(1, { message: "Jawaban tidak boleh kosong!" }),
-    banner: z.
+    desc: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }),
+    image: z.
       instanceof(File).refine(file => file.size > 0, { message: 'Gambar wajib diisi' }),
   })
   .required();
 // Convert Zod schema to TypeScript type
 export type eventFormData = z.infer<typeof event>;
+
+// Event Edit
+export const eventEdit = z
+  .object({
+    title: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }),
+    category_id: z
+      .string({
+        required_error: "Jawaban tidak boleh kosong!"
+      }),
+    location: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }),
+    startDate: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }),
+    endDate: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }),
+    time: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }),
+    phoneNumber: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }),
+    regisLink: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }),
+    desc: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }),
+    image: z
+      .instanceof(File).optional()
+      .refine(file => !file || file.size > 0, { message: 'Gambar wajib diisi!' }),
+  })
+// Convert Zod schema to TypeScript type
+export type eventEditFormData = z.infer<typeof eventEdit>;
 
 // Pelatihan
 export const pelatihan = z

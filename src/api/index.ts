@@ -691,7 +691,65 @@ const useGetKonsultasiGetId = (id: string) => {
   };
 };
 
+// Hook to fetch Event
+const useGetEvent = (currentPage: number, search: string, status: string) => {
+  const [accessToken] = useLocalStorage("accessToken", "");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } = useSWR(
+    `/event/get?page=${currentPage}&limit=10&search=${search}&status=${status}`,
+    () =>
+      axiosPrivate
+        .get(
+          `/event/get?page=${currentPage}&limit=10&search=${search}&status=${status}`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        )
+        .then((res) => res.data) // Ensure `res.data` contains the desired data
+  );
+
+  return {
+    data,
+    error,
+    mutate,
+    isValidating,
+    isLoading,
+  };
+};
+
+// get id konsultasi
+const useGetEventGetId = (slug: string) => {
+  const [accessToken] = useLocalStorage("accessToken", "");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } =
+    useSWR(
+      `/event/get/${slug}`,
+      () =>
+        axiosPrivate
+          .get(`/event/get/${slug}`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
+          .then((res) => res.data) // Ensure `res.data` contains the desired data
+    );
+
+  return {
+    data,
+    error,
+    mutate,
+    isValidating,
+    isLoading,
+  };
+};
+
 export {
+  useGetEventGetId,
+  useGetEvent,
   useGetKonsultasiGetId,
   useGetKonsultasi,
   useGetSertifikasiGetId,

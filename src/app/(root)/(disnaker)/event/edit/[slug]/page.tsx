@@ -1,42 +1,41 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 import Breadcrumb from '@/components/BreadCrumb'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
-import BackIcon from '../../../../../../public/assets/icons/BackIcon';
+import BackIcon from '../../../../../../../public/assets/icons/BackIcon';
 import HelperError from '@/components/ui/HelperError';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import Label from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import Loading from '@/components/ui/Loading';
-import { event, eventFormData } from '@/validations';
+import { eventEdit, eventEditFormData } from '@/validations';
 import { CustomSelect } from '@/components/SelectCustom';
 import 'react-quill/dist/quill.snow.css';
-import BreadEvent from '../../../../../../public/assets/icons/BreadEvent';
+import BreadEvent from '../../../../../../../public/assets/icons/BreadEvent';
 import Image from 'next/image';
-import { useGetKategoriFilter } from '@/api';
+import { useGetEventGetId, useGetKategoriFilter } from '@/api';
 import useLocalStorage from '@/hooks/useLocalStorage';
 import useAxiosPrivate from '@/hooks/useAxiosPrivate';
 import { showAlert } from '@/lib/swalAlert';
 
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
-const TambahEvent = () => {
-    const [imageFile, setBannerFile] = useState<File | null>(null); // State for managing image file
+const EditEvent = () => {
 
     const breadcrumbItems = [
         // { label: 'Home', href: '/', logo: <FaHome /> }, 
         { label: 'Event', logo: <BreadEvent /> },
-        { label: 'Tambah', },  // No logo 
+        { label: 'Edit', },  // No logo 
     ];
 
     // category_id
     // INTEGRASI
-    const { data : dataKategori } = useGetKategoriFilter();
+    const { data: dataKategori } = useGetKategoriFilter();
     const category_idOptions = dataKategori?.data.map((category: { name: string; id: number; }) => ({
         label: category.name,
         value: category.id,
@@ -49,11 +48,45 @@ const TambahEvent = () => {
         handleSubmit,
         reset,
         setValue,
+        getValues,
         control,
         formState: { errors },
-    } = useForm<eventFormData>({
-        resolver: zodResolver(event),
+    } = useForm<eventEditFormData>({
+        resolver: zodResolver(eventEdit),
     });
+
+    // GET ONE SLUG
+    // Integrasi API
+    const { slug } = useParams();
+    const { data: dataUser } = useGetEventGetId(slug as string);
+
+    useEffect(() => {
+        if (dataUser?.data) {
+            const timer = setTimeout(() => {
+                setValue("title", dataUser?.data?.title ?? '');
+                setValue("category_id", dataUser?.data?.category_id ?? '');
+                setValue("desc", dataUser?.data?.desc ?? '');
+                setValue("location", dataUser?.data?.location ?? '');
+                setValue("startDate", dataUser?.data?.startDate ?? '');
+                setValue("endDate", dataUser?.data?.endDate ?? '');
+                setValue("time", dataUser?.data?.time ?? '');
+                setValue("phoneNumber", dataUser?.data?.phoneNumber ?? '');
+                setValue("regisLink", dataUser?.data?.regisLink ?? '');
+                setValue("desc", dataUser?.data?.desc ?? '');
+                if (dataUser?.data?.image) {
+                    setImagePreview(dataUser?.data?.image);
+                }
+            }, 1000); // Set the delay in milliseconds (1000 ms = 1 second)
+
+            return () => clearTimeout(timer); // Clean up the timeout on component unmount or data change
+        }
+    }, [dataUser, setValue]);
+
+
+    const handleDeskChange = (content: string) => {
+        setValue('desc', content); // Update form value when editor content changes
+    };
+    // GET ONE SLUG
 
     // Banner
     const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -72,37 +105,38 @@ const TambahEvent = () => {
     const [accessToken] = useLocalStorage("accessToken", "");
     const axiosPrivate = useAxiosPrivate();
 
-    const onSubmit: SubmitHandler<eventFormData> = async (data) => {
+    const onSubmit: SubmitHandler<eventEditFormData> = async (data) => {
         setLoading(true); // Set loading to true when the form is submitted
         const formData = new FormData();
         formData.append('desc', data.desc);
-        formData.append('image', data.image);
         formData.append('title', data.title);
         formData.append('category_id', data.category_id);
         formData.append('startDate', data.startDate);
         formData.append('endDate', data.endDate);
         formData.append('location', data.location);
         formData.append('time', data.time);
-        formData.append('regisLink', data.regisLink);
         formData.append('phoneNumber', data.phoneNumber);
-        
-
+        formData.append('regisLink', data.regisLink);
+        // Memeriksa jika image ada sebelum menambahkannya ke formData
+        if (data.image) {
+            formData.append('image', data.image);
+        }
 
         try {
-            await axiosPrivate.post("/event/create", formData, {
+            await axiosPrivate.put(`/event/update/${slug}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
             });
             // console.log(data);
             // alert
-            showAlert('success', 'Data berhasil ditambahkan!');
+            showAlert('success', 'Data berhasil diperbarui!');
             // alert
             navigate.push('/event');
             // reset();
         } catch (error: any) {
             // Extract error message from API response
-            const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal menambahkan data!';
+            const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal memperbarui data!';
             showAlert('error', errorMessage);
         } finally {
             setLoading(false); // Set loading to false once the process is complete
@@ -216,7 +250,7 @@ const TambahEvent = () => {
                     {/*  */}
                     {/*  */}
                     <div className="flex flex-col md:flex-row md:justify-between gap-2 md:lg-3 lg:gap-5">
-                    <div className="flex flex-col mb-2 w-full md:w-1/2">
+                        <div className="flex flex-col mb-2 w-full md:w-1/2">
                             <Label label="Nomor Telepon" />
                             <Input
                                 type="text"
@@ -248,8 +282,9 @@ const TambahEvent = () => {
                             <Label label="Deskripsi" />
                             <div className="text-editor bg-white border border-[#D9D9D9] rounded-lg overflow-hidden">
                                 <ReactQuill
-                                    className='h-[250px]'
-                                    onChange={(value) => setValue('desc', value)}
+                                    className='h-[270px] overflow-auto'
+                                    value={getValues('desc')}
+                                    onChange={handleDeskChange}
                                 />
                             </div>
                             {errors.desc && (
@@ -303,7 +338,7 @@ const TambahEvent = () => {
                         {loading ? (
                             <Loading />
                         ) : (
-                            "Tambah"
+                            "Simpan"
                         )}
                     </Button>
                 </div>
@@ -313,4 +348,4 @@ const TambahEvent = () => {
     )
 }
 
-export default TambahEvent
+export default EditEvent
