@@ -8,23 +8,29 @@ import {
     TableHead,
 } from "@/components/ui/table";
 
-interface DataTableProps {
+interface LaporanResponse {
     headers: string[];
-    data: Array<{
-        no: number;
-        instansi: string;
-        lowongan: string;
-        kategori: string;
-        telahDilamar: number;
-        wawancara: number;
-        test: number;
-        diterima: number;
-        ditolak: number;
-        totalPelamar: number;
-    }>;
+    data: Laporan[];
+    currentPage: number;
+    search: string;
+    status: string;
 }
 
-const DataTable: React.FC<DataTableProps> = ({ headers, data }) => {
+interface Laporan {
+    id: number;
+    title: string;
+    category: string;
+    companyName: string;
+    appliedCount: number;
+    interviewCount: number;
+    testCount: number;
+    acceptCount: number;
+    rejectCount: number;
+    applicationCount: number;
+}
+
+
+const DataTable: React.FC<LaporanResponse> = ({ headers, data, currentPage, search, status }) => {
 
     return (
         <div className="Table mt-3">
@@ -37,20 +43,28 @@ const DataTable: React.FC<DataTableProps> = ({ headers, data }) => {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {data.map((user) => (
-                        <TableRow key={user.no}>
-                            <TableCell className="text-center">{user.no}</TableCell>
-                            <TableCell>{user.instansi}</TableCell>
-                            <TableCell className="text-center">{user.lowongan}</TableCell>
-                            <TableCell className="text-center">{user.kategori}</TableCell>
-                            <TableCell className="text-center">{user.telahDilamar}</TableCell>
-                            <TableCell className="text-center">{user.wawancara}</TableCell>
-                            <TableCell className="text-center">{user.test}</TableCell>
-                            <TableCell className="text-center">{user.diterima}</TableCell>
-                            <TableCell className="text-center">{user.ditolak}</TableCell>
-                            <TableCell className="text-center">{user.totalPelamar}</TableCell>
+                    {data?.length > 0 ? (
+                        data.map((user, index) => (
+                            <TableRow key={user?.id}>
+                                <TableCell className="text-center">
+                                    {(currentPage - 1) * 10 + (index + 1)}
+                                </TableCell>
+                                <TableCell>{user?.companyName ?? "-"}</TableCell>
+                                <TableCell className="text-center">{user?.title ?? "-"}</TableCell>
+                                <TableCell className="text-center">{user?.category ?? "-"}</TableCell>
+                                <TableCell className="text-center">{user?.appliedCount ?? "-"}</TableCell>
+                                <TableCell className="text-center">{user?.interviewCount ?? "-"}</TableCell>
+                                <TableCell className="text-center">{user?.testCount ?? "-"}</TableCell>
+                                <TableCell className="text-center">{user?.acceptCount ?? "-"}</TableCell>
+                                <TableCell className="text-center">{user?.rejectCount ?? "-"}</TableCell>
+                                <TableCell className="text-center">{user?.applicationCount ?? "-"}</TableCell>
+                            </TableRow>
+                        ))
+                    ) : (
+                        <TableRow>
+                            <TableCell colSpan={10} className="text-center">Tidak ada data</TableCell>
                         </TableRow>
-                    ))}
+                    )}
                 </TableBody>
             </Table>
         </div>

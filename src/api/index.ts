@@ -747,7 +747,37 @@ const useGetEventGetId = (slug: string) => {
   };
 };
 
+// Hook to fetch LaporanDisnaker
+const useGetLaporanDisnaker = (currentPage: number, search: string, status: string) => {
+  const [accessToken] = useLocalStorage("accessToken", "");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } = useSWR(
+    `/report/get?page=${currentPage}&limit=10&search=${search}&status=${status}`,
+    () =>
+      axiosPrivate
+        .get(
+          `/report/get?page=${currentPage}&limit=10&search=${search}&status=${status}`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        )
+        .then((res) => res.data) // Ensure `res.data` contains the desired data
+  );
+
+  return {
+    data,
+    error,
+    mutate,
+    isValidating,
+    isLoading,
+  };
+};
+
 export {
+  useGetLaporanDisnaker,
   useGetEventGetId,
   useGetEvent,
   useGetKonsultasiGetId,
