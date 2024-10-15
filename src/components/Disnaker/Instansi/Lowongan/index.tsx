@@ -93,10 +93,6 @@ const DataTable: React.FC<VacancyResponse> = ({ headers, data, currentPage, sear
 
         setIsLoading(true); // Start loading
         try {
-            console.log("slug = ", selectedUser.slug);
-            console.log("vacancy id = ", selectedUser.id);
-            console.log("status = ", selectedValue);
-
             // Send the request to the server
             await axiosPrivate.put(`/vacancy/status/update/${selectedUser.slug}`, {
                 vacancy_id: selectedUser.id,
