@@ -24,19 +24,6 @@ import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 import { mutate } from "swr";
 import { showAlert } from "@/lib/swalAlert";
 
-interface DataTableProps {
-    headers: string[];
-    data: Array<{
-        no: number;
-        namaInstansi: string;
-        judulSertifikasi: string;
-        tanggalMulai: string;
-        tanggalSelesai: string;
-        kategori: string;
-        kuotaPeserta: string;
-    }>;
-}
-
 interface Company {
     id: number;
     name: string;
@@ -99,7 +86,6 @@ const DataTable: React.FC<CertificationResponse> = ({ headers, data, currentPage
             //   alert
         } mutate(`/certification/get?page=${currentPage}&limit=10&search=${search}&status=${status}`);;
     };
-
 
     return (
         <div className="Table mt-3">

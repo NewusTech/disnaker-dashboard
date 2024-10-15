@@ -26,7 +26,6 @@ import { useGetKategoriFilter } from '@/api';
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
 const TambahSertifikasi = () => {
-    const [imageFile, setBannerFile] = useState<File | null>(null); // State for managing image file
 
     const breadcrumbItems = [
         { label: 'Ketenagakerjaan', logo: <BreadInformasi /> },

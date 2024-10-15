@@ -26,7 +26,6 @@ import { useGetKategoriFilter, useGetSertifikasiGetId } from '@/api';
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
 const EditSertifikasi = () => {
-    const [imageFile, setBannerFile] = useState<File | null>(null); // State for managing image file
 
     const breadcrumbItems = [
         { label: 'Ketenagakerjaan', logo: <BreadInformasi /> },
@@ -67,8 +66,6 @@ const EditSertifikasi = () => {
     // Integrasi API
     const { id } = useParams();
     const { data: dataUser } = useGetSertifikasiGetId(id as string);
-    console.log("datauser = ", dataUser)
-    console.log("titile = ", dataUser?.title)
 
     useEffect(() => {
         if (dataUser?.data) {

@@ -635,7 +635,65 @@ const useGetSertifikasiGetId = (id: string) => {
   };
 };
 
+// Hook to fetch Konsultasi
+const useGetKonsultasi = (currentPage: number, search: string, status: string) => {
+  const [accessToken] = useLocalStorage("accessToken", "");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } = useSWR(
+    `/consultation/get?page=${currentPage}&limit=10&search=${search}&status=${status}`,
+    () =>
+      axiosPrivate
+        .get(
+          `/consultation/get?page=${currentPage}&limit=10&search=${search}&status=${status}`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        )
+        .then((res) => res.data) // Ensure `res.data` contains the desired data
+  );
+
+  return {
+    data,
+    error,
+    mutate,
+    isValidating,
+    isLoading,
+  };
+};
+
+// get id konsultasi
+const useGetKonsultasiGetId = (id: string) => {
+  const [accessToken] = useLocalStorage("accessToken", "");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } =
+    useSWR(
+      `/consultation/get/${id}`,
+      () =>
+        axiosPrivate
+          .get(`/consultation/get/${id}`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
+          .then((res) => res.data) // Ensure `res.data` contains the desired data
+    );
+
+  return {
+    data,
+    error,
+    mutate,
+    isValidating,
+    isLoading,
+  };
+};
+
 export {
+  useGetKonsultasiGetId,
+  useGetKonsultasi,
   useGetSertifikasiGetId,
   useGetSertifikasi,
   useGetPelatihanGetId,
