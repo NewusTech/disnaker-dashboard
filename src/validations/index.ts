@@ -459,10 +459,6 @@ export const berita = z
     title: z
       .string()
       .min(1, { message: "Jawaban tidak boleh kosong!" }),
-    kategori_id: z
-      .string({
-        required_error: "Jawaban tidak boleh kosong!"
-      }),
     desc: z
       .string()
       .min(1, { message: "Jawaban tidak boleh kosong!" }),
@@ -479,10 +475,6 @@ export const beritaEdit = z
     title: z
       .string()
       .min(1, { message: "Jawaban tidak boleh kosong!" }),
-    kategori_id: z
-      .string({
-        required_error: "Jawaban tidak boleh kosong!"
-      }),
     desc: z
       .string()
       .min(1, { message: "Jawaban tidak boleh kosong!" }),

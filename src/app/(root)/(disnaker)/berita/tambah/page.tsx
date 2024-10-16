@@ -33,16 +33,6 @@ const TambahBerita = () => {
         { label: 'Tambah', },  // No logo 
     ];
 
-    // category_id
-    // INTEGRASI
-    const { data: dataKategori } = useGetKategoriFilter();
-    const kategoriOptions = dataKategori?.data.map((category: { name: string; id: number; }) => ({
-        label: category.name,
-        value: category.id,
-    }));
-    // INTEGRASI
-    // category_id
-
     const {
         register,
         handleSubmit,
@@ -77,7 +67,6 @@ const TambahBerita = () => {
         formData.append('desc', data.desc);
         formData.append('image', data.image);
         formData.append('title', data.title);
-        formData.append('kategori_id', data.kategori_id);
 
         try {
             await axiosPrivate.post("/artikel/create", formData, {
@@ -128,24 +117,6 @@ const TambahBerita = () => {
                             {errors.title && (
                                 <HelperError>{errors.title.message}</HelperError>
                             )}
-                        </div>
-                        <div className="flex flex-col mb-2 w-full">
-                            <Label label="Kategori" />
-                            <Controller
-                                name="kategori_id"
-                                control={control}
-                                render={({ field }) => (
-                                    <CustomSelect
-                                        label="Pilih Kategori"
-                                        options={kategoriOptions}
-                                        placeholder="Pilih Kategori"
-                                        value={field.value}
-                                        onChange={(option) => field.onChange(option || '')}
-                                        width={`w-full ${errors.kategori_id ? 'border-red-500' : ''}`}
-                                    />
-                                )}
-                            />
-                            {errors.kategori_id && <HelperError>{errors.kategori_id.message}</HelperError>}
                         </div>
                     </div>
                     {/*  */}

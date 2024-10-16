@@ -33,16 +33,6 @@ const EditBerita = () => {
         { label: 'Edit', },  // No logo 
     ];
 
-    // category_id
-    // INTEGRASI
-    const { data: dataKategori } = useGetKategoriFilter();
-    const kategoriOptions = dataKategori?.data.map((category: { name: string; id: number; }) => ({
-        label: category.name,
-        value: category.id,
-    }));
-    // INTEGRASI
-    // category_id
-
     const {
         register,
         handleSubmit,
@@ -64,7 +54,6 @@ const EditBerita = () => {
         if (dataUser?.data) {
             const timer = setTimeout(() => {
                 setValue("title", dataUser?.data?.title ?? '');
-                setValue("kategori_id", dataUser?.data?.kategori_id ?? '');
                 setValue("desc", dataUser?.data?.desc ?? '');
                 if (dataUser?.data?.image) {
                     setImagePreview(dataUser?.data?.image);
@@ -103,14 +92,13 @@ const EditBerita = () => {
         const formData = new FormData();
         formData.append('desc', data.desc);
         formData.append('title', data.title);
-        formData.append('kategori_id', data.kategori_id);
         // Memeriksa jika image ada sebelum menambahkannya ke formData
         if (data.image) {
             formData.append('image', data.image);
         }
 
         try {
-            await axiosPrivate.put(`/berita/update/${slug}`, formData, {
+            await axiosPrivate.put(`/artikel/update/${slug}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
@@ -158,24 +146,6 @@ const EditBerita = () => {
                             {errors.title && (
                                 <HelperError>{errors.title.message}</HelperError>
                             )}
-                        </div>
-                        <div className="flex flex-col mb-2 w-full">
-                            <Label label="Kategori" />
-                            <Controller
-                                name="kategori_id"
-                                control={control}
-                                render={({ field }) => (
-                                    <CustomSelect
-                                        label="Pilih Kategori"
-                                        options={kategoriOptions}
-                                        placeholder="Pilih Kategori"
-                                        value={field.value}
-                                        onChange={(option) => field.onChange(option || '')}
-                                        width={`w-full ${errors.kategori_id ? 'border-red-500' : ''}`}
-                                    />
-                                )}
-                            />
-                            {errors.kategori_id && <HelperError>{errors.kategori_id.message}</HelperError>}
                         </div>
                     </div>
                     {/*  */}

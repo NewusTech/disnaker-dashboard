@@ -21,6 +21,7 @@ import useLocalStorage from "@/hooks/useLocalStorage";
 import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 import { showAlert } from "@/lib/swalAlert";
 import { mutate } from "swr";
+import Image from "next/image";
 
 interface KategoriArtikel {
     id: number;
@@ -92,11 +93,22 @@ const DataTable: React.FC<ArtikelResponse> = ({ headers, data, currentPage, sear
                                 <TableCell className="text-start">
                                     {user?.createdAt ? new Date(user?.createdAt).toISOString().split('T')[0] : '-'}
                                 </TableCell>
-                                <TableCell className="text-start line-clamp-1">{user.title}</TableCell>
-                                <TableCell className="text-center">{user.Kategoriartikel.title}</TableCell>
+                                <TableCell className="text-start">{user?.title ?? "-"}</TableCell>
+                                <TableCell className="text-center ">
+                                    <div className="w-[250px] m-auto h-[170px]">
+                                        <Image
+                                            src={user?.image ?? "-"}
+                                            alt="logo"
+                                            width={400}
+                                            height={400}
+                                            unoptimized
+                                            className="w-full h-full object-cover"
+                                        />
+                                    </div>
+                                </TableCell>
                                 {/*  */}
-                                <TableCell className="text-center justify-center flex gap-2">
-                                    <div className="aksi">
+                                <TableCell className="text-center justify-center items-center flex gap-2 h-[170px]">
+                                    <div className="aksi flex-shrink-0">
                                         <DropdownMenu>
                                             <DropdownMenuTrigger asChild>
                                                 <div className="flex items-center h-[20px] gap-1 cursor-pointer">
@@ -112,13 +124,6 @@ const DataTable: React.FC<ArtikelResponse> = ({ headers, data, currentPage, sear
                                                 <div className="h-1 w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse"></div>
                                                 <DropdownMenuGroup>
                                                     <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                                                        <Link className="w-full" href={`/berita/detail/${user?.slug}`}>
-                                                            <div className="flex items-center gap-2 text-gray-600 hover:text-gray-800">
-                                                                Detail
-                                                            </div>
-                                                        </Link>
-                                                    </DropdownMenuItem>
-                                                    <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
                                                         <Link className="w-full" href={`/berita/edit/${user?.slug}`}>
                                                             <div className="flex items-center gap-2 text-gray-600 hover:text-gray-800">
                                                                 Edit
@@ -126,7 +131,7 @@ const DataTable: React.FC<ArtikelResponse> = ({ headers, data, currentPage, sear
                                                         </Link>
                                                     </DropdownMenuItem>
                                                     <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                                                    <DeletePopupTitik onDelete={() => handleDelete(user?.slug)} />
+                                                        <DeletePopupTitik onDelete={() => handleDelete(user?.slug)} />
                                                     </DropdownMenuItem>
                                                 </DropdownMenuGroup>
                                             </DropdownMenuContent>

@@ -28,7 +28,7 @@ const Berita = () => {
     // select
 
     // Define table headers
-    const tableHeaders = ["No", "Tanggal", "Judul", "Kategori", "Aksi"];
+    const tableHeaders = ["No", "Tanggal", "Judul", "Foto", "Aksi"];
 
     // Ensure statusLowongan is always a string
     const status = selectedValue === "semua" ? "" : selectedValue || ""; // Default to empty string if undefined
