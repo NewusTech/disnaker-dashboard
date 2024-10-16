@@ -390,7 +390,11 @@ const useGetUserAll = (currentPage: number, search: string, status: string) => {
 };
 
 // Hook to fetch Instansi
-const useGetInstansiAll = (currentPage: number, search: string, status: string) => {
+const useGetInstansiAll = (
+  currentPage: number,
+  search: string,
+  status: string
+) => {
   const [accessToken] = useLocalStorage("accessToken", "");
   const axiosPrivate = useAxiosPrivate();
 
@@ -427,14 +431,11 @@ const useGetKategoriFilter = () => {
     `/vacancy/category/get?limit=9999`,
     () =>
       axiosPrivate
-        .get(
-          `/vacancy/category/get?limit=9999`,
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
-        )
+        .get(`/vacancy/category/get?limit=9999`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
         .then((res) => res.data) // Ensure `res.data` contains the desired data
   );
 
@@ -465,17 +466,18 @@ const useGetSkillFilter = () => {
   const [accessToken] = useLocalStorage("accessToken", "");
   const axiosPrivate = useAxiosPrivate();
 
-  const { data, error, mutate, isValidating, isLoading } = useSWR<GetSkillResponse>(
-    `/skill/get?limit=1000`,
-    () =>
-      axiosPrivate
-        .get(`/skill/get?limit=1000`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        })
-        .then((res) => res.data) // Ensure `res.data` contains the desired data
-  );
+  const { data, error, mutate, isValidating, isLoading } =
+    useSWR<GetSkillResponse>(
+      `/skill/get?limit=1000`,
+      () =>
+        axiosPrivate
+          .get(`/skill/get?limit=1000`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
+          .then((res) => res.data) // Ensure `res.data` contains the desired data
+    );
 
   return {
     data,
@@ -502,17 +504,18 @@ const useGetPendidikanFilter = () => {
   const [accessToken] = useLocalStorage("accessToken", "");
   const axiosPrivate = useAxiosPrivate();
 
-  const { data, error, mutate, isValidating, isLoading } = useSWR<GetEducationLevelResponse>(
-    `/education-level/get?limit=1000`,
-    () =>
-      axiosPrivate
-        .get(`/education-level/get?limit=1000`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        })
-        .then((res) => res.data) // Ensure `res.data` contains the desired data
-  );
+  const { data, error, mutate, isValidating, isLoading } =
+    useSWR<GetEducationLevelResponse>(
+      `/education-level/get?limit=1000`,
+      () =>
+        axiosPrivate
+          .get(`/education-level/get?limit=1000`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
+          .then((res) => res.data) // Ensure `res.data` contains the desired data
+    );
 
   return {
     data,
@@ -524,7 +527,11 @@ const useGetPendidikanFilter = () => {
 };
 
 // Hook to fetch Pelatihan
-const useGetPelatihan = (currentPage: number, search: string, status: string) => {
+const useGetPelatihan = (
+  currentPage: number,
+  search: string,
+  status: string
+) => {
   const [accessToken] = useLocalStorage("accessToken", "");
   const axiosPrivate = useAxiosPrivate();
 
@@ -557,18 +564,17 @@ const useGetPelatihanGetId = (id: string) => {
   const [accessToken] = useLocalStorage("accessToken", "");
   const axiosPrivate = useAxiosPrivate();
 
-  const { data, error, mutate, isValidating, isLoading } =
-    useSWR(
-      `/training/get/${id}`,
-      () =>
-        axiosPrivate
-          .get(`/training/get/${id}`, {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          })
-          .then((res) => res.data) // Ensure `res.data` contains the desired data
-    );
+  const { data, error, mutate, isValidating, isLoading } = useSWR(
+    `/training/get/${id}`,
+    () =>
+      axiosPrivate
+        .get(`/training/get/${id}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then((res) => res.data) // Ensure `res.data` contains the desired data
+  );
 
   return {
     data,
@@ -580,7 +586,11 @@ const useGetPelatihanGetId = (id: string) => {
 };
 
 // Hook to fetch Sertifikasi
-const useGetSertifikasi = (currentPage: number, search: string, status: string) => {
+const useGetSertifikasi = (
+  currentPage: number,
+  search: string,
+  status: string
+) => {
   const [accessToken] = useLocalStorage("accessToken", "");
   const axiosPrivate = useAxiosPrivate();
 
@@ -613,18 +623,17 @@ const useGetSertifikasiGetId = (id: string) => {
   const [accessToken] = useLocalStorage("accessToken", "");
   const axiosPrivate = useAxiosPrivate();
 
-  const { data, error, mutate, isValidating, isLoading } =
-    useSWR(
-      `/certification/get/${id}`,
-      () =>
-        axiosPrivate
-          .get(`/certification/get/${id}`, {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          })
-          .then((res) => res.data) // Ensure `res.data` contains the desired data
-    );
+  const { data, error, mutate, isValidating, isLoading } = useSWR(
+    `/certification/get/${id}`,
+    () =>
+      axiosPrivate
+        .get(`/certification/get/${id}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then((res) => res.data) // Ensure `res.data` contains the desired data
+  );
 
   return {
     data,
@@ -636,7 +645,11 @@ const useGetSertifikasiGetId = (id: string) => {
 };
 
 // Hook to fetch Konsultasi
-const useGetKonsultasi = (currentPage: number, search: string, status: string) => {
+const useGetKonsultasi = (
+  currentPage: number,
+  search: string,
+  status: string
+) => {
   const [accessToken] = useLocalStorage("accessToken", "");
   const axiosPrivate = useAxiosPrivate();
 
@@ -669,18 +682,17 @@ const useGetKonsultasiGetId = (id: string) => {
   const [accessToken] = useLocalStorage("accessToken", "");
   const axiosPrivate = useAxiosPrivate();
 
-  const { data, error, mutate, isValidating, isLoading } =
-    useSWR(
-      `/consultation/get/${id}`,
-      () =>
-        axiosPrivate
-          .get(`/consultation/get/${id}`, {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          })
-          .then((res) => res.data) // Ensure `res.data` contains the desired data
-    );
+  const { data, error, mutate, isValidating, isLoading } = useSWR(
+    `/consultation/get/${id}`,
+    () =>
+      axiosPrivate
+        .get(`/consultation/get/${id}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then((res) => res.data) // Ensure `res.data` contains the desired data
+  );
 
   return {
     data,
@@ -725,18 +737,17 @@ const useGetEventGetId = (slug: string) => {
   const [accessToken] = useLocalStorage("accessToken", "");
   const axiosPrivate = useAxiosPrivate();
 
-  const { data, error, mutate, isValidating, isLoading } =
-    useSWR(
-      `/event/get/${slug}`,
-      () =>
-        axiosPrivate
-          .get(`/event/get/${slug}`, {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          })
-          .then((res) => res.data) // Ensure `res.data` contains the desired data
-    );
+  const { data, error, mutate, isValidating, isLoading } = useSWR(
+    `/event/get/${slug}`,
+    () =>
+      axiosPrivate
+        .get(`/event/get/${slug}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then((res) => res.data) // Ensure `res.data` contains the desired data
+  );
 
   return {
     data,
@@ -748,7 +759,11 @@ const useGetEventGetId = (slug: string) => {
 };
 
 // Hook to fetch LaporanDisnaker
-const useGetLaporanDisnaker = (currentPage: number, search: string, status: string) => {
+const useGetLaporanDisnaker = (
+  currentPage: number,
+  search: string,
+  status: string
+) => {
   const [accessToken] = useLocalStorage("accessToken", "");
   const axiosPrivate = useAxiosPrivate();
 
@@ -777,7 +792,11 @@ const useGetLaporanDisnaker = (currentPage: number, search: string, status: stri
 };
 
 // Hook to fetch LamaranDisnaker
-const useGetLamaranDisnaker = (currentPage: number, search: string, status: string) => {
+const useGetLamaranDisnaker = (
+  currentPage: number,
+  search: string,
+  status: string
+) => {
   const [accessToken] = useLocalStorage("accessToken", "");
   const axiosPrivate = useAxiosPrivate();
 
@@ -806,22 +825,19 @@ const useGetLamaranDisnaker = (currentPage: number, search: string, status: stri
 };
 
 // Hook to fetch Berita
-const useGetBerita = (currentPage: number, search: string, status: string) => {
+const useGetBerita = (currentPage: number, search: string) => {
   const [accessToken] = useLocalStorage("accessToken", "");
   const axiosPrivate = useAxiosPrivate();
 
   const { data, error, mutate, isValidating, isLoading } = useSWR(
-    `/artikel/get?page=${currentPage}&limit=10&search=${search}&status=${status}`,
+    `/artikel/get?page=${currentPage}&limit=10&search=${search}`,
     () =>
       axiosPrivate
-        .get(
-          `/artikel/get?page=${currentPage}&limit=10&search=${search}&status=${status}`,
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
-        )
+        .get(`/artikel/get?page=${currentPage}&limit=10&search=${search}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
         .then((res) => res.data) // Ensure `res.data` contains the desired data
   );
 
@@ -839,18 +855,17 @@ const useGetBeritaGetSlug = (slug: string) => {
   const [accessToken] = useLocalStorage("accessToken", "");
   const axiosPrivate = useAxiosPrivate();
 
-  const { data, error, mutate, isValidating, isLoading } =
-    useSWR(
-      `/artikel/get/${slug}`,
-      () =>
-        axiosPrivate
-          .get(`/artikel/get/${slug}`, {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          })
-          .then((res) => res.data) // Ensure `res.data` contains the desired data
-    );
+  const { data, error, mutate, isValidating, isLoading } = useSWR(
+    `/artikel/get/${slug}`,
+    () =>
+      axiosPrivate
+        .get(`/artikel/get/${slug}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then((res) => res.data) // Ensure `res.data` contains the desired data
+  );
 
   return {
     data,
@@ -955,7 +970,7 @@ export interface UserEducationHistory {
   transkrip: string;
   EducationLevel: {
     level: string;
-  }
+  };
   createdAt: string;
   updatedAt: string;
 }
@@ -1036,7 +1051,115 @@ const useGetLamaranGetId = (id: string) => {
   };
 };
 
+// Hook to fetch Informasi
+const useGetInformasi = (currentPage: number, search: string) => {
+  const [accessToken] = useLocalStorage("accessToken", "");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } = useSWR(
+    `/information/get?page=${currentPage}&limit=10&search=${search}`,
+    () =>
+      axiosPrivate
+        .get(`/information/get?page=${currentPage}&limit=10&search=${search}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then((res) => res.data) // Ensure `res.data` contains the desired data
+  );
+
+  return {
+    data,
+    error,
+    mutate,
+    isValidating,
+    isLoading,
+  };
+};
+
+// get id informasi
+const useGetInformasiGetId = (id: string) => {
+  const [accessToken] = useLocalStorage("accessToken", "");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } = useSWR(
+    `/information/get/${id}`,
+    () =>
+      axiosPrivate
+        .get(`/information/get/${id}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then((res) => res.data) // Ensure `res.data` contains the desired data
+  );
+
+  return {
+    data,
+    error,
+    mutate,
+    isValidating,
+    isLoading,
+  };
+};
+
+// Hook to fetch Fasilitas
+const useGetFasilitas = (currentPage: number, search: string) => {
+  const [accessToken] = useLocalStorage("accessToken", "");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } = useSWR(
+    `/facility/get?page=${currentPage}&limit=10&search=${search}`,
+    () =>
+      axiosPrivate
+        .get(`/facility/get?page=${currentPage}&limit=10&search=${search}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then((res) => res.data) // Ensure `res.data` contains the desired data
+  );
+
+  return {
+    data,
+    error,
+    mutate,
+    isValidating,
+    isLoading,
+  };
+};
+
+// get slug berita
+const useGetFasilitasGetId = (id: string) => {
+  const [accessToken] = useLocalStorage("accessToken", "");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } = useSWR(
+    `/facility/get/${id}`,
+    () =>
+      axiosPrivate
+        .get(`/facility/get/${id}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then((res) => res.data) // Ensure `res.data` contains the desired data
+  );
+
+  return {
+    data,
+    error,
+    mutate,
+    isValidating,
+    isLoading,
+  };
+};
+
 export {
+  useGetFasilitasGetId,
+  useGetFasilitas,
+  useGetInformasiGetId,
+  useGetInformasi,
   useGetLamaranGetId,
   useGetBeritaGetSlug,
   useGetBerita,

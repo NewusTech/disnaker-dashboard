@@ -7,20 +7,19 @@ import SearchIcon from '../../../../../public/assets/icons/SearchIcon';
 import { CustomSelect } from '@/components/SelectCustom';
 import PaginationTable from '@/components/PaginationTable';
 import Link from 'next/link';
-import DataTable from '@/components/Disnaker/Berita';
 import Tambah from '../../../../../public/assets/icons/Tambah';
-import BreadBerita from '../../../../../public/assets/icons/BreadBerita';
-import { useGetBerita } from '@/api';
+import { useGetInformasi } from '@/api';
+import BreadInfo from '../../../../../public/assets/icons/BreadInfo';
+import DataTable from '@/components/Disnaker/Informasi';
 
-const Berita = () => {
+const Informasi = () => {
     const breadcrumbItems = [
         // { label: 'Home', href: '/', logo: <FaHome /> }, 
-        { label: 'Berita', logo: <BreadBerita /> },
+        { label: 'Informasi', logo: <BreadInfo /> },
     ];
 
     // Define table headers
-    const tableHeaders = ["No", "Tanggal", "Judul", "Foto", "Aksi"];
-
+    const tableHeaders = ["No", "Judul", "Deskripsi", "Aksi"];
 
     // Pagination state
     const [currentPage, setCurrentPage] = useState(1);
@@ -37,7 +36,7 @@ const Berita = () => {
     // serach
 
     // INTEGRASI
-    const { data } = useGetBerita(currentPage, search);
+    const { data } = useGetInformasi(currentPage, search);
     // INTEGRASI
 
 
@@ -52,10 +51,10 @@ const Berita = () => {
                     onChange={handleSearchChange}
                 />
                 <Link
-                    href="/berita/tambah"
+                    href="/informasi/tambah"
                     className="flex flex-shrink-0 gap-2 items-center px-5 py-2.5 bg-primary hover:bg-primary/80 rounded-full transition ease-in-out delay-150 hover:-translate-y-1 w-fit text-white">
                     <Tambah />
-                    Tambah Berita
+                    Tambah Informasi
                 </Link>
             </div>
             {/* table */}
@@ -81,4 +80,4 @@ const Berita = () => {
     )
 }
 
-export default Berita
+export default Informasi

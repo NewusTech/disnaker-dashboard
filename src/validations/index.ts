@@ -485,3 +485,56 @@ export const beritaEdit = z
 // Convert Zod schema to TypeScript type
 export type beritaEditFormData = z.infer<typeof beritaEdit>;
 
+// Informasi
+export const informasi = z
+  .object({
+    title: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }),
+    desc: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }),
+  })
+  .required();
+// Convert Zod schema to TypeScript type
+export type informasiFormData = z.infer<typeof informasi>;
+
+// Informasi edit
+export const informasiEdit = z
+  .object({
+    title: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }),
+    desc: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }),
+  })
+  .required();
+// Convert Zod schema to TypeScript type
+export type informasiEditFormData = z.infer<typeof informasiEdit>;
+
+// Fasilitas
+export const fasilitas = z
+  .object({
+    title: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }),
+    image: z.
+      instanceof(File).refine(file => file.size > 0, { message: 'Gambar wajib diisi' }),
+  })
+  .required();
+// Convert Zod schema to TypeScript type
+export type fasilitasFormData = z.infer<typeof fasilitas>;
+
+// Fasilitas Edit
+export const fasilitasEdit = z
+  .object({
+    title: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }),
+    image: z
+      .instanceof(File).optional()
+      .refine(file => !file || file.size > 0, { message: 'Gambar wajib diisi!' }),
+  })
+// Convert Zod schema to TypeScript type
+export type fasilitasEditFormData = z.infer<typeof fasilitasEdit>;

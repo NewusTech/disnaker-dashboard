@@ -7,9 +7,6 @@ import {
     TableRow,
     TableHead,
 } from "@/components/ui/table";
-import Link from "next/link";
-import { CustomSelect } from "@/components/SelectCustom";
-import { Button } from "@/components/ui/button";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -19,45 +16,37 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import DeletePopupTitik from "@/components/AksiPopup";
+import Link from "next/link";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 import { showAlert } from "@/lib/swalAlert";
 import { mutate } from "swr";
+import Image from "next/image";
 
-interface ApiResponse {
-    headers: string[];
-    data: Event[];
-    currentPage: number;
-    search: string;
-    status: string;
-}
-
-interface Event {
+interface Informasi {
     id: number;
     title: string;
     slug: string;
     desc: string;
-    category_id: number | null; // Assuming it can be null
-    image: string;
-    startDate: string | null; // Assuming it can be null
-    endDate: string | null; // Assuming it can be null
-    regisLink: string | null; // Assuming it can be null
-    phoneNumber: string | null; // Assuming it can be null
-    time: string | null; // Assuming it can be null
-    location: string | null; // Assuming it can be null
-    createdAt: string; // Consider using Date type here after parsing
-    updatedAt: string; // Consider using Date type here after parsing
-    VacancyCategory: {
-        name: string;
-    }; // Replace `any` with a more specific interface if available
+    createdAt: string;
+    updatedAt: string;
 }
 
-const DataTable: React.FC<ApiResponse> = ({ headers, data, currentPage, search, status }) => {
+
+interface InformasiResponse {
+    data: Informasi[];
+    headers: string[];
+    currentPage: number;
+    search: string;
+}
+
+
+const DataTable: React.FC<InformasiResponse> = ({ headers, data, currentPage, search }) => {
     const [accessToken] = useLocalStorage("accessToken", "");
     const axiosPrivate = useAxiosPrivate();
-    const handleDelete = async (slug: string) => {
+    const handleDelete = async (id: number) => {
         try {
-            await axiosPrivate.delete(`/event/delete/${slug}`, {
+            await axiosPrivate.delete(`/information/delete/${id}`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
@@ -72,7 +61,7 @@ const DataTable: React.FC<ApiResponse> = ({ headers, data, currentPage, search, 
             const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal menghapus data!';
             showAlert('error', errorMessage);
             //   alert
-        } mutate(`/event/get?page=${currentPage}&limit=10&search=${search}&status=${status}`);;
+        } mutate(`/information/get?page=${currentPage}&limit=10&search=${search}`);;
     };
 
     return (
@@ -92,20 +81,16 @@ const DataTable: React.FC<ApiResponse> = ({ headers, data, currentPage, search, 
                                 <TableCell className="text-center">
                                     {(currentPage - 1) * 10 + (index + 1)}
                                 </TableCell>
-                                <TableCell className="" >{user?.title ?? "-"}</TableCell>
-                                <TableCell className="">
+                                <TableCell className="text-start">{user?.title ?? "-"}</TableCell>
+                                <TableCell className="text-start text-sm">
                                     <div
-                                        className="prose max-w-none line-clamp-1 w-[600px]  text-sm"
+                                        className="prose max-w-none line-clamp-1 w-[600px] text-sm"
                                         dangerouslySetInnerHTML={{ __html: user?.desc || "Tidak Ada Deskripsi" }}
                                     />
                                 </TableCell>
-                                <TableCell className="text-center">{user?.VacancyCategory?.name ?? "-"}</TableCell>
-                                <TableCell className="text-center">{user?.startDate ?? "-"}</TableCell>
-                                <TableCell className="text-center">{user?.endDate ?? "-"}</TableCell>
-
                                 {/*  */}
-                                <TableCell className="text-center justify-center flex gap-2">
-                                    <div className="aksi">
+                                <TableCell className="text-center justify-center items-center flex gap-2">
+                                    <div className="aksi flex-shrink-0">
                                         <DropdownMenu>
                                             <DropdownMenuTrigger asChild>
                                                 <div className="flex items-center h-[20px] gap-1 cursor-pointer">
@@ -121,21 +106,14 @@ const DataTable: React.FC<ApiResponse> = ({ headers, data, currentPage, search, 
                                                 <div className="h-1 w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse"></div>
                                                 <DropdownMenuGroup>
                                                     <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                                                        <Link className="w-full" href={`/event/detail/${user?.slug}`}>
-                                                            <div className="flex items-center gap-2 text-gray-600 hover:text-gray-800">
-                                                                Detail
-                                                            </div>
-                                                        </Link>
-                                                    </DropdownMenuItem>
-                                                    <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                                                        <Link className="w-full" href={`/event/edit/${user?.slug}`}>
+                                                        <Link className="w-full" href={`/informasi/edit/${user?.id}`}>
                                                             <div className="flex items-center gap-2 text-gray-600 hover:text-gray-800">
                                                                 Edit
                                                             </div>
                                                         </Link>
                                                     </DropdownMenuItem>
                                                     <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                                                        <DeletePopupTitik onDelete={() => handleDelete(user?.slug)} />
+                                                        <DeletePopupTitik onDelete={() => handleDelete(user?.id)} />
                                                     </DropdownMenuItem>
                                                 </DropdownMenuGroup>
                                             </DropdownMenuContent>
@@ -147,7 +125,7 @@ const DataTable: React.FC<ApiResponse> = ({ headers, data, currentPage, search, 
                         ))
                     ) : (
                         <TableRow>
-                            <TableCell colSpan={8} className="text-center">Tidak ada data</TableCell>
+                            <TableCell colSpan={5} className="text-center">Tidak ada data</TableCell>
                         </TableRow>
                     )}
                 </TableBody>

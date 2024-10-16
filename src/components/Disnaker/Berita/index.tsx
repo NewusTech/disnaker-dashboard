@@ -46,11 +46,10 @@ interface ArtikelResponse {
     headers: string[];
     currentPage: number;
     search: string;
-    status: string;
 }
 
 
-const DataTable: React.FC<ArtikelResponse> = ({ headers, data, currentPage, search, status }) => {
+const DataTable: React.FC<ArtikelResponse> = ({ headers, data, currentPage, search }) => {
     const [accessToken] = useLocalStorage("accessToken", "");
     const axiosPrivate = useAxiosPrivate();
     const handleDelete = async (slug: string) => {
@@ -70,7 +69,7 @@ const DataTable: React.FC<ArtikelResponse> = ({ headers, data, currentPage, sear
             const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal menghapus data!';
             showAlert('error', errorMessage);
             //   alert
-        } mutate(`/artikel/get?page=${currentPage}&limit=10&search=${search}&status=${status}`);;
+        } mutate(`/artikel/get?page=${currentPage}&limit=10&search=${search}`);;
     };
 
     return (

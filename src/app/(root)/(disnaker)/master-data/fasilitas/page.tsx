@@ -3,23 +3,23 @@
 import Breadcrumb from '@/components/BreadCrumb';
 import React, { useState } from 'react'
 import { Input } from '@/components/ui/input';
-import SearchIcon from '../../../../../public/assets/icons/SearchIcon';
+import SearchIcon from '../../../../../../public/assets/icons/SearchIcon';
 import { CustomSelect } from '@/components/SelectCustom';
 import PaginationTable from '@/components/PaginationTable';
 import Link from 'next/link';
-import DataTable from '@/components/Disnaker/Berita';
-import Tambah from '../../../../../public/assets/icons/Tambah';
-import BreadBerita from '../../../../../public/assets/icons/BreadBerita';
-import { useGetBerita } from '@/api';
+import Tambah from '../../../../../../public/assets/icons/Tambah';
+import { useGetFasilitas } from '@/api';
+import DataTable from '@/components/Disnaker/MasterData/Fasilitas';
+import BreadMaster from '../../../../../../public/assets/icons/BreadMaster';
 
-const Berita = () => {
+const Fasilitas = () => {
     const breadcrumbItems = [
-        // { label: 'Home', href: '/', logo: <FaHome /> }, 
-        { label: 'Berita', logo: <BreadBerita /> },
+        { label: 'Master Data', logo: <BreadMaster /> },
+        { label: 'Fasilitas' },
     ];
 
     // Define table headers
-    const tableHeaders = ["No", "Tanggal", "Judul", "Foto", "Aksi"];
+    const tableHeaders = ["No", "Judul", "Foto", "Aksi"];
 
 
     // Pagination state
@@ -37,7 +37,7 @@ const Berita = () => {
     // serach
 
     // INTEGRASI
-    const { data } = useGetBerita(currentPage, search);
+    const { data } = useGetFasilitas(currentPage, search);
     // INTEGRASI
 
 
@@ -52,10 +52,10 @@ const Berita = () => {
                     onChange={handleSearchChange}
                 />
                 <Link
-                    href="/berita/tambah"
+                    href="/master-data/fasilitas/tambah"
                     className="flex flex-shrink-0 gap-2 items-center px-5 py-2.5 bg-primary hover:bg-primary/80 rounded-full transition ease-in-out delay-150 hover:-translate-y-1 w-fit text-white">
                     <Tambah />
-                    Tambah Berita
+                    Tambah Fasilitas
                 </Link>
             </div>
             {/* table */}
@@ -81,4 +81,4 @@ const Berita = () => {
     )
 }
 
-export default Berita
+export default Fasilitas

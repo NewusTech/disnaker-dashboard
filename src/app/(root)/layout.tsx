@@ -27,6 +27,7 @@ import InsDashboard from "../../../public/assets/icons/InsDashboard";
 import KelolaIcon from "../../../public/assets/icons/KelolaIcon";
 import InformasiIcon from "../../../public/assets/icons/InformasiIcon";
 import BeritaIcon from "../../../public/assets/icons/BeritaIcon";
+import InfoIcon from "../../../public/assets/icons/InfoIcon";
 
 
 interface LayoutPerusahaanProps {
@@ -273,36 +274,6 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                                     </AccordionContent>
                                 </AccordionItem>
                                 {/* layanan-ketenagakerjaan */}
-                                {/* laporan */}
-                                <AccordionItem className="" value="item-3">
-                                    <Link
-                                        href="/laporan-disnaker"
-                                        className={`nav hover:pl-10 duration-200 transition-all flex pr-4 text-[16px] items-center gap-[12px] mb-2 rounded-[8px] py-[10px] px-[24px] ${pathname.startsWith("/laporan-disnaker")
-                                            ? "bg-white text-primary"
-                                            : "bg-transparent text-white"
-                                            }`} >
-                                        <div className="w-[35px]">
-                                            <LaporanDinasIcon />
-                                        </div>
-                                        Laporan Disnaker
-                                    </Link>
-                                </AccordionItem>
-                                {/* laporan */}
-                                {/* berita */}
-                                <AccordionItem className="" value="item-3">
-                                    <Link
-                                        href="/berita"
-                                        className={`nav hover:pl-10 duration-200 transition-all flex pr-4 text-[16px] items-center gap-[12px] mb-2 rounded-[8px] py-[10px] px-[24px] ${pathname.startsWith("/berita")
-                                            ? "bg-white text-primary"
-                                            : "bg-transparent text-white"
-                                            }`} >
-                                        <div className="w-[35px]">
-                                            <BeritaIcon />
-                                        </div>
-                                        Berita
-                                    </Link>
-                                </AccordionItem>
-                                {/* laporan */}
                                 {/* event */}
                                 <AccordionItem className="" value="item-4">
                                     <Link
@@ -333,6 +304,51 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                                     </Link>
                                 </AccordionItem>
                                 {/* indeks-kepuasan */}
+                                {/* laporan */}
+                                <AccordionItem className="" value="item-3">
+                                    <Link
+                                        href="/laporan-disnaker"
+                                        className={`nav hover:pl-10 duration-200 transition-all flex pr-4 text-[16px] items-center gap-[12px] mb-2 rounded-[8px] py-[10px] px-[24px] ${pathname.startsWith("/laporan-disnaker")
+                                            ? "bg-white text-primary"
+                                            : "bg-transparent text-white"
+                                            }`} >
+                                        <div className="w-[35px]">
+                                            <LaporanDinasIcon />
+                                        </div>
+                                        Laporan
+                                    </Link>
+                                </AccordionItem>
+                                {/* laporan */}
+                                {/* berita */}
+                                <AccordionItem className="" value="item-3">
+                                    <Link
+                                        href="/berita"
+                                        className={`nav hover:pl-10 duration-200 transition-all flex pr-4 text-[16px] items-center gap-[12px] mb-2 rounded-[8px] py-[10px] px-[24px] ${pathname.startsWith("/berita")
+                                            ? "bg-white text-primary"
+                                            : "bg-transparent text-white"
+                                            }`} >
+                                        <div className="w-[35px]">
+                                            <BeritaIcon />
+                                        </div>
+                                        Berita
+                                    </Link>
+                                </AccordionItem>
+                                {/* berita */}
+                                {/* informasi */}
+                                <AccordionItem className="" value="item-22">
+                                    <Link
+                                        href="/informasi"
+                                        className={`nav hover:pl-10 duration-200 transition-all flex pr-4 text-[16px] items-center gap-[12px] mb-2 rounded-[8px] py-[10px] px-[24px] ${pathname.startsWith("/informasi")
+                                            ? "bg-white text-primary"
+                                            : "bg-transparent text-white"
+                                            }`} >
+                                        <div className="w-[35px]">
+                                            <InfoIcon />
+                                        </div>
+                                        Informasi
+                                    </Link>
+                                </AccordionItem>
+                                {/* berita */}
                                 {/* master data */}
                                 <AccordionItem className="" value="item-6">
                                     <AccordionTrigger
@@ -378,6 +394,11 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                                         <Menu link="/master-data/kelurahan">
                                             <span className="text-[16px]">
                                                 Kelurahan
+                                            </span>
+                                        </Menu>
+                                        <Menu link="/master-data/fasilitas">
+                                            <span className="text-[16px]">
+                                                Fasilitas
                                             </span>
                                         </Menu>
                                         <Menu link="/master-data/syarat-ketentuan">
