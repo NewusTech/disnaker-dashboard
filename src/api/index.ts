@@ -834,7 +834,7 @@ const useGetBerita = (currentPage: number, search: string, status: string) => {
   };
 };
 
-// get id berita
+// get slug berita
 const useGetBeritaGetSlug = (slug: string) => {
   const [accessToken] = useLocalStorage("accessToken", "");
   const axiosPrivate = useAxiosPrivate();
@@ -861,7 +861,183 @@ const useGetBeritaGetSlug = (slug: string) => {
   };
 };
 
+// get id lamaran
+export interface ApplicationResponse {
+  status: number;
+  message: string;
+  data: ApplicationData;
+}
+
+export interface ApplicationData {
+  id: number;
+  user_id: number;
+  vacancy_id: number;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+  Vacancy: Vacancy;
+  User: User;
+}
+
+export interface Vacancy {
+  id: number;
+  title: string;
+}
+
+export interface User {
+  id: number;
+  email: string;
+  UserProfile: UserProfile;
+  UserExperiences: UserExperience[];
+  UserEducationHistories: UserEducationHistory[];
+  UserOrganizations: UserOrganization[];
+  Skills: Skill2[];
+  UserCertificates: UserCertificate[];
+  UserLinks: UserLink[];
+}
+
+export interface UserProfile {
+  id: number;
+  user_id: number;
+  name: string;
+  nik: string;
+  birthDate: string;
+  slug: string;
+  department: string;
+  gender: string;
+  address: string;
+  phoneNumber: string;
+  about: string;
+  cv: string | null;
+  portfolio: string | null;
+  birthPlace: string;
+  religion: string;
+  location: string | null;
+  profession: string;
+  image: string;
+  kk: string;
+  ktp: string;
+  employmentStatus: string;
+  maritalStatus: string;
+  citizenship: string;
+  deletedAt: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface UserExperience {
+  id: number;
+  user_id: number;
+  title: string;
+  possition: string;
+  companyName: string;
+  contractType: string;
+  joinDate: string;
+  leaveDate: string;
+  isCurrently: string;
+  desc: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface UserEducationHistory {
+  id: number;
+  user_id: number;
+  educationLevel_id: number;
+  instanceName: string;
+  department: string;
+  gpa: string;
+  joinDate: string;
+  graduationDate: string;
+  isCurrently: string;
+  desc: string;
+  ijazah: string;
+  transkrip: string;
+  EducationLevel: {
+    level: string;
+  }
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface UserOrganization {
+  id: number;
+  user_id: number;
+  name: string;
+  organizationName: string;
+  joinDate: string;
+  leaveDate: string;
+  desc: string;
+  isCurrently: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Skill2 {
+  id: number;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+  UserSkill: UserSkill;
+}
+
+export interface UserSkill {
+  user_id: number;
+  skill_id: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface UserCertificate {
+  id: number;
+  user_id: number;
+  name: string;
+  organization: string;
+  file: string;
+  expiredDate: string;
+  isNonExpire: string;
+  desc: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface UserLink {
+  id: number;
+  user_id: number;
+  link: string;
+  linkType: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+const useGetLamaranGetId = (id: string) => {
+  const [accessToken] = useLocalStorage("accessToken", "");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } =
+    useSWR<ApplicationResponse>(
+      `/application/get/${id}`,
+      () =>
+        axiosPrivate
+          .get(`/application/get/${id}`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
+          .then((res) => res.data) // Ensure `res.data` contains the desired data
+    );
+
+  return {
+    data,
+    error,
+    mutate,
+    isValidating,
+    isLoading,
+  };
+};
+
 export {
+  useGetLamaranGetId,
   useGetBeritaGetSlug,
   useGetBerita,
   useGetLamaranDisnaker,

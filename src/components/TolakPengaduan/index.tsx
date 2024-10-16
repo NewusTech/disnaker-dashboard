@@ -24,7 +24,7 @@ const TolakPengaduan: FC<TolakPengaduanProps> = ({ onTolak }) => {
     const handleReject = async () => {
         setLoading(true);
         const payload = {
-            status: 'ditolak',
+            status: 'Ditutup',
             keterangan: alasan, // alasan penolakan dari user
         };
 
@@ -44,7 +44,7 @@ const TolakPengaduan: FC<TolakPengaduanProps> = ({ onTolak }) => {
             <Dialog open={isOpen} onOpenChange={setIsOpen}>
                 <DialogTrigger asChild>
                     <Button onClick={() => setIsOpen(true)} className="rounded-full w-[200px] bg-error hover:bg-error/80">
-                        Ditolak
+                        Ditutup
                     </Button>
                 </DialogTrigger>
                 <DialogContent className="bg-white max-w-2xl">

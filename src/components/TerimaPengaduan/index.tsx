@@ -24,7 +24,7 @@ const TerimaPengaduan: FC<TerimaPengaduanProps> = ({ onTerima }) => {
     const handleReject = async () => {
         setLoading(true);
         const payload = {
-            status: 'diterima',
+            status: 'Diterima',
             keterangan: alasan, // alasan penolakan dari user
         };
 

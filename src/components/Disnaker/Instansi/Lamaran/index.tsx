@@ -82,12 +82,12 @@ const DataTable: React.FC<ApplicationResponse> = ({ headers, data, currentPage, 
     const statusOptions = [
         { label: "Dilamar", value: "Dilamar" },
         { label: "Wawancara", value: "Wawancara" },
-        { label: "Test", value: "Test" },
+        { label: "Tes", value: "Tes" },
         { label: "Diterima", value: "Diterima" },
-        { label: "Ditolak", value: "ditolak" },
+        { label: "Ditolak", value: "Ditolak" },
     ];
 
-    const handleOpenPopup = (user: User) => {
+    const handleOpenPopup = (user: Application) => {
         setIsOpen(true);
         setSelectedUser(user);
     };
@@ -108,13 +108,9 @@ const DataTable: React.FC<ApplicationResponse> = ({ headers, data, currentPage, 
         try {
 
             // Send the request to the server
-            // await axiosPrivate.put(`/application/status/update/${selectedUser.slug}`, {
-            //     vacancy_id: selectedUser.id,
-            //     status: selectedValue,
-            // });
-
-            console.log("slug", selectedUser.slug)
-            console.log("selected", selectedValue)
+            await axiosPrivate.put(`/application/update/${selectedUser.id}`, {
+                status: selectedValue,
+            });
 
             Swal.fire({
                 icon: 'success',
@@ -181,7 +177,7 @@ const DataTable: React.FC<ApplicationResponse> = ({ headers, data, currentPage, 
                                 <TableCell className="text-center">
                                     {(currentPage - 1) * 10 + (index + 1)}
                                 </TableCell>
-                                <TableCell>{user?.Vacancy.Company.name ?? "-"}</TableCell>
+                                <TableCell>{user?.Vacancy.Company.name ?? "-"} {user?.id ?? "-"}</TableCell>
                                 <TableCell className="text-center">{user?.Vacancy.title ?? "-"}</TableCell>
                                 <TableCell className="text-center">{user?.User.UserProfile.name ?? "-"}</TableCell>
                                 <TableCell className="text-center">{user?.User.email ?? "-"}</TableCell>
@@ -192,13 +188,13 @@ const DataTable: React.FC<ApplicationResponse> = ({ headers, data, currentPage, 
                                 <TableCell className={`text-center font-medium
                                 ${user?.status === "Dilamar" ? "text-[#656565]" : ""}
                                 ${user?.status === "Wawancara" ? "text-[#FC6736]" : ""}
-                                ${user?.status === "Test" ? "text-primary" : ""}
+                                ${user?.status === "Tes" ? "text-primary" : ""}
                                 ${user?.status === "Diterima" ? "text-[#399918]" : ""}
                                 ${user?.status === "Ditolak" ? "text-[#DF1212]" : ""}
                                 `}>
                                     {user?.status === "Dilamar" ? "Dilamar" :
                                         user?.status === "Wawancara" ? "Wawancara" :
-                                            user?.status === "Test" ? "Test" :
+                                            user?.status === "Tes" ? "Test" :
                                                 user?.status === "Diterima" ? "Diterima" :
                                                     user?.status === "Ditolak" ? "Ditolak" : "Status Tidak Diketahui"}
                                 </TableCell>
@@ -220,12 +216,12 @@ const DataTable: React.FC<ApplicationResponse> = ({ headers, data, currentPage, 
                                                 <div className="h-1 w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse"></div>
                                                 <DropdownMenuGroup>
                                                     <DropdownMenuItem>
-                                                        <button onClick={() => handleOpenPopup(user?.User)} className="flex items-center gap-2 text-gray-600 hover:text-gray-800">
+                                                        <button onClick={() => handleOpenPopup(user)} className="flex items-center gap-2 text-gray-600 hover:text-gray-800">
                                                             Ubah Status
                                                         </button>
                                                     </DropdownMenuItem>
                                                     <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                                                        <Link href={`/instansi-disnaker/lamaran-pekerjaan/detail`}>
+                                                        <Link href={`/instansi-disnaker/lamaran-pekerjaan/detail/${user?.id}`}>
                                                             <div className="flex items-center gap-2 text-gray-600 hover:text-gray-800">
                                                                 Detail
                                                             </div>
