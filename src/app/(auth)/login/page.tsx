@@ -12,6 +12,7 @@ import HelperError from "@/components/ui/HelperError";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
+import Loading from "@/components/ui/Loading";
 
 
 const formSchema = z.object({
@@ -122,24 +123,47 @@ const LoginPage = () => {
                   width={400}
                   height={400}
                   unoptimized
-                  className="w-[100px] object-contain"
+                  className="w-[150px] object-contain"
                 />
               </div>
               <div className="teks">
-                <div className="head font-bold text-xl md:text-3xl text-white">
+                <div className="head font-bold text-xl md:text-4xl text-white">
                   DISNAKER TANGGAMUS
                 </div>
-                <div className="head text-sm md:text-base text-white">
+                <div className="head text-sm md:text-xl text-white">
                   Sistem Informasi Dinas Tenaga Kerja
                 </div>
               </div>
             </div>
           </div>
-          <div className="right mx-3 md:mx-0 w-full md:w-1/2 h-full bg-primary md:bg-slate-50 flex justify-center items-center">
-            <div className="card w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+          {/*  */}
+          <div className="right mx-3 md:mx-0 w-full md:w-1/2 h-full bg-primary md:bg-slate-50 flex flex-col justify-center items-center">
+            <div className="mb-5 md:hidden">
+              <div className="logo flex items-center gap-2">
+                <div className="im">
+                  <Image
+                    src="/assets/images/lambang.png"
+                    alt="logo"
+                    width={400}
+                    height={400}
+                    unoptimized
+                    className="w-[50px] object-contain"
+                  />
+                </div>
+                <div className="teks">
+                  <div className="head font-bold text-xl text-white">
+                    DISNAKER TANGGAMUS
+                  </div>
+                  <div className="head text-xs text-white">
+                    Sistem Informasi Dinas Tenaga Kerja
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="card w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-2xl mx-3 xl:p-0 dark:bg-gray-800 dark:border-gray-700">
               <div className="p-6 sm:p-8">
                 <div className="head my-3 mb-5 flex flex-col gap-3">
-                  <div className="log flex justify-center">
+                  <div className="log flex justify-center md:mb-7">
                     <Image
                       src="/assets/images/disnaker-logo.png"
                       alt="logo"
@@ -149,11 +173,14 @@ const LoginPage = () => {
                       className="w-[300px] object-contain"
                     />
                   </div>
-                  <h1 className="text-xl font-bold leading-tight tracking-tight text-primary md:text-2xl dark:text-white text-center">
-                    Masuk
+                  <h1 className="text-base leading-tight tracking-tight md:text-2xl  text-center">
+                    Selamat Datang Di Dashboard Disnaker
                   </h1>
+                  <div className="text-center md:text-base text-sm hidden md:block">
+                    Dashboard Disnaker Tanggamus adalah platform layanan ketenagakerjaan terpadu untuk kartu kuning, lowongan kerja, pelatihan, sertifikasi, dan pengaduan online, mempermudah akses bagi masyarakat.
+                  </div>
                 </div>
-                <h2 className="text-center">Masukkan data diri anda</h2>
+                <h2 className="text-center font-medium text-xl md:text-2xl md:mb-10 md:mt-6 mb-5 mt-3">Login Akun!</h2>
                 <form
                   className="flex flex-col gap-4"
                   onSubmit={handleSubmit(onSubmit)}
@@ -161,7 +188,7 @@ const LoginPage = () => {
                   <div>
                     <label
                       htmlFor="email"
-                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                      className="block mb-2 text-sm md:text-base font-medium text-gray-900 "
                     >
                       Email
                     </label>
@@ -169,8 +196,8 @@ const LoginPage = () => {
                       type="text"
                       id="email"
                       {...register("email")}
-                      className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                      placeholder="name@company.com"
+                      className="border border-gray-300 text-gray-900 sm:text-sm rounded-full focus:primary focus:border-primary block w-full p-3"
+                      placeholder="name@email.com"
                     />
                     {errors.email && (
                       <HelperError>{errors.email.message}</HelperError>
@@ -179,7 +206,7 @@ const LoginPage = () => {
                   <div>
                     <label
                       htmlFor="password"
-                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                      className="block mb-2 text-sm md:text-base font-medium text-gray-900 "
                     >
                       Kata Sandi
                     </label>
@@ -189,7 +216,7 @@ const LoginPage = () => {
                         id="password"
                         {...register("password")}
                         placeholder="••••••••"
-                        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        className="border border-gray-300 text-gray-900 sm:text-sm rounded-full focus:primary focus:border-primary block w-full p-3"
                       />
                       {errors.password && (
                         <HelperError>{errors.password.message}</HelperError>
@@ -197,25 +224,38 @@ const LoginPage = () => {
                     </div>
                   </div>
                   {loginError && (
-                    <div className="text-red-500 mt-2">{loginError}</div>
+                    <div className="text-red-500 mt-2 text-center">{loginError}</div>
                   )}
+                  <div className="wrap flex md:flex-row flex-col justify-between">
+                    <p className="text-start mb-1 text-sm md:text-base ">
+                      <Link
+                        href="/forgot-password"
+                        className="hover:text-primary hover:underline"
+                      >
+                        Lupa Password?
+                      </Link>
+                    </p>
+                    <p className="text-center mb-1 mt-0 md:mt-3 text-sm md:text-base md:mb-5">
+                      Belum punya akun? {" "}
+                      <Link
+                        href="/register"
+                        className="font-medium text-primary hover:underline"
+                      >
+                        Daftar Perusahaan
+                      </Link>
+                    </p>
+                  </div>
                   <Button
                     type="submit"
-                    className="text-white bg-primary py-2 px-4 rounded-lg w-full"
+                    className="text-white bg-primary py-3 px-4 rounded-full w-full mt-3 mb-3"
                     disabled={loading}
                   >
-                    {loading ? "Loading..." : "Masuk"}
+                    {loading ? <Loading /> : "Masuk"}
                   </Button>
-                  <p className="text-sm text-center text-gray-500 dark:text-gray-400">
-                    Tidak punya akun?{" "}
-                    <Link
-                      href=""
-                      className="font-medium text-primary hover:underline dark:text-teal-500"
-                    >
-                      Daftar
-                    </Link>
-                  </p>
                 </form>
+                <div className="mt-4 md:text-base text-sm text-center">
+                  Dengan mendaftar, Kamu telah menyetujui <span className="text-primary hover:underline font-medium">Syarat & Ketentuan</span> kami dan Kamu telah membaca <span className="text-primary hover:underline font-medium">Kebijakan Privasi</span> kami.
+                </div>
               </div>
             </div>
           </div>

@@ -533,6 +533,44 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                                     </Link>
                                 </AccordionItem>
                                 {/* Laporan */}
+                                {/* PROFIL */}
+                                <div className="h-[1px] w-full bg-line-stroke my-3"></div>
+                                <AccordionItem className="" value="item-50">
+                                    <AccordionTrigger
+                                        className={`nav flex gap-2 mb-2 rounded-[8px] py-[10px] overflow-hidden px-[25px] font-normal ${pathname.startsWith(
+                                            "/pelamar"
+                                        )
+                                            ? "bg-white text-primary"
+                                            : "bg-transparent text-white"
+                                            }`}>
+                                        <div className="flex gap-3 items-center text-start">
+                                            <div className="w-[45px] flex-shrink-0 bg-white rounded-full h-[45px] border-2 border-white overflow-hidden">
+                                                <Image
+                                                    src="/assets/images/lambang.png"
+                                                    alt="logo"
+                                                    width={400}
+                                                    height={400}
+                                                    unoptimized
+                                                    className="w-full h-full object-cover"
+                                                />
+                                            </div>
+                                            Disnaker Tanggamus
+                                        </div>
+                                    </AccordionTrigger>
+                                    <AccordionContent className="bg-primary-600/25 mb-2 rounded-md">
+                                        <Menu link="/pelamar/undang-pelamar">
+                                            <span className="text-[16px]">
+                                                Profile
+                                            </span>
+                                        </Menu>
+                                        <Menu link="/pelamar/pelamar-diundang">
+                                            <span className="text-[16px]">
+                                                Logout
+                                            </span>
+                                        </Menu>
+                                    </AccordionContent>
+                                </AccordionItem>
+                                {/* PROFIL */}
                             </Accordion>
                             {/* accordion */}
                         </div>

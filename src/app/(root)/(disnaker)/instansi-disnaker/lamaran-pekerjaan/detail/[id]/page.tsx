@@ -476,9 +476,9 @@ const DetailLamaran = () => {
                                                 className="w-full h-full object-cover"
                                             />
                                         )}
-                                        {userLink.linkType === 'porto' && (
+                                        {userLink.linkType === 'portfolio' && (
                                             <Image
-                                                src="https://cdn-icons-png.flaticon.com/512/2504/2504972.png"
+                                                src="https://cdn-icons-png.flaticon.com/512/5339/5339181.png"
                                                 alt="Website logo"
                                                 width={400}
                                                 height={400}

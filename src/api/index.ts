@@ -1155,7 +1155,45 @@ const useGetFasilitasGetId = (id: string) => {
   };
 };
 
+// Hook to fetch Informasi
+interface SnkResponse {
+  status: number;
+  message: string;
+  data: SnkData;
+}
+
+interface SnkData {
+  id: number;
+  desc: string;
+}
+
+const useGetSnk = () => {
+  const [accessToken] = useLocalStorage("accessToken", "");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } = useSWR<SnkResponse>(
+    `/snk/get`,
+    () =>
+      axiosPrivate
+        .get(`/snk/get`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then((res) => res.data) // Ensure `res.data` contains the desired data
+  );
+
+  return {
+    data,
+    error,
+    mutate,
+    isValidating,
+    isLoading,
+  };
+};
+
 export {
+  useGetSnk,
   useGetFasilitasGetId,
   useGetFasilitas,
   useGetInformasiGetId,

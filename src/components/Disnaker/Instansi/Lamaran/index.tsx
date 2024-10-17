@@ -177,7 +177,7 @@ const DataTable: React.FC<ApplicationResponse> = ({ headers, data, currentPage, 
                                 <TableCell className="text-center">
                                     {(currentPage - 1) * 10 + (index + 1)}
                                 </TableCell>
-                                <TableCell>{user?.Vacancy.Company.name ?? "-"} {user?.id ?? "-"}</TableCell>
+                                <TableCell>{user?.Vacancy.Company.name ?? "-"}</TableCell>
                                 <TableCell className="text-center">{user?.Vacancy.title ?? "-"}</TableCell>
                                 <TableCell className="text-center">{user?.User.UserProfile.name ?? "-"}</TableCell>
                                 <TableCell className="text-center">{user?.User.email ?? "-"}</TableCell>
