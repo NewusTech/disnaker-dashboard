@@ -13,7 +13,7 @@ import Loading from '@/components/ui/Loading';
 import { Textarea } from '@/components/ui/textarea';
 
 interface TerimaPengaduanProps {
-    onTerima: (payload: { status: string; keterangan: string; }) => Promise<void>; // API function
+    onTerima: (payload: { status: string; response: string; }) => Promise<void>; // API function
 }
 
 const TerimaPengaduan: FC<TerimaPengaduanProps> = ({ onTerima }) => {
@@ -25,7 +25,7 @@ const TerimaPengaduan: FC<TerimaPengaduanProps> = ({ onTerima }) => {
         setLoading(true);
         const payload = {
             status: 'Diterima',
-            keterangan: alasan, // alasan penolakan dari user
+            response: alasan, // alasan penolakan dari user
         };
 
         try {
@@ -70,7 +70,7 @@ const TerimaPengaduan: FC<TerimaPengaduanProps> = ({ onTerima }) => {
                                     Batal
                                 </Button>
                                 <Button
-                                    className={`px-5 rounded-full ${loading ? 'bg-gray-500' : 'bg-primary hover:bg-primary/80'}`}
+                                    className={`px-5 w-[160px] rounded-full ${loading ? 'bg-gray-500' : 'bg-primary hover:bg-primary/80'}`}
                                     onClick={handleReject}
                                     disabled={loading || !alasan} // Disable button if loading or no reason provided
                                 >

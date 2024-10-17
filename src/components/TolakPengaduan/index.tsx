@@ -13,7 +13,7 @@ import Loading from '@/components/ui/Loading';
 import { Textarea } from '@/components/ui/textarea';
 
 interface TolakPengaduanProps {
-    onTolak: (payload: { status: string; keterangan: string; }) => Promise<void>; // API function
+    onTolak: (payload: { status: string; response: string; }) => Promise<void>; // API function
 }
 
 const TolakPengaduan: FC<TolakPengaduanProps> = ({ onTolak }) => {
@@ -25,7 +25,7 @@ const TolakPengaduan: FC<TolakPengaduanProps> = ({ onTolak }) => {
         setLoading(true);
         const payload = {
             status: 'Ditutup',
-            keterangan: alasan, // alasan penolakan dari user
+            response: alasan, // alasan penolakan dari user
         };
 
         try {
@@ -70,7 +70,7 @@ const TolakPengaduan: FC<TolakPengaduanProps> = ({ onTolak }) => {
                                     Batal
                                 </Button>
                                 <Button
-                                    className={`px-5 rounded-full ${loading ? 'bg-gray-500' : 'bg-primary hover:bg-primary/80'}`}
+                                    className={`px-5 w-[160px] rounded-full ${loading ? 'bg-gray-500' : 'bg-primary hover:bg-primary/80'}`}
                                     onClick={handleReject}
                                     disabled={loading || !alasan} // Disable button if loading or no reason provided
                                 >

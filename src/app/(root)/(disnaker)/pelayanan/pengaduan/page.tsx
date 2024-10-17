@@ -10,6 +10,7 @@ import DataTable from '@/components/admin/Pengaduan';
 import { Button } from '@/components/ui/button';
 import Unduh1icon from '../../../../../../public/assets/icons/Unduh1icon';
 import BreadPelayanan from '../../../../../../public/assets/icons/BreadPelayanan';
+import { useGetPengaduan } from '@/api';
 
 const PengaduanPage = () => {
   const breadcrumbItems = [
@@ -28,59 +29,32 @@ const PengaduanPage = () => {
   ];
   // select
 
-  // Dummy data
-  const dummyData = [
-    {
-      no: 1,
-      nama: "John Doe",
-      nik: "123456789",
-      judul: "Website Lama",
-      tanggal: "23 Desember 2023",
-      status: "proses",
-    },
-    {
-      no: 2,
-      nama: "Jane Smith",
-      nik: "987654321",
-      judul: "Website Lama",
-      tanggal: "24 Desember 2023",
-      status: "diterima",
-    },
-    {
-      no: 3,
-      nama: "Michael Johnson",
-      nik: "456789123",
-      judul: "Website Lama",
-      tanggal: "25 Desember 2023",
-      status: "ditolak",
-    },
-    {
-      no: 4,
-      nama: "Emily Davis",
-      nik: "321654987",
-      judul: "Website Lama",
-      tanggal: "26 Desember 2023",
-      status: "diterima",
-    },
-    {
-      no: 5,
-      nama: "Chris Brown",
-      nik: "159753468",
-      judul: "Website Lama",
-      tanggal: "27 Desember 2023",
-      status: "ditolak",
-    },
-  ];
 
   // 
   // Define table headers
   const tableHeaders = ["No", "Nama", "NIK", "Judul", "Tanggal Dibuat", "Status", "Aksi"];
-  // pagination
-  const [currentPage, setCurrentPage] = useState(3);
+
+  // Ensure statusLowongan is always a string
+  const status = selectedValue === "semua" ? "" : selectedValue || ""; // Default to empty string if undefined
+  // select
+
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
   const onPageChange = (page: number) => {
     setCurrentPage(page)
   };
-  // pagination
+
+  // serach
+  const [search, setSearch] = useState("");
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(event.target.value);
+    setCurrentPage(1); // Reset to page 1
+  };
+  // serach
+
+  // INTEGRASI
+  const { data } = useGetPengaduan(currentPage, search, status);
+  // INTEGRASI
 
 
   return (
@@ -90,6 +64,8 @@ const PengaduanPage = () => {
         <Input
           placeholder='Pencarian'
           leftIcon={<SearchIcon />}
+          value={search}
+          onChange={handleSearchChange}
         />
         <Input
           type='date'
@@ -108,23 +84,26 @@ const PengaduanPage = () => {
           width="w-full"
         />
         <Button className='flex gap-3 items-center px-10'>
-            <Unduh1icon />
-            Unduh PDF
+          <Unduh1icon />
+          Unduh PDF
         </Button>
       </div>
       {/* table */}
       <div className="Table mt-3">
         <DataTable
           headers={tableHeaders}
-          data={dummyData}
+          data={data?.data}
+          currentPage={currentPage}
+          search={search}
+          status={status}
         />
       </div>
       {/* table */}
       {/* pagination */}
       <div className="pagi flex items-center justify-center pb-5 lg:pb-0">
         <PaginationTable
-          currentPage={1}
-          totalPages={15}
+          currentPage={currentPage}
+          totalPages={data?.pagination?.totalPages as number}
           onPageChange={onPageChange}
         />
       </div>

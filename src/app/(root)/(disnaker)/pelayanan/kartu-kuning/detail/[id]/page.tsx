@@ -1,10 +1,15 @@
+"use client"
+
 import React from 'react';
 import Breadcrumb from '@/components/BreadCrumb';
-import BackIcon from '../../../../../../../public/assets/icons/BackIcon';
+import BackIcon from '../../../../../../../../public/assets/icons/BackIcon';
 import Link from 'next/link';
 import Garis from '@/components/ui/garis';
 import DetailKartuKuning from '@/components/admin/KartuKuning/detail';
-import BreadPelayanan from '../../../../../../../public/assets/icons/BreadPelayanan';
+import BreadPelayanan from '../../../../../../../../public/assets/icons/BreadPelayanan';
+import LoadingPage from '@/components/ui/LoadingPage';
+import { useParams } from 'next/navigation';
+import { useGetKartuKuningGetId } from '@/api';
 
 const Detail: React.FC = () => {
     const breadcrumbItems = [
@@ -13,21 +18,21 @@ const Detail: React.FC = () => {
         { label: 'Detail Kartu Kuning' },
     ];
 
-    const dummyData = {
-        status: "Terbit",
-        nama: "Irsyad Abi Izzulhaq",
-        nik: "1871032302000006",
-        alamat: "Sukarame, Bandar Lampung",
-        kecamatan: "Bandar Lampung",
-        kelurahan: "Sukarame",
-        noPengajuan: "345346457",
-        pendidikan: "Sarjana 1",
-        keterampilan: "UI/UX Design, Front End Developer, Back End Developer dan Graphic Design",
-        pekerjaan: "Programmer",
-        kartuKeluarga : "https://www.bhuanajaya.desa.id/wp-content/uploads/images/kartu-keluarga-kk-82000_1080x675.webp",
-        ktp : "https://umsu.ac.id/artikel/wp-content/uploads/2023/11/cara-mudah-cek-ktp-asli-atau-palsu.jpeg",
-        kartuKuning : "-",
-    };
+    
+    // Integrasi API
+    const { id } = useParams();
+    const { data, isLoading, error } = useGetKartuKuningGetId(id as string);
+
+    if (isLoading) {
+        return <div >
+            <LoadingPage />
+        </div>;
+    }
+
+    if (error) {
+        return <div className="text-center mt-10 text-red-500">Failed to load data</div>;
+    }
+
 
     return (
         <div>
@@ -43,7 +48,7 @@ const Detail: React.FC = () => {
             <Garis />
             {/* Top */}
             {/* Detail */}
-            <DetailKartuKuning data={dummyData} />
+            <DetailKartuKuning data={data?.data} />
             {/* Detail */}
         </div>
     );

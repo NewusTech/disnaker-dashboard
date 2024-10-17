@@ -1,10 +1,15 @@
+"use client"
+
 import React from 'react';
 import Breadcrumb from '@/components/BreadCrumb';
-import BackIcon from '../../../../../../../public/assets/icons/BackIcon';
+import BackIcon from '../../../../../../../../public/assets/icons/BackIcon';
 import Link from 'next/link';
 import Garis from '@/components/ui/garis';
 import DetailPengaduan from '@/components/admin/Pengaduan/detail';
-import BreadPelayanan from '../../../../../../../public/assets/icons/BreadPelayanan';
+import BreadPelayanan from '../../../../../../../../public/assets/icons/BreadPelayanan';
+import LoadingPage from '@/components/ui/LoadingPage';
+import { useGetPengaduanGetId } from '@/api';
+import { useParams } from 'next/navigation';
 
 const Detail: React.FC = () => {
     const breadcrumbItems = [
@@ -13,13 +18,19 @@ const Detail: React.FC = () => {
         { label: 'Detail Pengaduan' },
     ];
 
-    const dummyData = {
-        nama: "Irsyad Abi Izzulhaq",
-        judul: "Proses Kartu Kuning Lambat",
-        deskripsi: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, ",
-        tanggal: "24 - Februari - 2000",
-        foto: "https://radarlampung.disway.id/upload/60451837b04fbd0259e0ffb04545f88a.jpg",
-    };
+    // Integrasi API
+    const { id } = useParams();
+    const { data, isLoading, error } = useGetPengaduanGetId(id as string);
+
+    if (isLoading) {
+        return <div >
+            <LoadingPage />
+        </div>;
+    }
+
+    if (error) {
+        return <div className="text-center mt-10 text-red-500">Failed to load data</div>;
+    }
 
     return (
         <div>
@@ -35,7 +46,7 @@ const Detail: React.FC = () => {
             <Garis />
             {/* Top */}
             {/* Detail */}
-            <DetailPengaduan data={dummyData} />
+            <DetailPengaduan data={data?.data} />
             {/* Detail */}
         </div>
     );

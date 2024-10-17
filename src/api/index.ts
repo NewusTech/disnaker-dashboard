@@ -1192,7 +1192,129 @@ const useGetSnk = () => {
   };
 };
 
+// Hook to fetch kartu kuning
+const useGetKartuKuning = (
+  currentPage: number,
+  search: string,
+  status: string
+) => {
+  const [accessToken] = useLocalStorage("accessToken", "");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } = useSWR(
+    `/yellowcard/get?page=${currentPage}&limit=10&search=${search}&status=${status}`,
+    () =>
+      axiosPrivate
+        .get(
+          `/yellowcard/get?page=${currentPage}&limit=10&search=${search}&status=${status}`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        )
+        .then((res) => res.data) // Ensure `res.data` contains the desired data
+  );
+
+  return {
+    data,
+    error,
+    mutate,
+    isValidating,
+    isLoading,
+  };
+};
+
+// get id kartu kuning
+const useGetKartuKuningGetId = (id: string) => {
+  const [accessToken] = useLocalStorage("accessToken", "");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } = useSWR(
+    `/yellowcard/get/${id}`,
+    () =>
+      axiosPrivate
+        .get(`/yellowcard/get/${id}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then((res) => res.data) // Ensure `res.data` contains the desired data
+  );
+
+  return {
+    data,
+    error,
+    mutate,
+    isValidating,
+    isLoading,
+  };
+};
+
+// Hook to fetch pengaduan
+const useGetPengaduan = (
+  currentPage: number,
+  search: string,
+  status: string
+) => {
+  const [accessToken] = useLocalStorage("accessToken", "");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } = useSWR(
+    `/complaint/get?page=${currentPage}&limit=10&search=${search}&status=${status}`,
+    () =>
+      axiosPrivate
+        .get(
+          `/complaint/get?page=${currentPage}&limit=10&search=${search}&status=${status}`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        )
+        .then((res) => res.data) // Ensure `res.data` contains the desired data
+  );
+
+  return {
+    data,
+    error,
+    mutate,
+    isValidating,
+    isLoading,
+  };
+};
+
+// get id pengaduan
+const useGetPengaduanGetId = (id: string) => {
+  const [accessToken] = useLocalStorage("accessToken", "");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } = useSWR(
+    `/complaint/get/${id}`,
+    () =>
+      axiosPrivate
+        .get(`/complaint/get/${id}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then((res) => res.data) // Ensure `res.data` contains the desired data
+  );
+
+  return {
+    data,
+    error,
+    mutate,
+    isValidating,
+    isLoading,
+  };
+};
+
 export {
+  useGetPengaduanGetId,
+  useGetPengaduan,
+  useGetKartuKuningGetId,
+  useGetKartuKuning,
   useGetSnk,
   useGetFasilitasGetId,
   useGetFasilitas,

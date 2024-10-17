@@ -3,23 +3,66 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 
 // Define the structure of the data props
-interface DetailKartuKuningProps {
-    data: {
-        status: string;
-        nama: string;
-        nik: string;
-        alamat: string;
-        kecamatan: string;
-        kelurahan: string;
-        noPengajuan: string;
-        pekerjaan: string;
-        pendidikan: string;
-        keterampilan: string;
-        kartuKeluarga: string;
-        ktp: string;
-        kartuKuning: string;
-    };
+interface UserYellowCardResponse {
+    data: UserYellowCard;
 }
+
+interface UserYellowCard {
+    id: number;
+    user_id: number;
+    residance: string;
+    submissionNumber: string;
+    provinsi: string;
+    kabupaten: string;
+    kecamatan: string;
+    kelurahan: string;
+    educationLevel_id: number;
+    job: string;
+    skill: string;
+    status: string;
+    createdAt: string;
+    updatedAt: string;
+    User: User;
+    EducationLevel:{
+        level: string;
+    }
+}
+
+interface User {
+    id: number;
+    email: string;
+    UserProfile: UserProfile;
+}
+
+interface UserProfile {
+    id: number;
+    user_id: number;
+    name: string;
+    nik: string;
+    birthDate: string;
+    slug: string;
+    department: string;
+    gender: string;
+    address: string;
+    phoneNumber: string;
+    about: string;
+    cv: string;
+    portfolio: string;
+    birthPlace: string;
+    religion: string;
+    location: string | null;
+    profession: string;
+    image: string;
+    kk: string;
+    ktp: string;
+    employmentStatus: string;
+    maritalStatus: string;
+    citizenship: string;
+    deletedAt: string | null;
+    createdAt: string;
+    updatedAt: string;
+}
+
 
 interface ProfileInfo {
     label: string;
@@ -33,7 +76,7 @@ const ProfileDetail: React.FC<ProfileInfo> = ({ label, value }) => (
     </div>
 );
 
-const DetailKartuKuning: React.FC<DetailKartuKuningProps> = ({ data }) => {
+const DetailKartuKuning: React.FC<UserYellowCardResponse> = ({ data }) => {
     const [isModalOpenKeluarga, setIsModalOpenKeluarga] = useState(false);
     const openModalKeluarga = () => setIsModalOpenKeluarga(true);
     const closeModalKeluarga = () => setIsModalOpenKeluarga(false);
@@ -46,8 +89,15 @@ const DetailKartuKuning: React.FC<DetailKartuKuningProps> = ({ data }) => {
     return (
         <div>
             {/* Detail */}
-            <div className="status py-2 rounded-full w-full text-succes bg-succes/20 text-center mb-4">
-                Status : {data.status}
+            <div
+                className={`w-full py-3 mb-4 text-center font-medium rounded-full ${data?.status === 'Pengajuan' ? 'bg-[#656565]/20 text-[#656565]' :
+                    data?.status === 'Proses' ? 'bg-[#FC6736]/20 text-[#FC6736]' :
+                            data?.status === 'Terbit' ? 'bg-succes/20 text-succes' :
+                                data?.status === 'Ditolak' ? 'bg-error/20 text-error' :
+                                    'bg-gray-300 text-gray-700' // Default style
+                    }`}
+            >
+                Status Kartu Kuning : {data?.status ?? "-"}
             </div>
             <div className="wrap-all flex flex-col gap-6">
                 {/* Profile Kependudukan */}
@@ -57,16 +107,20 @@ const DetailKartuKuning: React.FC<DetailKartuKuningProps> = ({ data }) => {
                     </div>
                     <div className="konten flex flex-col gap-4">
                         <div className="wrap flex gap-1 px-1">
-                            <ProfileDetail label="Nama" value={data.nama} />
-                            <ProfileDetail label="NIK" value={data.nik} />
+                            <ProfileDetail label="No Pengajuan" value={data.submissionNumber ?? "-"} />
+                            <ProfileDetail label="Nama" value={data?.User?.UserProfile?.name ?? "-"} />
                         </div>
                         <div className="wrap flex gap-1 px-1">
-                            <ProfileDetail label="Alamat Domisili" value={data.alamat} />
-                            <ProfileDetail label="Kecamatan" value={data.kecamatan} />
+                            <ProfileDetail label="NIK" value={data?.User?.UserProfile?.nik ?? "-"} />
+                            <ProfileDetail label="Alamat Domisili" value={data?.User?.UserProfile?.address ?? "-"} />
                         </div>
                         <div className="wrap flex gap-1 px-1">
-                            <ProfileDetail label="Kelurahan" value={data.kelurahan} />
-                            <ProfileDetail label="No Pengajuan" value={data.noPengajuan} />
+                            <ProfileDetail label="Provinsi" value={data?.provinsi ?? "-"} />
+                            <ProfileDetail label="Kabupaten" value={data?.kabupaten ?? "-"} />
+                        </div>
+                        <div className="wrap flex gap-1 px-1">
+                            <ProfileDetail label="Kecamatan" value={data?.kecamatan ?? "-"} />
+                            <ProfileDetail label="Kelurahan" value={data?.kelurahan ?? "-"} />
                         </div>
                     </div>
                 </div>
@@ -77,13 +131,13 @@ const DetailKartuKuning: React.FC<DetailKartuKuningProps> = ({ data }) => {
                     </div>
                     <div className="konten flex flex-col gap-4">
                         <div className="wrap flex gap-1 px-1">
-                            <ProfileDetail label="Pendidikan Terakhir" value={data.pendidikan} />
+                            <ProfileDetail label="Pendidikan Terakhir" value={data?.EducationLevel?.level ?? "-"} />
                         </div>
                         <div className="wrap flex gap-1 px-1">
-                            <ProfileDetail label="Keterampilan" value={data.keterampilan} />
+                            <ProfileDetail label="Keterampilan" value={data?.skill ?? "-"} />
                         </div>
                         <div className="wrap flex gap-1 px-1">
-                            <ProfileDetail label="Pekerjaan" value={data.pekerjaan} />
+                            <ProfileDetail label="Pekerjaan" value={data?.job ?? "-"} />
                         </div>
                     </div>
                 </div>
@@ -97,15 +151,14 @@ const DetailKartuKuning: React.FC<DetailKartuKuningProps> = ({ data }) => {
                         <div className="wrap flex gap-1 px-1">
                             <div className="left w-1/2">
                                 <div className="teks text-sm">
-                                    <div className="w-full h-[300px] rounded-lg overflow-hidden cursor-pointer" onClick={openModalKeluarga}>
-                                        <Image
-                                            src={data.kartuKeluarga}
-                                            alt="Foto User"
-                                            className="object-cover w-full h-full"
-                                            width={300}
-                                            height={300}
-                                            unoptimized
-                                        />
+                                    <div className="w-full h-[350px] rounded-lg overflow-hidden cursor-pointer" onClick={openModalKeluarga}>
+                                        <iframe
+                                            allowFullScreen
+                                            src={data?.User?.UserProfile?.kk}
+                                            title="Manual Book"
+                                            className="rounded-xl w-full h-full"
+                                        >
+                                        </iframe>
                                     </div>
                                 </div>
                             </div>
@@ -122,15 +175,14 @@ const DetailKartuKuning: React.FC<DetailKartuKuningProps> = ({ data }) => {
                         <div className="wrap flex gap-1 px-1">
                             <div className="left w-1/2">
                                 <div className="teks text-sm">
-                                    <div className="w-full h-[300px] rounded-lg overflow-hidden cursor-pointer" onClick={openModalKTP}>
-                                        <Image
-                                            src={data.ktp}
-                                            alt="Foto User"
-                                            className="object-cover w-full h-full"
-                                            width={300}
-                                            height={300}
-                                            unoptimized
-                                        />
+                                    <div className="w-full h-[350px] rounded-lg overflow-hidden cursor-pointer" onClick={openModalKTP}>
+                                        <iframe
+                                            allowFullScreen
+                                            src={data?.User?.UserProfile?.ktp}
+                                            title="Manual Book"
+                                            className="rounded-xl w-full h-full"
+                                        >
+                                        </iframe>
                                     </div>
                                 </div>
                             </div>
@@ -174,8 +226,8 @@ const DetailKartuKuning: React.FC<DetailKartuKuningProps> = ({ data }) => {
                         </button>
                         <div className="flex justify-center items-center">
                             <Image
-                                src={data.kartuKeluarga}
-                                alt={`Full-size photo of user`}
+                                src={data?.User?.UserProfile?.kk ?? "https://i.sstatic.net/y9DpT.jpg"}
+                                alt={`kartu keluarga`}
                                 className="object-cover"
                                 width={600}
                                 height={600}
@@ -204,8 +256,8 @@ const DetailKartuKuning: React.FC<DetailKartuKuningProps> = ({ data }) => {
                         </button>
                         <div className="flex justify-center items-center">
                             <Image
-                                src={data.ktp}
-                                alt={`Full-size photo of user`}
+                                src={data?.User?.UserProfile?.ktp ?? "https://i.sstatic.net/y9DpT.jpg"}
+                                alt={`ktp`}
                                 className="object-cover"
                                 width={600}
                                 height={600}

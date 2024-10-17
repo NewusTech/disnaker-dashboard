@@ -19,25 +19,98 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import DeletePopupTitik from "@/components/AksiPopup";
+import useLocalStorage from "@/hooks/useLocalStorage";
+import useAxiosPrivate from "@/hooks/useAxiosPrivate";
+import { showAlert } from "@/lib/swalAlert";
+import { mutate } from "swr";
+import Loading from "@/components/ui/Loading";
 
-interface DataTableProps {
+interface ComplaintResponse {
+    data: Complaint[];
     headers: string[];
-    data: Array<{
-        no: number;
-        nama: string;
-        nik: string;
-        judul: string;
-        tanggal: string;
-        status: string;
-    }>;
+    currentPage: number;
+    search: string;
+    status: string;
 }
 
-const DataTable: React.FC<DataTableProps> = ({ headers, data }) => {
+interface Complaint {
+    id: number;
+    user_id: number;
+    submissionNumber: string;
+    title: string;
+    desc: string;
+    response: string | null;
+    file: string | null;
+    status: string;
+    createdAt: string;
+    updatedAt: string;
+    User: User;
+}
+
+interface User {
+    id: number;
+    email: string;
+    UserProfile: UserProfile;
+}
+
+interface UserProfile {
+    id: number;
+    user_id: number;
+    name: string;
+    nik: string;
+    birthDate: string;
+    slug: string;
+    department: string;
+    gender: string;
+    address: string;
+    phoneNumber: string;
+    about: string;
+    cv: string;
+    portfolio: string;
+    birthPlace: string;
+    religion: string;
+    location: string | null;
+    profession: string;
+    image: string;
+    kk: string;
+    ktp: string;
+    employmentStatus: string;
+    maritalStatus: string;
+    citizenship: string;
+    deletedAt: string | null;
+    createdAt: string;
+    updatedAt: string;
+}
+
+const DataTable: React.FC<ComplaintResponse> = ({ headers, data, currentPage, search, status }) => {
+
+    const [accessToken] = useLocalStorage("accessToken", "");
+    const axiosPrivate = useAxiosPrivate();
+    const handleDelete = async (id: number) => {
+        try {
+            await axiosPrivate.delete(`/complaint/delete/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            // alert
+            showAlert('success', 'Data berhasil dihapus!');
+
+            // alert
+            // Update the local data after successful deletion
+        } catch (error: any) {
+            // Extract error message from API response
+            const errorMessage = error.response?.data?.data?.[0]?.message || error.response?.data?.message || 'Gagal menghapus data!';
+            showAlert('error', errorMessage);
+            //   alert
+        } mutate(`/complaint/get?page=${currentPage}&limit=10&search=${search}&status=${status}`);;
+    };
 
     const [isOpen, setIsOpen] = useState(false);
     const [selectedFoto, setSelectedFoto] = useState<string | null>(null);
     const [selectedUser, setSelectedUser] = useState<any | null>(null); // Store the currently selected user for status update
     const [selectedValue, setSelectedValue] = useState<string | undefined>(undefined);
+    const [isLoading, setIsLoading] = useState(false); // Loading state
 
     const statusOptions = [
         { label: "Proses", value: "proses" },
@@ -45,27 +118,36 @@ const DataTable: React.FC<DataTableProps> = ({ headers, data }) => {
         { label: "Ditutup", value: "ditutup" },
     ];
 
-    const handleOpenPopup = (user: any) => {
+    const handleOpenPopup = (user: Complaint) => {
         setIsOpen(true);
-        setSelectedUser(user); // Store the selected user
-        setSelectedValue(user.status); // Set the current status for the select
+        setSelectedUser(user);
     };
 
     const handleClosePopup = () => {
         setIsOpen(false);
-        setSelectedFoto(null);
-        setSelectedUser(null); // Clear selected user
+        setSelectedUser(null);
         setSelectedValue(undefined); // Reset selected value
     };
 
-    const handleStatus = () => {
-        if (selectedUser) {
-            // Here you can update the status in your data or make an API call
-            console.log(`Updating status for user ${selectedUser.no} to ${selectedValue}`);
-            // For example, you could update the local state or send a request to your API
+    const handleStatus = async () => {
+        if (!selectedUser) return;
 
-            // Close the popup after updating
-            handleClosePopup();
+        setIsLoading(true); // Start loading
+        try {
+            // Send the request to the server
+            await axiosPrivate.put(`/yellowcard/update/${selectedUser.id}`, {
+                status: selectedValue,
+            });
+            showAlert('success', 'Status berhasil diperbarui!');
+        } catch (error: any) {
+            // Extract error message from API response
+            const errorMessage = error.response?.data?.data?.[0]?.message || error.response?.data?.message || 'Gagal memperbarui status!';
+            showAlert('error', errorMessage);
+            //   alert
+        } finally {
+            setIsLoading(false); // Stop loading
+            handleClosePopup(); // Close the popup after operation
+            mutate(`/yellowcard/get?page=${currentPage}&limit=10&search=${search}&status=${status}`);
         }
     };
 
@@ -80,21 +162,24 @@ const DataTable: React.FC<DataTableProps> = ({ headers, data }) => {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {data.map((user) => (
-                        <TableRow key={user.no}>
-                            <TableCell className="text-center">{user.no}</TableCell>
-                            <TableCell>{user.nama}</TableCell>
-                            <TableCell className="text-center">{user.nik}</TableCell>
-                            <TableCell className="text-center">{user.judul}</TableCell>
-                            <TableCell className="text-center">{user.tanggal}</TableCell>
+                    {data?.length > 0 ? (
+                        data.map((user, index) => (
+                            <TableRow key={user?.id}>
+                                <TableCell className="text-center">
+                                    {(currentPage - 1) * 10 + (index + 1)}
+                                </TableCell>
+                            <TableCell>{user?.User?.UserProfile?.name ?? "-"}</TableCell>
+                            <TableCell className="text-center">{user?.User.UserProfile?.nik ?? "-"}</TableCell>
+                            <TableCell className="text-center">{user.title ?? "-"}</TableCell>
+                            <TableCell className="text-center">{user?.createdAt ? new Date(user?.createdAt).toISOString().split('T')[0] : '-'}</TableCell>
                             <TableCell className={`text-center font-medium
-                                ${user.status === "diterima" ? "text-[#399918]" : ""}
-                                ${user.status === "proses" ? "text-[#6E6E6E]" : ""}
-                                ${user.status === "ditolak" ? "text-[#DF1212]" : ""}
+                                ${user.status === "Diterima" ? "text-[#399918]" : ""}
+                                ${user.status === "Proses" ? "text-[#6E6E6E]" : ""}
+                                ${user.status === "Ditutup" ? "text-[#DF1212]" : ""}
                                 `}>
-                                {user.status === "diterima" ? "Diterima" :
-                                    user.status === "proses" ? "Proses" :
-                                        user.status === "ditolak" ? "Ditolak" : "Status Tidak Diketahui"}
+                                {user.status === "Diterima" ? "Diterima" :
+                                    user.status === "Proses" ? "Proses" :
+                                        user.status === "Ditutup" ? "Ditolak" : "Status Tidak Diketahui"}
                             </TableCell>
 
                             {/*  */}
@@ -115,14 +200,14 @@ const DataTable: React.FC<DataTableProps> = ({ headers, data }) => {
                                             <div className="h-1 w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse"></div>
                                             <DropdownMenuGroup>
                                                 <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                                                    <Link className="w-full" href={`/pelayanan/pengaduan/detail`}>
+                                                    <Link className="w-full" href={`/pelayanan/pengaduan/detail/${user?.id}`}>
                                                         <div className="flex items-center gap-2 text-gray-600 hover:text-gray-800">
                                                             Detail
                                                         </div>
                                                     </Link>
                                                 </DropdownMenuItem>
                                                 <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                                                    <DeletePopupTitik onDelete={async () => Promise.resolve()} />
+                                                    <DeletePopupTitik onDelete={() => handleDelete(user?.id)} />
                                                 </DropdownMenuItem>
                                             </DropdownMenuGroup>
                                         </DropdownMenuContent>
@@ -131,44 +216,49 @@ const DataTable: React.FC<DataTableProps> = ({ headers, data }) => {
                             </TableCell>
                             {/*  */}
                         </TableRow>
-                    ))}
+                   ))
+                ) : (
+                    <TableRow>
+                        <TableCell colSpan={7} className="text-center">Tidak ada data</TableCell>
+                    </TableRow>
+                )}
                 </TableBody>
             </Table>
 
-            {/* Popup for displaying the photo */}
+            {/* Popup for updating the status */}
             {isOpen && (
                 <div
                     className="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center"
                     onClick={handleClosePopup} // Close popup on overlay click
                 >
                     <div
-                        className="bg-white p-4 rounded-lg relative"
+                        className="bg-white p-4 rounded-lg relative max-w-[500px] mx-3 md:mx-0 w-full"
                         onClick={(e) => e.stopPropagation()} // Prevent click on inner box from closing the popup
                     >
                         <button
                             onClick={handleClosePopup}
                             className="absolute top-2 right-2 flex justify-center items-center text-white w-6 h-6 rounded-full bg-primary"
                         >
-                            x
+                            &times;
                         </button>
-                        <div className="w-[500px]">
-                            <div className="font-semibold mb-5">
-                                Ubah Status Pengajuan
-                            </div>
-                            <div className="">
-                                <CustomSelect
-                                    label="Status Akun"
-                                    options={statusOptions}
-                                    placeholder="Status Akun"
-                                    value={selectedValue}
-                                    onChange={setSelectedValue}
-                                    width="w-full"
-                                />
-                                <div className="flex justify-end mt-5">
-                                    <Button onClick={handleStatus} className="py-2">
-                                        Perbarui Status
-                                    </Button>
-                                </div>
+                        <div>
+                            <h2 className="font-semibold mb-5">Ubah Status</h2>
+                            <CustomSelect
+                                value={selectedValue}
+                                options={statusOptions}
+                                onChange={setSelectedValue}
+                                placeholder="Pilih status"
+                                label="Status Lowongan"
+                                width="w-full"
+                            />
+                            <div className="flex justify-end mt-5">
+                                <Button
+                                    onClick={handleStatus}
+                                    className="py-2 bg-primary text-white rounded-full w-[170px]"
+                                    disabled={isLoading || !selectedValue} // Disable button if loading or no selection
+                                >
+                                    {isLoading ? <Loading /> : <span className="text-sm">Perbarui status</span>} {/* Button text changes based on loading state */}
+                                </Button>
                             </div>
                         </div>
                     </div>
