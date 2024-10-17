@@ -1310,7 +1310,68 @@ const useGetPengaduanGetId = (id: string) => {
   };
 };
 
+// Hook to fetch transmigrasi
+const useGetTransmigrasi = (
+  currentPage: number,
+  search: string,
+  status: string
+) => {
+  const [accessToken] = useLocalStorage("accessToken", "");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } = useSWR(
+    `/transmigration/get?page=${currentPage}&limit=10&search=${search}&status=${status}`,
+    () =>
+      axiosPrivate
+        .get(
+          `/transmigration/get?page=${currentPage}&limit=10&search=${search}&status=${status}`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        )
+        .then((res) => res.data) // Ensure `res.data` contains the desired data
+  );
+
+  return {
+    data,
+    error,
+    mutate,
+    isValidating,
+    isLoading,
+  };
+};
+
+// get id transmigrasi
+const useGetTransmigrasiGetId = (id: string) => {
+  const [accessToken] = useLocalStorage("accessToken", "");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } = useSWR(
+    `/transmigration/get/${id}`,
+    () =>
+      axiosPrivate
+        .get(`/transmigration/get/${id}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then((res) => res.data) // Ensure `res.data` contains the desired data
+  );
+
+  return {
+    data,
+    error,
+    mutate,
+    isValidating,
+    isLoading,
+  };
+};
+
 export {
+  useGetTransmigrasiGetId,
+  useGetTransmigrasi,
   useGetPengaduanGetId,
   useGetPengaduan,
   useGetKartuKuningGetId,

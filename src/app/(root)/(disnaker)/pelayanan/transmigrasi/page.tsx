@@ -10,6 +10,7 @@ import DataTable from '@/components/admin/Transmigrasi';
 import BreadPelayanan from '../../../../../../public/assets/icons/BreadPelayanan';
 import { Button } from '@/components/ui/button';
 import Unduh1icon from '../../../../../../public/assets/icons/Unduh1icon';
+import { useGetTransmigrasi } from '@/api';
 
 const TransmigrasiPage = () => {
   const breadcrumbItems = [
@@ -29,59 +30,31 @@ const TransmigrasiPage = () => {
   ];
   // select
 
-  // Dummy data
-  const dummyData = [
-    {
-      no: 1,
-      nama: "John Doe",
-      nik: "123456789",
-      noPengajuan: "123456789",
-      tanggal: "23-02-2000",
-      status: "Pengajuan",
-    },
-    {
-      no: 2,
-      nama: "Jane Smith",
-      nik: "987654321",
-      noPengajuan: "123456789",
-      tanggal: "23-02-2000",
-      status: "proses",
-    },
-    {
-      no: 3,
-      nama: "Michael Johnson",
-      nik: "456789123",
-      noPengajuan: "123456789",
-      tanggal: "23-02-2000",
-      status: "Terbit",
-    },
-    {
-      no: 4,
-      nama: "Emily Davis",
-      nik: "321654987",
-      noPengajuan: "123456789",
-      tanggal: "23-02-2000",
-      status: "Terbit",
-    },
-    {
-      no: 5,
-      nama: "Chris Brown",
-      nik: "159753468",
-      noPengajuan: "123456789",
-      tanggal: "23-02-2000",
-      status: "ditolak",
-    },
-  ];
-
   // 
   // Define table headers
   const tableHeaders = ["No", "No Pengajuan", "Nama", "NIK", "Tanggal Dibuat", "Status", "Aksi"];
-  // pagination
-  const [currentPage, setCurrentPage] = useState(3);
-  const onPageChange = (page: number) => {
-    setCurrentPage(page)
-  };
-  // pagination
+  
+    // Ensure statusLowongan is always a string
+    const status = selectedValue === "semua" ? "" : selectedValue || ""; // Default to empty string if undefined
+    // select
+  
+    // Pagination state
+    const [currentPage, setCurrentPage] = useState(1);
+    const onPageChange = (page: number) => {
+      setCurrentPage(page)
+    };
+  
+    // serach
+    const [search, setSearch] = useState("");
+    const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      setSearch(event.target.value);
+      setCurrentPage(1); // Reset to page 1
+    };
+    // serach
+  
+    // INTEGRASI
+    const { data } = useGetTransmigrasi(currentPage, search, status);
+    // INTEGRASI
 
 
   return (
@@ -91,6 +64,8 @@ const TransmigrasiPage = () => {
         <Input
           placeholder='Pencarian'
           leftIcon={<SearchIcon />}
+          value={search}
+          onChange={handleSearchChange}
         />
          <Input
           type='date'
@@ -117,15 +92,18 @@ const TransmigrasiPage = () => {
       <div className="Table mt-3">
         <DataTable
           headers={tableHeaders}
-          data={dummyData}
+          data={data?.data}
+          currentPage={currentPage}
+          search={search}
+          status={status}
         />
       </div>
       {/* table */}
       {/* pagination */}
       <div className="pagi flex items-center justify-center pb-5 lg:pb-0">
-        <PaginationTable
-          currentPage={1}
-          totalPages={15}
+      <PaginationTable
+          currentPage={currentPage}
+          totalPages={data?.pagination?.totalPages as number}
           onPageChange={onPageChange}
         />
       </div>
