@@ -538,7 +538,7 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                                 <AccordionItem className="" value="item-50">
                                     <AccordionTrigger
                                         className={`nav flex gap-2 mb-2 rounded-[8px] py-[10px] overflow-hidden px-[25px] font-normal ${pathname.startsWith(
-                                            "/pelamar"
+                                            "/profile"
                                         )
                                             ? "bg-white text-primary"
                                             : "bg-transparent text-white"
@@ -558,12 +558,12 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                                         </div>
                                     </AccordionTrigger>
                                     <AccordionContent className="bg-primary-600/25 mb-2 rounded-md">
-                                        <Menu link="/pelamar/undang-pelamar">
+                                        <Menu link="/profile">
                                             <span className="text-[16px]">
                                                 Profile
                                             </span>
                                         </Menu>
-                                        <Menu link="/pelamar/pelamar-diundang">
+                                        <Menu link="/logout">
                                             <span className="text-[16px]">
                                                 Logout
                                             </span>
