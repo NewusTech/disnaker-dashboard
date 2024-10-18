@@ -73,9 +73,9 @@ const RegisterPage = () => {
 
     return (
         <div>
-            <section className="">
-                <div className="flex bg-primary md:bg-slate-50 h-screen">
-                    <div className="left w-1/2 hidden h-full bg-[url('/assets/images/bg-login.png')] bg-center md:flex justify-center items-center">
+            <section className="flex flex-col h-screen">
+                <div className="bg-primary md:bg-slate-50 grid flex-1 grid-cols-1 lg:grid-cols-[50%_minmax(50%,_1fr)]">
+                    <div className="left  hidden h-full bg-[url('/assets/images/bg-login.png')] bg-center md:flex justify-center items-center">
                         <div className="logo flex items-center gap-4">
                             <div className="im">
                                 <Image
@@ -98,7 +98,7 @@ const RegisterPage = () => {
                         </div>
                     </div>
                     {/*  */}
-                    <div className="right mx-3 md:mx-0 w-full md:w-1/2 h-full bg-primary md:bg-slate-50 flex flex-col justify-center items-center">
+                    <div className="right mx-3 md:mx-0 w-full md: h-full bg-primary md:bg-slate-50 flex flex-col justify-center items-center">
                         <div className="mb-5 md:hidden">
                             <div className="logo flex items-center gap-2">
                                 <div className="im">
