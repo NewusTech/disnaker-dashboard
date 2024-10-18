@@ -43,15 +43,15 @@ const LoginPage = () => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  useEffect(() => {
-    // Mengecek jika accessToken ada di localStorage
-    const accessToken = localStorage.getItem('accessToken');
+  // useEffect(() => {
+  //   // Mengecek jika accessToken ada di localStorage
+  //   const accessToken = localStorage.getItem('accessToken');
     
-    if (accessToken) {
-      // Jika accessToken ada, arahkan ke /dashboard
-      router.push('/dashboard');
-    }
-  }, [router]);
+  //   if (accessToken) {
+  //     // Jika accessToken ada, arahkan ke /dashboard
+  //     router.push('/dashboard');
+  //   }
+  // }, [router]);
 
   const onSubmit = async (data: FormSchemaType) => {
     setLoading(true);

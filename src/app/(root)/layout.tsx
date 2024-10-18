@@ -73,22 +73,22 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
     const router = useRouter();
 
     const handleLogout = () => {
-		// Menghapus semua item di localStorage
-		localStorage.clear();
+        // Menghapus semua item di localStorage
+        localStorage.clear();
 
-		// Tampilkan pop-up sukses tanpa tombol OK, otomatis menghilang setelah 2 detik
-		Swal.fire({
-			title: 'Logout Berhasil',
-			text: 'Anda akan diarahkan ke halaman login.',
-			icon: 'success',
-			timer: 2000,  // Pop-up akan otomatis tertutup setelah 2 detik
-			timerProgressBar: true,  // Menampilkan progress bar waktu
-			showConfirmButton: false,  // Tidak menampilkan tombol OK
-		}).then(() => {
-			// Arahkan ke halaman login setelah pop-up ditutup otomatis
-			router.push('/login');
-		});
-	};
+        // Tampilkan pop-up sukses tanpa tombol OK, otomatis menghilang setelah 2 detik
+        Swal.fire({
+            title: 'Logout Berhasil',
+            text: 'Anda akan diarahkan ke halaman login.',
+            icon: 'success',
+            timer: 2000,  // Pop-up akan otomatis tertutup setelah 2 detik
+            timerProgressBar: true,  // Menampilkan progress bar waktu
+            showConfirmButton: false,  // Tidak menampilkan tombol OK
+        }).then(() => {
+            // Arahkan ke halaman login setelah pop-up ditutup otomatis
+            router.push('/login');
+        });
+    };
 
     const [navbar, setNavbar] = useState(false);
 
@@ -283,8 +283,8 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                                             </Menu>
                                         </AccordionContent>
                                     </AccordionItem>
-                                    </ComponentWithAccess>
-                                    {/* pelamar */}
+                                </ComponentWithAccess>
+                                {/* pelamar */}
                                 {/* pelayanan PERUSAHAAN*/}
                                 <ComponentWithAccess
                                     allowPermissions={[
@@ -587,8 +587,8 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                                 {/* kelola-akun */}
 
                                 {/* BATAS */}
-                                    {/* dashboard */}
-                                    {/* <AccordionItem className="" value="item-1">
+                                {/* dashboard */}
+                                {/* <AccordionItem className="" value="item-1">
                                         <Link
                                             href="/dashboard"
                                             className={`nav hover:pl-10 duration-200 transition-all flex pr-4 text-[16px] items-center gap-[12px] mb-2 rounded-[8px] py-[10px] px-[24px] ${pathname.startsWith("/dashboard")
@@ -601,9 +601,9 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                                             Dashboard
                                         </Link>
                                     </AccordionItem> */}
-                                    {/* dashboard */}
-                                    {/* perusahaan */}
-                                    {/* <AccordionItem className="" value="item-9">
+                                {/* dashboard */}
+                                {/* perusahaan */}
+                                {/* <AccordionItem className="" value="item-9">
                                         <AccordionTrigger
                                             className={`nav flex gap-2 mb-2 rounded-[8px] py-[10px] overflow-hidden px-[25px] font-normal ${pathname.startsWith(
                                                 "/perusahaan"
@@ -631,9 +631,9 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                                             </Menu>
                                         </AccordionContent>
                                     </AccordionItem> */}
-                                    {/* perusahaan */}
-                                    {/* pelamar */}
-                                    {/* <AccordionItem className="" value="item-10">
+                                {/* perusahaan */}
+                                {/* pelamar */}
+                                {/* <AccordionItem className="" value="item-10">
                                         <AccordionTrigger
                                             className={`nav flex gap-2 mb-2 rounded-[8px] py-[10px] overflow-hidden px-[25px] font-normal ${pathname.startsWith(
                                                 "/pelamar"
@@ -661,9 +661,9 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                                             </Menu>
                                         </AccordionContent>
                                     </AccordionItem> */}
-                                    {/* pelamar */}
-                                    {/* layanan-ketenagakerjaan */}
-                                    {/* <AccordionItem className="" value="item-17">
+                                {/* pelamar */}
+                                {/* layanan-ketenagakerjaan */}
+                                {/* <AccordionItem className="" value="item-17">
                                         <AccordionTrigger
                                             className={`nav flex gap-2 mb-2 rounded-[8px] py-[10px] overflow-hidden px-[25px] font-normal ${pathname.startsWith(
                                                 "/layanan-ketenagakerjaan"
@@ -696,9 +696,9 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                                             </Menu>
                                         </AccordionContent>
                                     </AccordionItem> */}
-                                    {/* layanan-ketenagakerjaan */}
-                                    {/* laporan */}
-                                    {/* <AccordionItem className="" value="item-11">
+                                {/* layanan-ketenagakerjaan */}
+                                {/* laporan */}
+                                {/* <AccordionItem className="" value="item-11">
                                         <Link
                                             href="/laporan-perusahaan"
                                             className={`nav hover:pl-10 duration-200 transition-all flex pr-4 text-[16px] items-center gap-[12px] mb-2 rounded-[8px] py-[10px] px-[24px] ${pathname.startsWith("/laporan-perusahaan")
@@ -711,46 +711,66 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                                             Laporan
                                         </Link>
                                     </AccordionItem> */}
-                                    {/* Laporan */}
+                                {/* Laporan */}
                                 {/* BATAS */}
 
                                 {/* PROFIL */}
-                                <div className="h-[1px] w-full bg-line-stroke my-3"></div>
-                                <AccordionItem className="" value="item-50">
-                                    <AccordionTrigger
-                                        className={`nav flex gap-2 mb-2 rounded-[8px] py-[10px] overflow-hidden px-[25px] font-normal ${pathname.startsWith(
-                                            "/profile"
-                                        )
-                                            ? "bg-white text-primary"
-                                            : "bg-transparent text-white"
-                                            }`}>
-                                        <div className="flex gap-3 items-center text-start">
-                                            <div className="w-[45px] flex-shrink-0 bg-white rounded-full h-[45px] border-2 border-white overflow-hidden">
-                                                <Image
-                                                    src="/assets/images/lambang.png"
-                                                    alt="logo"
-                                                    width={400}
-                                                    height={400}
-                                                    unoptimized
-                                                    className="w-full h-full object-cover"
-                                                />
+                                <ComponentWithAccess
+                                    allowPermissions={[
+                                        PERMISSIONS.semua,
+                                        ...PERMISSIONS.company,
+                                        ...PERMISSIONS.kelolaAkun,
+                                        ...PERMISSIONS.kelolaBerita,
+                                        ...PERMISSIONS.kelolaDashboard,
+                                        ...PERMISSIONS.kelolaDataPengguna,
+                                        ...PERMISSIONS.kelolaEvent,
+                                        ...PERMISSIONS.kelolaInformasi,
+                                        ...PERMISSIONS.kelolaInstansi,
+                                        ...PERMISSIONS.kelolaKetenagakerjaan,
+                                        ...PERMISSIONS.kelolaLaporan,
+                                        ...PERMISSIONS.kelolaMasterData,
+                                        ...PERMISSIONS.kelolaPelamar,
+                                        ...PERMISSIONS.kelolaPelayanan,
+                                        ...PERMISSIONS.kelolaSKM,
+                                    ]}
+                                >
+                                    <div className="h-[1px] w-full bg-line-stroke my-3"></div>
+                                    <AccordionItem className="" value="item-50">
+                                        <AccordionTrigger
+                                            className={`nav flex gap-2 mb-2 rounded-[8px] py-[10px] overflow-hidden px-[25px] font-normal ${pathname.startsWith(
+                                                "/profile"
+                                            )
+                                                ? "bg-white text-primary"
+                                                : "bg-transparent text-white"
+                                                }`}>
+                                            <div className="flex gap-3 items-center text-start">
+                                                <div className="w-[45px] flex-shrink-0 bg-white rounded-full h-[45px] border-2 border-white overflow-hidden">
+                                                    <Image
+                                                        src="/assets/images/lambang.png"
+                                                        alt="logo"
+                                                        width={400}
+                                                        height={400}
+                                                        unoptimized
+                                                        className="w-full h-full object-cover"
+                                                    />
+                                                </div>
+                                                Disnaker Tanggamus
                                             </div>
-                                            Disnaker Tanggamus
-                                        </div>
-                                    </AccordionTrigger>
-                                    <AccordionContent className="bg-primary-600/25 mb-2 rounded-md">
-                                        <Menu link="/profile">
-                                            <span className="text-[16px]">
-                                                Profile
-                                            </span>
-                                        </Menu>
-                                        <Menu link="/login">
-                                            <span  onClick={handleLogout} className="text-[16px]">
-                                                Logout
-                                            </span>
-                                        </Menu>
-                                    </AccordionContent>
-                                </AccordionItem>
+                                        </AccordionTrigger>
+                                        <AccordionContent className="bg-primary-600/25 mb-2 rounded-md">
+                                            <Menu link="/profile">
+                                                <span className="text-[16px]">
+                                                    Profile
+                                                </span>
+                                            </Menu>
+                                            <Menu link="/login">
+                                                <span onClick={handleLogout} className="text-[16px]">
+                                                    Logout
+                                                </span>
+                                            </Menu>
+                                        </AccordionContent>
+                                    </AccordionItem>
+                                </ComponentWithAccess>
                                 {/* PROFIL */}
                             </Accordion>
                             {/* accordion */}
