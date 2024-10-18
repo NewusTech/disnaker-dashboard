@@ -134,7 +134,7 @@ const NewPassword = () => {
                         </div>
                     </div>
                     {/*  */}
-                    <div className="right mx-3 md:mx-0 w-full h-full bg-primary md:bg-slate-50 flex flex-col justify-center items-center">
+                    <div className="right px-4 md:mx-0 w-full h-full bg-primary md:bg-slate-50 flex flex-col justify-center items-center">
                         <div className="mb-5 md:hidden">
                             <div className="logo flex items-center gap-2">
                                 <div className="im">
