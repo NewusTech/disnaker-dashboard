@@ -1,9 +1,12 @@
 export const PERMISSIONS = {
 	semua: "Semua",
 	//
-	company: "Company",
+	// companyOnly: "Company",
 
-	//
+	
+	company: [
+		"Company",
+	],
 	kelolaDashboard: [
 		"Kelola Dashboard",
 	],

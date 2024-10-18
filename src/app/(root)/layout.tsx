@@ -154,7 +154,8 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                                 <ComponentWithAccess
                                     allowPermissions={[
                                         PERMISSIONS.semua,
-                                        ...PERMISSIONS.kelolaDashboard
+                                        ...PERMISSIONS.kelolaDashboard,
+                                        ...PERMISSIONS.company
                                     ]}
                                 >
                                     <AccordionItem className="" value="item-1">
@@ -213,7 +214,8 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                                 <ComponentWithAccess
                                     allowPermissions={[
                                         PERMISSIONS.semua,
-                                        ...PERMISSIONS.kelolaInstansi
+                                        ...PERMISSIONS.kelolaInstansi,
+                                        ...PERMISSIONS.company
                                     ]}
                                 >
                                     <AccordionItem className="" value="item-8">
@@ -246,7 +248,44 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                                     </AccordionItem>
                                 </ComponentWithAccess>
                                 {/* instansi-disnaker */}
-                                {/* pelayanan */}
+                                {/* pelamar PERUSAHAAN*/}
+                                <ComponentWithAccess
+                                    allowPermissions={[
+                                        PERMISSIONS.semua,
+                                        ...PERMISSIONS.company
+                                    ]}
+                                >
+                                    <AccordionItem className="" value="item-10">
+                                        <AccordionTrigger
+                                            className={`nav flex gap-2 mb-2 rounded-[8px] py-[10px] overflow-hidden px-[25px] font-normal ${pathname.startsWith(
+                                                "/pelamar"
+                                            )
+                                                ? "bg-white text-primary"
+                                                : "bg-transparent text-white"
+                                                }`}>
+                                            <div className="flex gap-3 items-center">
+                                                <div className="w-[35px]">
+                                                    <PelamarIcon />
+                                                </div>
+                                                Pelamar
+                                            </div>
+                                        </AccordionTrigger>
+                                        <AccordionContent className="bg-primary-600/25 mb-2 rounded-md">
+                                            <Menu link="/pelamar/undang-pelamar">
+                                                <span className="text-[16px]">
+                                                    Undang Pelamar
+                                                </span>
+                                            </Menu>
+                                            <Menu link="/pelamar/pelamar-diundang">
+                                                <span className="text-[16px]">
+                                                    Pelamar Diundang
+                                                </span>
+                                            </Menu>
+                                        </AccordionContent>
+                                    </AccordionItem>
+                                    </ComponentWithAccess>
+                                    {/* pelamar */}
+                                {/* pelayanan PERUSAHAAN*/}
                                 <ComponentWithAccess
                                     allowPermissions={[
                                         PERMISSIONS.semua,
@@ -292,7 +331,8 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                                 <ComponentWithAccess
                                     allowPermissions={[
                                         PERMISSIONS.semua,
-                                        ...PERMISSIONS.kelolaKetenagakerjaan
+                                        ...PERMISSIONS.kelolaKetenagakerjaan,
+                                        ...PERMISSIONS.company
                                     ]}
                                 >
                                     <AccordionItem className="" value="item-17">
@@ -378,7 +418,8 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                                 <ComponentWithAccess
                                     allowPermissions={[
                                         PERMISSIONS.semua,
-                                        ...PERMISSIONS.kelolaLaporan
+                                        ...PERMISSIONS.kelolaLaporan,
+                                        ...PERMISSIONS.company
                                     ]}
                                 >
                                     <AccordionItem className="" value="item-3">
@@ -546,13 +587,8 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                                 {/* kelola-akun */}
 
                                 {/* BATAS */}
-                                <ComponentWithAccess
-                                    allowPermissions={[
-                                        PERMISSIONS.company,
-                                    ]}
-                                >
                                     {/* dashboard */}
-                                    <AccordionItem className="" value="item-1">
+                                    {/* <AccordionItem className="" value="item-1">
                                         <Link
                                             href="/dashboard"
                                             className={`nav hover:pl-10 duration-200 transition-all flex pr-4 text-[16px] items-center gap-[12px] mb-2 rounded-[8px] py-[10px] px-[24px] ${pathname.startsWith("/dashboard")
@@ -564,10 +600,10 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                                             </div>
                                             Dashboard
                                         </Link>
-                                    </AccordionItem>
+                                    </AccordionItem> */}
                                     {/* dashboard */}
                                     {/* perusahaan */}
-                                    <AccordionItem className="" value="item-9">
+                                    {/* <AccordionItem className="" value="item-9">
                                         <AccordionTrigger
                                             className={`nav flex gap-2 mb-2 rounded-[8px] py-[10px] overflow-hidden px-[25px] font-normal ${pathname.startsWith(
                                                 "/perusahaan"
@@ -594,10 +630,10 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                                                 </span>
                                             </Menu>
                                         </AccordionContent>
-                                    </AccordionItem>
+                                    </AccordionItem> */}
                                     {/* perusahaan */}
                                     {/* pelamar */}
-                                    <AccordionItem className="" value="item-10">
+                                    {/* <AccordionItem className="" value="item-10">
                                         <AccordionTrigger
                                             className={`nav flex gap-2 mb-2 rounded-[8px] py-[10px] overflow-hidden px-[25px] font-normal ${pathname.startsWith(
                                                 "/pelamar"
@@ -624,10 +660,10 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                                                 </span>
                                             </Menu>
                                         </AccordionContent>
-                                    </AccordionItem>
+                                    </AccordionItem> */}
                                     {/* pelamar */}
                                     {/* layanan-ketenagakerjaan */}
-                                    <AccordionItem className="" value="item-17">
+                                    {/* <AccordionItem className="" value="item-17">
                                         <AccordionTrigger
                                             className={`nav flex gap-2 mb-2 rounded-[8px] py-[10px] overflow-hidden px-[25px] font-normal ${pathname.startsWith(
                                                 "/layanan-ketenagakerjaan"
@@ -659,10 +695,10 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                                                 </span>
                                             </Menu>
                                         </AccordionContent>
-                                    </AccordionItem>
+                                    </AccordionItem> */}
                                     {/* layanan-ketenagakerjaan */}
                                     {/* laporan */}
-                                    <AccordionItem className="" value="item-11">
+                                    {/* <AccordionItem className="" value="item-11">
                                         <Link
                                             href="/laporan-perusahaan"
                                             className={`nav hover:pl-10 duration-200 transition-all flex pr-4 text-[16px] items-center gap-[12px] mb-2 rounded-[8px] py-[10px] px-[24px] ${pathname.startsWith("/laporan-perusahaan")
@@ -674,9 +710,8 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                                             </div>
                                             Laporan
                                         </Link>
-                                    </AccordionItem>
+                                    </AccordionItem> */}
                                     {/* Laporan */}
-                                </ComponentWithAccess>
                                 {/* BATAS */}
 
                                 {/* PROFIL */}
