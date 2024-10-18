@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { axiosInstance } from "@/utils/axios";
@@ -38,9 +38,20 @@ const LoginPage = () => {
   });
 
   const [token, setAccessToken] = useLocalStorage("accessToken", "");
+	const [permissions, setPermissions] = useLocalStorage("permissions", "");
   const [loginError, setLoginError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+
+  useEffect(() => {
+    // Mengecek jika accessToken ada di localStorage
+    const accessToken = localStorage.getItem('accessToken');
+    
+    if (accessToken) {
+      // Jika accessToken ada, arahkan ke /dashboard
+      router.push('/dashboard');
+    }
+  }, [router]);
 
   const onSubmit = async (data: FormSchemaType) => {
     setLoading(true);
@@ -77,11 +88,13 @@ const LoginPage = () => {
         });
         // alert
         setAccessToken(response?.data?.data?.token);
+        setPermissions(response?.data?.data?.permission);
         // reset();
         router.push("/dashboard");
       }
     } catch (error: any) {
       setAccessToken("");
+      setPermissions("");
       // alert
       // Extract error message from API response
       const errorMessage =

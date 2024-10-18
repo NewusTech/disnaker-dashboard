@@ -28,6 +28,9 @@ import KelolaIcon from "../../../public/assets/icons/KelolaIcon";
 import InformasiIcon from "../../../public/assets/icons/InformasiIcon";
 import BeritaIcon from "../../../public/assets/icons/BeritaIcon";
 import InfoIcon from "../../../public/assets/icons/InfoIcon";
+import ComponentWithAccess from "@/components/auth/componentWithAccess";
+import { PERMISSIONS } from "@/utils/permissions";
+import Swal from "sweetalert2";
 
 
 interface LayoutPerusahaanProps {
@@ -68,6 +71,24 @@ interface LayProps {
 
 const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
     const router = useRouter();
+
+    const handleLogout = () => {
+		// Menghapus semua item di localStorage
+		localStorage.clear();
+
+		// Tampilkan pop-up sukses tanpa tombol OK, otomatis menghilang setelah 2 detik
+		Swal.fire({
+			title: 'Logout Berhasil',
+			text: 'Anda akan diarahkan ke halaman login.',
+			icon: 'success',
+			timer: 2000,  // Pop-up akan otomatis tertutup setelah 2 detik
+			timerProgressBar: true,  // Menampilkan progress bar waktu
+			showConfirmButton: false,  // Tidak menampilkan tombol OK
+		}).then(() => {
+			// Arahkan ke halaman login setelah pop-up ditutup otomatis
+			router.push('/login');
+		});
+	};
 
     const [navbar, setNavbar] = useState(false);
 
@@ -130,409 +151,534 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                             {/* accordion */}
                             <Accordion className="" type="single" collapsible>
                                 {/* dashboard */}
-                                <AccordionItem className="" value="item-1">
-                                    <Link
-                                        href="/dashboard"
-                                        className={`nav hover:pl-10 duration-200 transition-all flex pr-4 text-[16px] items-center gap-[12px] mb-2 rounded-[8px] py-[10px] px-[24px] ${pathname.startsWith("/dashboard")
-                                            ? "bg-white text-primary"
-                                            : "bg-transparent text-white"
-                                            }`} >
-                                        <div className="w-[35px]">
-                                            <DashboardIcon />
-                                        </div>
-                                        Dashboard
-                                    </Link>
-                                </AccordionItem>
+                                <ComponentWithAccess
+                                    allowPermissions={[
+                                        PERMISSIONS.semua,
+                                        ...PERMISSIONS.kelolaDashboard
+                                    ]}
+                                >
+                                    <AccordionItem className="" value="item-1">
+                                        <Link
+                                            href="/dashboard"
+                                            className={`nav hover:pl-10 duration-200 transition-all flex pr-4 text-[16px] items-center gap-[12px] mb-2 rounded-[8px] py-[10px] px-[24px] ${pathname.startsWith("/dashboard")
+                                                ? "bg-white text-primary"
+                                                : "bg-transparent text-white"
+                                                }`} >
+                                            <div className="w-[35px]">
+                                                <DashboardIcon />
+                                            </div>
+                                            Dashboard
+                                        </Link>
+                                    </AccordionItem>
+                                </ComponentWithAccess>
                                 {/* dashboard */}
                                 {/* data-pengguna */}
-                                <AccordionItem className="" value="item-12">
-                                    <AccordionTrigger
-                                        className={`nav flex gap-2 mb-2 rounded-[8px] py-[10px] overflow-hidden px-[25px] font-normal ${pathname.startsWith(
-                                            "/data-pengguna"
-                                        )
-                                            ? "bg-white text-primary"
-                                            : "bg-transparent text-white"
-                                            }`}>
-                                        <div className="flex gap-3 items-center">
-                                            <div className="w-[35px]">
-                                                <DatauserIcon />
+                                <ComponentWithAccess
+                                    allowPermissions={[
+                                        PERMISSIONS.semua,
+                                        ...PERMISSIONS.kelolaDataPengguna
+                                    ]}
+                                >
+                                    <AccordionItem className="" value="item-12">
+                                        <AccordionTrigger
+                                            className={`nav flex gap-2 mb-2 rounded-[8px] py-[10px] overflow-hidden px-[25px] font-normal ${pathname.startsWith(
+                                                "/data-pengguna"
+                                            )
+                                                ? "bg-white text-primary"
+                                                : "bg-transparent text-white"
+                                                }`}>
+                                            <div className="flex gap-3 items-center">
+                                                <div className="w-[35px]">
+                                                    <DatauserIcon />
+                                                </div>
+                                                Data Pengguna
                                             </div>
-                                            Data Pengguna
-                                        </div>
-                                    </AccordionTrigger>
-                                    <AccordionContent className="bg-primary-600/25 mb-2 rounded-md">
-                                        <Menu link="/data-pengguna/akun-pengguna">
-                                            <span className="text-[16px]">
-                                                Akun Pengguna
-                                            </span>
-                                        </Menu>
-                                        <Menu link="/data-pengguna/akun-instansi">
-                                            <span className="text-[16px]">
-                                                Akun Instansi
-                                            </span>
-                                        </Menu>
-                                    </AccordionContent>
-                                </AccordionItem>
+                                        </AccordionTrigger>
+                                        <AccordionContent className="bg-primary-600/25 mb-2 rounded-md">
+                                            <Menu link="/data-pengguna/akun-pengguna">
+                                                <span className="text-[16px]">
+                                                    Akun Pengguna
+                                                </span>
+                                            </Menu>
+                                            <Menu link="/data-pengguna/akun-instansi">
+                                                <span className="text-[16px]">
+                                                    Akun Instansi
+                                                </span>
+                                            </Menu>
+                                        </AccordionContent>
+                                    </AccordionItem>
+                                </ComponentWithAccess>
                                 {/* data-pengguna */}
                                 {/* instansi-disnaker */}
-                                <AccordionItem className="" value="item-8">
-                                    <AccordionTrigger
-                                        className={`nav flex gap-2 mb-2 rounded-[8px] py-[10px] overflow-hidden px-[25px] font-normal ${pathname.startsWith(
-                                            "/instansi-disnaker"
-                                        )
-                                            ? "bg-white text-primary"
-                                            : "bg-transparent text-white"
-                                            }`}>
-                                        <div className="flex gap-3 items-center">
-                                            <div className="w-[35px]">
-                                                <InstansiIcon />
+                                <ComponentWithAccess
+                                    allowPermissions={[
+                                        PERMISSIONS.semua,
+                                        ...PERMISSIONS.kelolaInstansi
+                                    ]}
+                                >
+                                    <AccordionItem className="" value="item-8">
+                                        <AccordionTrigger
+                                            className={`nav flex gap-2 mb-2 rounded-[8px] py-[10px] overflow-hidden px-[25px] font-normal ${pathname.startsWith(
+                                                "/instansi-disnaker"
+                                            )
+                                                ? "bg-white text-primary"
+                                                : "bg-transparent text-white"
+                                                }`}>
+                                            <div className="flex gap-3 items-center">
+                                                <div className="w-[35px]">
+                                                    <InstansiIcon />
+                                                </div>
+                                                Instansi
                                             </div>
-                                            Instansi
-                                        </div>
-                                    </AccordionTrigger>
-                                    <AccordionContent className="bg-primary-600/25 mb-2 rounded-md">
-                                        <Menu link="/instansi-disnaker/lowongan-pekerjaan">
-                                            <span className="text-[16px]">
-                                                Lowongan Pekerjaan
-                                            </span>
-                                        </Menu>
-                                        <Menu link="/instansi-disnaker/lamaran-pekerjaan">
-                                            <span className="text-[16px]">
-                                                Lamaran Pekerjaan
-                                            </span>
-                                        </Menu>
-                                    </AccordionContent>
-                                </AccordionItem>
+                                        </AccordionTrigger>
+                                        <AccordionContent className="bg-primary-600/25 mb-2 rounded-md">
+                                            <Menu link="/instansi-disnaker/lowongan-pekerjaan">
+                                                <span className="text-[16px]">
+                                                    Lowongan Pekerjaan
+                                                </span>
+                                            </Menu>
+                                            <Menu link="/instansi-disnaker/lamaran-pekerjaan">
+                                                <span className="text-[16px]">
+                                                    Lamaran Pekerjaan
+                                                </span>
+                                            </Menu>
+                                        </AccordionContent>
+                                    </AccordionItem>
+                                </ComponentWithAccess>
                                 {/* instansi-disnaker */}
                                 {/* pelayanan */}
-                                <AccordionItem className="" value="item-7">
-                                    <AccordionTrigger
-                                        className={`nav flex gap-2 mb-2 rounded-[8px] py-[10px] overflow-hidden px-[25px] font-normal ${pathname.startsWith(
-                                            "/pelayanan"
-                                        )
-                                            ? "bg-white text-primary"
-                                            : "bg-transparent text-white"
-                                            }`}>
-                                        <div className="flex gap-3 items-center">
-                                            <div className="w-[35px]">
-                                                <PelayananIcon />
+                                <ComponentWithAccess
+                                    allowPermissions={[
+                                        PERMISSIONS.semua,
+                                        ...PERMISSIONS.kelolaPelayanan
+                                    ]}
+                                >
+                                    <AccordionItem className="" value="item-7">
+                                        <AccordionTrigger
+                                            className={`nav flex gap-2 mb-2 rounded-[8px] py-[10px] overflow-hidden px-[25px] font-normal ${pathname.startsWith(
+                                                "/pelayanan"
+                                            )
+                                                ? "bg-white text-primary"
+                                                : "bg-transparent text-white"
+                                                }`}>
+                                            <div className="flex gap-3 items-center">
+                                                <div className="w-[35px]">
+                                                    <PelayananIcon />
+                                                </div>
+                                                Pelayanan
                                             </div>
-                                            Pelayanan
-                                        </div>
-                                    </AccordionTrigger>
-                                    <AccordionContent className="bg-primary-600/25 mb-2 rounded-md">
-                                        <Menu link="/pelayanan/kartu-kuning">
-                                            <span className="text-[16px]">
-                                                Kartu Kuning
-                                            </span>
-                                        </Menu>
-                                        <Menu link="/pelayanan/pengaduan">
-                                            <span className="text-[16px]">
-                                                Pengaduan
-                                            </span>
-                                        </Menu>
-                                        <Menu link="/pelayanan/transmigrasi">
-                                            <span className="text-[16px]">
-                                                Transmigrasi
-                                            </span>
-                                        </Menu>
-                                    </AccordionContent>
-                                </AccordionItem>
+                                        </AccordionTrigger>
+                                        <AccordionContent className="bg-primary-600/25 mb-2 rounded-md">
+                                            <Menu link="/pelayanan/kartu-kuning">
+                                                <span className="text-[16px]">
+                                                    Kartu Kuning
+                                                </span>
+                                            </Menu>
+                                            <Menu link="/pelayanan/pengaduan">
+                                                <span className="text-[16px]">
+                                                    Pengaduan
+                                                </span>
+                                            </Menu>
+                                            <Menu link="/pelayanan/transmigrasi">
+                                                <span className="text-[16px]">
+                                                    Transmigrasi
+                                                </span>
+                                            </Menu>
+                                        </AccordionContent>
+                                    </AccordionItem>
+                                </ComponentWithAccess>
                                 {/* pelayanan */}
                                 {/* layanan-ketenagakerjaan */}
-                                <AccordionItem className="" value="item-17">
-                                    <AccordionTrigger
-                                        className={`nav flex gap-2 mb-2 rounded-[8px] py-[10px] overflow-hidden px-[25px] font-normal ${pathname.startsWith(
-                                            "/layanan-ketenagakerjaan"
-                                        )
-                                            ? "bg-white text-primary"
-                                            : "bg-transparent text-white"
-                                            }`}>
-                                        <div className="flex gap-3 items-center">
-                                            <div className="w-[35px]">
-                                                <InformasiIcon />
+                                <ComponentWithAccess
+                                    allowPermissions={[
+                                        PERMISSIONS.semua,
+                                        ...PERMISSIONS.kelolaKetenagakerjaan
+                                    ]}
+                                >
+                                    <AccordionItem className="" value="item-17">
+                                        <AccordionTrigger
+                                            className={`nav flex gap-2 mb-2 rounded-[8px] py-[10px] overflow-hidden px-[25px] font-normal ${pathname.startsWith(
+                                                "/layanan-ketenagakerjaan"
+                                            )
+                                                ? "bg-white text-primary"
+                                                : "bg-transparent text-white"
+                                                }`}>
+                                            <div className="flex gap-3 items-center">
+                                                <div className="w-[35px]">
+                                                    <InformasiIcon />
+                                                </div>
+                                                Ketenagakerjaan
                                             </div>
-                                            Ketenagakerjaan
-                                        </div>
-                                    </AccordionTrigger>
-                                    <AccordionContent className="bg-primary-600/25 mb-2 rounded-md">
-                                        <Menu link="/layanan-ketenagakerjaan/pelatihan">
-                                            <span className="text-[16px]">
-                                                Pelatihan
-                                            </span>
-                                        </Menu>
-                                        <Menu link="/layanan-ketenagakerjaan/sertifikasi">
-                                            <span className="text-[16px]">
-                                                Sertifikasi
-                                            </span>
-                                        </Menu>
-                                        <Menu link="/layanan-ketenagakerjaan/konsultasi">
-                                            <span className="text-[16px]">
-                                                Konsultasi
-                                            </span>
-                                        </Menu>
-                                    </AccordionContent>
-                                </AccordionItem>
+                                        </AccordionTrigger>
+                                        <AccordionContent className="bg-primary-600/25 mb-2 rounded-md">
+                                            <Menu link="/layanan-ketenagakerjaan/pelatihan">
+                                                <span className="text-[16px]">
+                                                    Pelatihan
+                                                </span>
+                                            </Menu>
+                                            <Menu link="/layanan-ketenagakerjaan/sertifikasi">
+                                                <span className="text-[16px]">
+                                                    Sertifikasi
+                                                </span>
+                                            </Menu>
+                                            <Menu link="/layanan-ketenagakerjaan/konsultasi">
+                                                <span className="text-[16px]">
+                                                    Konsultasi
+                                                </span>
+                                            </Menu>
+                                        </AccordionContent>
+                                    </AccordionItem>
+                                </ComponentWithAccess>
                                 {/* layanan-ketenagakerjaan */}
                                 {/* event */}
-                                <AccordionItem className="" value="item-4">
-                                    <Link
-                                        href="/event"
-                                        className={`nav hover:pl-10 duration-200 transition-all flex pr-4 text-[16px] items-center gap-[12px] mb-2 rounded-[8px] py-[10px] px-[24px] ${pathname.startsWith("/event")
-                                            ? "bg-white text-primary"
-                                            : "bg-transparent text-white"
-                                            }`} >
-                                        <div className="w-[35px]">
-                                            <EventIcon />
-                                        </div>
-                                        Event
-                                    </Link>
-                                </AccordionItem>
+                                <ComponentWithAccess
+                                    allowPermissions={[
+                                        PERMISSIONS.semua,
+                                        ...PERMISSIONS.kelolaEvent
+                                    ]}
+                                >
+                                    <AccordionItem className="" value="item-4">
+                                        <Link
+                                            href="/event"
+                                            className={`nav hover:pl-10 duration-200 transition-all flex pr-4 text-[16px] items-center gap-[12px] mb-2 rounded-[8px] py-[10px] px-[24px] ${pathname.startsWith("/event")
+                                                ? "bg-white text-primary"
+                                                : "bg-transparent text-white"
+                                                }`} >
+                                            <div className="w-[35px]">
+                                                <EventIcon />
+                                            </div>
+                                            Event
+                                        </Link>
+                                    </AccordionItem>
+                                </ComponentWithAccess>
                                 {/* event */}
                                 {/* indeks-kepuasan */}
-                                <AccordionItem className="" value="item-5">
-                                    <Link
-                                        href="/indeks-kepuasan"
-                                        className={`nav hover:pl-10 duration-200 transition-all flex pr-4 text-[16px] items-center gap-[12px] mb-2 rounded-[8px] py-[10px] px-[24px] ${pathname.startsWith("/indeks-kepuasan")
-                                            ? "bg-white text-primary"
-                                            : "bg-transparent text-white"
-                                            }`} >
-                                        <div className="w-[35px]">
-                                            <IndeksIcon />
-                                        </div>
-                                        Indeks Kepuasan
-                                    </Link>
-                                </AccordionItem>
+                                <ComponentWithAccess
+                                    allowPermissions={[
+                                        PERMISSIONS.semua,
+                                        ...PERMISSIONS.kelolaSKM
+                                    ]}
+                                >
+                                    <AccordionItem className="" value="item-5">
+                                        <Link
+                                            href="/indeks-kepuasan"
+                                            className={`nav hover:pl-10 duration-200 transition-all flex pr-4 text-[16px] items-center gap-[12px] mb-2 rounded-[8px] py-[10px] px-[24px] ${pathname.startsWith("/indeks-kepuasan")
+                                                ? "bg-white text-primary"
+                                                : "bg-transparent text-white"
+                                                }`} >
+                                            <div className="w-[35px]">
+                                                <IndeksIcon />
+                                            </div>
+                                            Indeks Kepuasan
+                                        </Link>
+                                    </AccordionItem>
+                                </ComponentWithAccess>
                                 {/* indeks-kepuasan */}
                                 {/* laporan */}
-                                <AccordionItem className="" value="item-3">
-                                    <Link
-                                        href="/laporan-disnaker"
-                                        className={`nav hover:pl-10 duration-200 transition-all flex pr-4 text-[16px] items-center gap-[12px] mb-2 rounded-[8px] py-[10px] px-[24px] ${pathname.startsWith("/laporan-disnaker")
-                                            ? "bg-white text-primary"
-                                            : "bg-transparent text-white"
-                                            }`} >
-                                        <div className="w-[35px]">
-                                            <LaporanDinasIcon />
-                                        </div>
-                                        Laporan
-                                    </Link>
-                                </AccordionItem>
+                                <ComponentWithAccess
+                                    allowPermissions={[
+                                        PERMISSIONS.semua,
+                                        ...PERMISSIONS.kelolaLaporan
+                                    ]}
+                                >
+                                    <AccordionItem className="" value="item-3">
+                                        <Link
+                                            href="/laporan-disnaker"
+                                            className={`nav hover:pl-10 duration-200 transition-all flex pr-4 text-[16px] items-center gap-[12px] mb-2 rounded-[8px] py-[10px] px-[24px] ${pathname.startsWith("/laporan-disnaker")
+                                                ? "bg-white text-primary"
+                                                : "bg-transparent text-white"
+                                                }`} >
+                                            <div className="w-[35px]">
+                                                <LaporanDinasIcon />
+                                            </div>
+                                            Laporan
+                                        </Link>
+                                    </AccordionItem>
+                                </ComponentWithAccess>
                                 {/* laporan */}
                                 {/* berita */}
-                                <AccordionItem className="" value="item-3">
-                                    <Link
-                                        href="/berita"
-                                        className={`nav hover:pl-10 duration-200 transition-all flex pr-4 text-[16px] items-center gap-[12px] mb-2 rounded-[8px] py-[10px] px-[24px] ${pathname.startsWith("/berita")
-                                            ? "bg-white text-primary"
-                                            : "bg-transparent text-white"
-                                            }`} >
-                                        <div className="w-[35px]">
-                                            <BeritaIcon />
-                                        </div>
-                                        Berita
-                                    </Link>
-                                </AccordionItem>
+                                <ComponentWithAccess
+                                    allowPermissions={[
+                                        PERMISSIONS.semua,
+                                        ...PERMISSIONS.kelolaBerita
+                                    ]}
+                                >
+                                    <AccordionItem className="" value="item-3">
+                                        <Link
+                                            href="/berita"
+                                            className={`nav hover:pl-10 duration-200 transition-all flex pr-4 text-[16px] items-center gap-[12px] mb-2 rounded-[8px] py-[10px] px-[24px] ${pathname.startsWith("/berita")
+                                                ? "bg-white text-primary"
+                                                : "bg-transparent text-white"
+                                                }`} >
+                                            <div className="w-[35px]">
+                                                <BeritaIcon />
+                                            </div>
+                                            Berita
+                                        </Link>
+                                    </AccordionItem>
+                                </ComponentWithAccess>
                                 {/* berita */}
                                 {/* informasi */}
-                                <AccordionItem className="" value="item-22">
-                                    <Link
-                                        href="/informasi"
-                                        className={`nav hover:pl-10 duration-200 transition-all flex pr-4 text-[16px] items-center gap-[12px] mb-2 rounded-[8px] py-[10px] px-[24px] ${pathname.startsWith("/informasi")
-                                            ? "bg-white text-primary"
-                                            : "bg-transparent text-white"
-                                            }`} >
-                                        <div className="w-[35px]">
-                                            <InfoIcon />
-                                        </div>
-                                        Informasi
-                                    </Link>
-                                </AccordionItem>
+                                <ComponentWithAccess
+                                    allowPermissions={[
+                                        PERMISSIONS.semua,
+                                        ...PERMISSIONS.kelolaInformasi
+                                    ]}
+                                >
+                                    <AccordionItem className="" value="item-22">
+                                        <Link
+                                            href="/informasi"
+                                            className={`nav hover:pl-10 duration-200 transition-all flex pr-4 text-[16px] items-center gap-[12px] mb-2 rounded-[8px] py-[10px] px-[24px] ${pathname.startsWith("/informasi")
+                                                ? "bg-white text-primary"
+                                                : "bg-transparent text-white"
+                                                }`} >
+                                            <div className="w-[35px]">
+                                                <InfoIcon />
+                                            </div>
+                                            Informasi
+                                        </Link>
+                                    </AccordionItem>
+                                </ComponentWithAccess>
                                 {/* berita */}
                                 {/* master data */}
-                                <AccordionItem className="" value="item-6">
-                                    <AccordionTrigger
-                                        className={`nav flex gap-2 mb-2 rounded-[8px] py-[10px] overflow-hidden px-[25px] font-normal ${pathname.startsWith(
-                                            "/master-data"
-                                        )
-                                            ? "bg-white text-primary"
-                                            : "bg-transparent text-white"
-                                            }`}>
-                                        <div className="flex gap-3 items-center">
-                                            <div className="w-[35px]">
-                                                <MasterIcon />
+                                <ComponentWithAccess
+                                    allowPermissions={[
+                                        PERMISSIONS.semua,
+                                        ...PERMISSIONS.kelolaMasterData
+                                    ]}
+                                >
+                                    <AccordionItem className="" value="item-6">
+                                        <AccordionTrigger
+                                            className={`nav flex gap-2 mb-2 rounded-[8px] py-[10px] overflow-hidden px-[25px] font-normal ${pathname.startsWith(
+                                                "/master-data"
+                                            )
+                                                ? "bg-white text-primary"
+                                                : "bg-transparent text-white"
+                                                }`}>
+                                            <div className="flex gap-3 items-center">
+                                                <div className="w-[35px]">
+                                                    <MasterIcon />
+                                                </div>
+                                                Master Data
                                             </div>
-                                            Master Data
-                                        </div>
-                                    </AccordionTrigger>
-                                    <AccordionContent className="bg-primary-600/25 mb-2 rounded-md">
-                                        <Menu link="/master-data/skill">
-                                            <span className="text-[16px]">
-                                                Skill
-                                            </span>
-                                        </Menu>
-                                        <Menu link="/master-data/kategori">
-                                            <span className="text-[16px]">
-                                                Kategori Pekerjaan
-                                            </span>
-                                        </Menu>
-                                        <Menu link="/master-data/provinsi">
-                                            <span className="text-[16px]">
-                                                Provinsi
-                                            </span>
-                                        </Menu>
-                                        <Menu link="/master-data/kabupaten">
-                                            <span className="text-[16px]">
-                                                Kabupaten
-                                            </span>
-                                        </Menu>
-                                        <Menu link="/master-data/kecamatan">
-                                            <span className="text-[16px]">
-                                                Kecamatan
-                                            </span>
-                                        </Menu>
-                                        <Menu link="/master-data/kelurahan">
-                                            <span className="text-[16px]">
-                                                Kelurahan
-                                            </span>
-                                        </Menu>
-                                        <Menu link="/master-data/fasilitas">
-                                            <span className="text-[16px]">
-                                                Fasilitas
-                                            </span>
-                                        </Menu>
-                                        <Menu link="/master-data/syarat-ketentuan">
-                                            <span className="text-[16px]">
-                                                Syarat dan Ketentuan
-                                            </span>
-                                        </Menu>
-                                    </AccordionContent>
-                                </AccordionItem>
+                                        </AccordionTrigger>
+                                        <AccordionContent className="bg-primary-600/25 mb-2 rounded-md">
+                                            <Menu link="/master-data/skill">
+                                                <span className="text-[16px]">
+                                                    Skill
+                                                </span>
+                                            </Menu>
+                                            <Menu link="/master-data/kategori">
+                                                <span className="text-[16px]">
+                                                    Kategori Pekerjaan
+                                                </span>
+                                            </Menu>
+                                            <Menu link="/master-data/provinsi">
+                                                <span className="text-[16px]">
+                                                    Provinsi
+                                                </span>
+                                            </Menu>
+                                            <Menu link="/master-data/kabupaten">
+                                                <span className="text-[16px]">
+                                                    Kabupaten
+                                                </span>
+                                            </Menu>
+                                            <Menu link="/master-data/kecamatan">
+                                                <span className="text-[16px]">
+                                                    Kecamatan
+                                                </span>
+                                            </Menu>
+                                            <Menu link="/master-data/kelurahan">
+                                                <span className="text-[16px]">
+                                                    Kelurahan
+                                                </span>
+                                            </Menu>
+                                            <Menu link="/master-data/fasilitas">
+                                                <span className="text-[16px]">
+                                                    Fasilitas
+                                                </span>
+                                            </Menu>
+                                            <Menu link="/master-data/syarat-ketentuan">
+                                                <span className="text-[16px]">
+                                                    Syarat dan Ketentuan
+                                                </span>
+                                            </Menu>
+                                        </AccordionContent>
+                                    </AccordionItem>
+                                </ComponentWithAccess>
                                 {/* master data */}
                                 {/* kelola-akun */}
-                                <AccordionItem className="" value="item-14">
-                                    <AccordionTrigger
-                                        className={`nav flex gap-2 mb-2 rounded-[8px] py-[10px] overflow-hidden px-[25px] font-normal ${pathname.startsWith(
-                                            "/kelola-akun"
-                                        )
-                                            ? "bg-white text-primary"
-                                            : "bg-transparent text-white"
-                                            }`}>
-                                        <div className="flex gap-3 items-center">
-                                            <div className="w-[35px]">
-                                                <KelolaIcon />
+                                <ComponentWithAccess
+                                    allowPermissions={[
+                                        PERMISSIONS.semua,
+                                        ...PERMISSIONS.kelolaAkun
+                                    ]}
+                                >
+                                    <AccordionItem className="" value="item-14">
+                                        <AccordionTrigger
+                                            className={`nav flex gap-2 mb-2 rounded-[8px] py-[10px] overflow-hidden px-[25px] font-normal ${pathname.startsWith(
+                                                "/kelola-akun"
+                                            )
+                                                ? "bg-white text-primary"
+                                                : "bg-transparent text-white"
+                                                }`}>
+                                            <div className="flex gap-3 items-center">
+                                                <div className="w-[35px]">
+                                                    <KelolaIcon />
+                                                </div>
+                                                Kelola Akun
                                             </div>
-                                            Kelola Akun
-                                        </div>
-                                    </AccordionTrigger>
-                                    <AccordionContent className="bg-primary-600/25 mb-2 rounded-md">
-                                        <Menu link="/kelola-akun/admin">
-                                            <span className="text-[16px]">
-                                                Admin
-                                            </span>
-                                        </Menu>
-                                        <Menu link="/kelola-akun/role">
-                                            <span className="text-[16px]">
-                                                Role
-                                            </span>
-                                        </Menu>
-                                    </AccordionContent>
-                                </AccordionItem>
+                                        </AccordionTrigger>
+                                        <AccordionContent className="bg-primary-600/25 mb-2 rounded-md">
+                                            <Menu link="/kelola-akun/admin">
+                                                <span className="text-[16px]">
+                                                    Admin
+                                                </span>
+                                            </Menu>
+                                            <Menu link="/kelola-akun/role">
+                                                <span className="text-[16px]">
+                                                    Role
+                                                </span>
+                                            </Menu>
+                                        </AccordionContent>
+                                    </AccordionItem>
+                                </ComponentWithAccess>
                                 {/* kelola-akun */}
 
                                 {/* BATAS */}
-                                <div className="h-[1px] w-full bg-line-stroke my-3"></div>
+                                <ComponentWithAccess
+                                    allowPermissions={[
+                                        PERMISSIONS.company,
+                                    ]}
+                                >
+                                    {/* dashboard */}
+                                    <AccordionItem className="" value="item-1">
+                                        <Link
+                                            href="/dashboard"
+                                            className={`nav hover:pl-10 duration-200 transition-all flex pr-4 text-[16px] items-center gap-[12px] mb-2 rounded-[8px] py-[10px] px-[24px] ${pathname.startsWith("/dashboard")
+                                                ? "bg-white text-primary"
+                                                : "bg-transparent text-white"
+                                                }`} >
+                                            <div className="w-[35px]">
+                                                <DashboardIcon />
+                                            </div>
+                                            Dashboard
+                                        </Link>
+                                    </AccordionItem>
+                                    {/* dashboard */}
+                                    {/* perusahaan */}
+                                    <AccordionItem className="" value="item-9">
+                                        <AccordionTrigger
+                                            className={`nav flex gap-2 mb-2 rounded-[8px] py-[10px] overflow-hidden px-[25px] font-normal ${pathname.startsWith(
+                                                "/perusahaan"
+                                            )
+                                                ? "bg-white text-primary"
+                                                : "bg-transparent text-white"
+                                                }`}>
+                                            <div className="flex gap-3 items-center">
+                                                <div className="w-[35px]">
+                                                    <PerusahaanIcon />
+                                                </div>
+                                                Instansi
+                                            </div>
+                                        </AccordionTrigger>
+                                        <AccordionContent className="bg-primary-600/25 mb-2 rounded-md">
+                                            <Menu link="/perusahaan/lowongan-pekerjaan">
+                                                <span className="text-[16px]">
+                                                    Lowongan Pekerjaan
+                                                </span>
+                                            </Menu>
+                                            <Menu link="/perusahaan/lamaran-pekerjaan">
+                                                <span className="text-[16px]">
+                                                    Lamaran Pekerjaan
+                                                </span>
+                                            </Menu>
+                                        </AccordionContent>
+                                    </AccordionItem>
+                                    {/* perusahaan */}
+                                    {/* pelamar */}
+                                    <AccordionItem className="" value="item-10">
+                                        <AccordionTrigger
+                                            className={`nav flex gap-2 mb-2 rounded-[8px] py-[10px] overflow-hidden px-[25px] font-normal ${pathname.startsWith(
+                                                "/pelamar"
+                                            )
+                                                ? "bg-white text-primary"
+                                                : "bg-transparent text-white"
+                                                }`}>
+                                            <div className="flex gap-3 items-center">
+                                                <div className="w-[35px]">
+                                                    <PelamarIcon />
+                                                </div>
+                                                Pelamar
+                                            </div>
+                                        </AccordionTrigger>
+                                        <AccordionContent className="bg-primary-600/25 mb-2 rounded-md">
+                                            <Menu link="/pelamar/undang-pelamar">
+                                                <span className="text-[16px]">
+                                                    Undang Pelamar
+                                                </span>
+                                            </Menu>
+                                            <Menu link="/pelamar/pelamar-diundang">
+                                                <span className="text-[16px]">
+                                                    Pelamar Diundang
+                                                </span>
+                                            </Menu>
+                                        </AccordionContent>
+                                    </AccordionItem>
+                                    {/* pelamar */}
+                                    {/* layanan-ketenagakerjaan */}
+                                    <AccordionItem className="" value="item-17">
+                                        <AccordionTrigger
+                                            className={`nav flex gap-2 mb-2 rounded-[8px] py-[10px] overflow-hidden px-[25px] font-normal ${pathname.startsWith(
+                                                "/layanan-ketenagakerjaan"
+                                            )
+                                                ? "bg-white text-primary"
+                                                : "bg-transparent text-white"
+                                                }`}>
+                                            <div className="flex gap-3 items-center">
+                                                <div className="w-[35px]">
+                                                    <InformasiIcon />
+                                                </div>
+                                                Ketenagakerjaan
+                                            </div>
+                                        </AccordionTrigger>
+                                        <AccordionContent className="bg-primary-600/25 mb-2 rounded-md">
+                                            <Menu link="/layanan-ketenagakerjaan/pelatihan">
+                                                <span className="text-[16px]">
+                                                    Pelatihan
+                                                </span>
+                                            </Menu>
+                                            <Menu link="/layanan-ketenagakerjaan/sertifikasi">
+                                                <span className="text-[16px]">
+                                                    Sertifikasi
+                                                </span>
+                                            </Menu>
+                                            <Menu link="/layanan-ketenagakerjaan/konsultasi">
+                                                <span className="text-[16px]">
+                                                    Konsultasi
+                                                </span>
+                                            </Menu>
+                                        </AccordionContent>
+                                    </AccordionItem>
+                                    {/* layanan-ketenagakerjaan */}
+                                    {/* laporan */}
+                                    <AccordionItem className="" value="item-11">
+                                        <Link
+                                            href="/laporan-perusahaan"
+                                            className={`nav hover:pl-10 duration-200 transition-all flex pr-4 text-[16px] items-center gap-[12px] mb-2 rounded-[8px] py-[10px] px-[24px] ${pathname.startsWith("/laporan-perusahaan")
+                                                ? "bg-white text-primary"
+                                                : "bg-transparent text-white"
+                                                }`} >
+                                            <div className="w-[35px]">
+                                                <LaporanIcon />
+                                            </div>
+                                            Laporan
+                                        </Link>
+                                    </AccordionItem>
+                                    {/* Laporan */}
+                                </ComponentWithAccess>
                                 {/* BATAS */}
-                                {/* dashboard */}
-                                <AccordionItem className="" value="item-8">
-                                    <Link
-                                        href="/instansi-dashboard"
-                                        className={`nav hover:pl-10 duration-200 transition-all flex pr-4 text-[16px] items-center gap-[12px] mb-2 rounded-[8px] py-[10px] px-[24px] ${pathname.startsWith("/instansi-dashboard")
-                                            ? "bg-white text-primary"
-                                            : "bg-transparent text-white"
-                                            }`} >
-                                        <div className="w-[35px]">
-                                            <InsDashboard />
-                                        </div>
-                                        Dashboard
-                                    </Link>
-                                </AccordionItem>
-                                {/* dashboard */}
-                                {/* perusahaan */}
-                                <AccordionItem className="" value="item-9">
-                                    <AccordionTrigger
-                                        className={`nav flex gap-2 mb-2 rounded-[8px] py-[10px] overflow-hidden px-[25px] font-normal ${pathname.startsWith(
-                                            "/perusahaan"
-                                        )
-                                            ? "bg-white text-primary"
-                                            : "bg-transparent text-white"
-                                            }`}>
-                                        <div className="flex gap-3 items-center">
-                                            <div className="w-[35px]">
-                                                <PerusahaanIcon />
-                                            </div>
-                                            Instansi
-                                        </div>
-                                    </AccordionTrigger>
-                                    <AccordionContent className="bg-primary-600/25 mb-2 rounded-md">
-                                        <Menu link="/perusahaan/lowongan-pekerjaan">
-                                            <span className="text-[16px]">
-                                                Lowongan Pekerjaan
-                                            </span>
-                                        </Menu>
-                                        <Menu link="/perusahaan/lamaran-pekerjaan">
-                                            <span className="text-[16px]">
-                                                Lamaran Pekerjaan
-                                            </span>
-                                        </Menu>
-                                    </AccordionContent>
-                                </AccordionItem>
-                                {/* perusahaan */}
-                                {/* pelamar */}
-                                <AccordionItem className="" value="item-10">
-                                    <AccordionTrigger
-                                        className={`nav flex gap-2 mb-2 rounded-[8px] py-[10px] overflow-hidden px-[25px] font-normal ${pathname.startsWith(
-                                            "/pelamar"
-                                        )
-                                            ? "bg-white text-primary"
-                                            : "bg-transparent text-white"
-                                            }`}>
-                                        <div className="flex gap-3 items-center">
-                                            <div className="w-[35px]">
-                                                <PelamarIcon />
-                                            </div>
-                                            Pelamar
-                                        </div>
-                                    </AccordionTrigger>
-                                    <AccordionContent className="bg-primary-600/25 mb-2 rounded-md">
-                                        <Menu link="/pelamar/undang-pelamar">
-                                            <span className="text-[16px]">
-                                                Undang Pelamar
-                                            </span>
-                                        </Menu>
-                                        <Menu link="/pelamar/pelamar-diundang">
-                                            <span className="text-[16px]">
-                                                Pelamar Diundang
-                                            </span>
-                                        </Menu>
-                                    </AccordionContent>
-                                </AccordionItem>
-                                {/* pelamar */}
-                                {/* laporan */}
-                                <AccordionItem className="" value="item-11">
-                                    <Link
-                                        href="/laporan-perusahaan"
-                                        className={`nav hover:pl-10 duration-200 transition-all flex pr-4 text-[16px] items-center gap-[12px] mb-2 rounded-[8px] py-[10px] px-[24px] ${pathname.startsWith("/laporan-perusahaan")
-                                            ? "bg-white text-primary"
-                                            : "bg-transparent text-white"
-                                            }`} >
-                                        <div className="w-[35px]">
-                                            <LaporanIcon />
-                                        </div>
-                                        Laporan
-                                    </Link>
-                                </AccordionItem>
-                                {/* Laporan */}
+
                                 {/* PROFIL */}
                                 <div className="h-[1px] w-full bg-line-stroke my-3"></div>
                                 <AccordionItem className="" value="item-50">
@@ -563,8 +709,8 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                                                 Profile
                                             </span>
                                         </Menu>
-                                        <Menu link="/logout">
-                                            <span className="text-[16px]">
+                                        <Menu link="/login">
+                                            <span  onClick={handleLogout} className="text-[16px]">
                                                 Logout
                                             </span>
                                         </Menu>
