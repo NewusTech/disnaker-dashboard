@@ -43,15 +43,15 @@ const LoginPage = () => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  // useEffect(() => {
-  //   // Mengecek jika accessToken ada di localStorage
-  //   const accessToken = localStorage.getItem('accessToken');
+  useEffect(() => {
+    // Mengecek jika accessToken ada di localStorage
+    const accessToken = localStorage.getItem('accessToken');
     
-  //   if (accessToken) {
-  //     // Jika accessToken ada, arahkan ke /dashboard
-  //     router.push('/dashboard');
-  //   }
-  // }, [router]);
+    if (accessToken) {
+      // Jika accessToken ada, arahkan ke /dashboard
+      router.push('/dashboard');
+    }
+  }, [router]);
 
   const onSubmit = async (data: FormSchemaType) => {
     setLoading(true);
@@ -93,13 +93,10 @@ const LoginPage = () => {
         router.push("/dashboard");
       }
     } catch (error: any) {
-      setAccessToken("");
-      setPermissions("");
       // alert
       // Extract error message from API response
       const errorMessage =
-        error.response?.data?.data?.[0]?.message ||
-        "Login gagal. Silakan coba lagi!";
+        error.response?.data?.data?.[0]?.message || "Login gagal. Silakan coba lagi!";
       Swal.fire({
         icon: "error",
         title: "Terjadi kesalahan!",

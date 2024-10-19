@@ -789,11 +789,11 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                                                     Profile
                                                 </span>
                                             </Menu>
-                                            <Menu link="/login">
-                                                <span onClick={handleLogout} className="text-[16px]">
-                                                    Logout
-                                                </span>
-                                            </Menu>
+                                            <div 
+                                            onClick={handleLogout}
+                                            className="text-[16px] text-white py-2 hover:pl-[35px] transition-all duration-150 px-[28px] cursor-pointer">
+                                                Logout
+                                            </div>
                                         </AccordionContent>
                                     </AccordionItem>
                                 </ComponentWithAccess>
