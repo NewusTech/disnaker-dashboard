@@ -75,7 +75,7 @@ const RegisterPage = () => {
         <div>
             <section className="flex flex-col h-screen">
                 <div className="bg-primary md:bg-slate-50 grid flex-1 grid-cols-1 lg:grid-cols-[50%_minmax(50%,_1fr)]">
-                    <div className="left  hidden h-full bg-[url('/assets/images/bg-login.png')] bg-center md:flex justify-center items-center">
+                    <div className="left  hidden h-full bg-gradient-to-r from-primary to-blue-800 bg-center md:flex justify-center items-center">
                         <div className="logo flex items-center gap-4">
                             <div className="im">
                                 <Image
