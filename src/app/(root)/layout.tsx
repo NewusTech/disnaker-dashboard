@@ -31,6 +31,8 @@ import InfoIcon from "../../../public/assets/icons/InfoIcon";
 import ComponentWithAccess from "@/components/auth/componentWithAccess";
 import { PERMISSIONS } from "@/utils/permissions";
 import Swal from "sweetalert2";
+import { jwtDecode } from 'jwt-decode';
+
 
 
 interface LayoutPerusahaanProps {
@@ -69,8 +71,31 @@ interface LayProps {
     link?: string;
 }
 
+
 const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
+    // Decode the token
+    interface DecodedToken {
+        userId: number;
+        email: string;
+        name: string;
+        roleId: number;
+        role: string;
+        iat: number; // Issued at time
+        exp: number; // Expiration time
+    }
+    
+    const token = localStorage.getItem('accessToken');
+    let userName: string | undefined; // Declare userName with an appropriate type
+    
+    if (token) {
+        const decoded = jwtDecode<DecodedToken>(token); // Use the interface here
+        userName = decoded?.name; // Assign decoded name to userName
+    } else {
+        console.error("No token found in localStorage");
+    }
+    
     const router = useRouter();
+    // 
 
     const handleLogout = () => {
         // Menghapus semua item di localStorage
@@ -737,7 +762,7 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                                     <div className="h-[1px] w-full bg-line-stroke my-3"></div>
                                     <AccordionItem className="" value="item-50">
                                         <AccordionTrigger
-                                            className={`nav flex gap-2 mb-2 rounded-[8px] py-[10px] overflow-hidden px-[25px] font-normal ${pathname.startsWith(
+                                            className={`nav flex gap-2 mb-2 rounded-[8px] py-[10px] overflow-hidden px-[25px] font-normal hover:pl-[25px] ${pathname.startsWith(
                                                 "/profile"
                                             )
                                                 ? "bg-white text-primary"
@@ -745,9 +770,9 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                                                 }`}>
                                             <div className="flex gap-3 items-center text-start">
                                                 <div className={`w-[45px] flex-shrink-0 bg-white rounded-full h-[45px] border-2 ${pathname.startsWith(
-                                                "/profile" ) ? "border-primary" : "border-white"} overflow-hidden`}>
+                                                    "/profile") ? "border-primary" : "border-white"} overflow-hidden`}>
                                                     <Image
-                                                        src="/assets/images/lambang.png"
+                                                        src="https://icons.veryicon.com/png/o/miscellaneous/two-color-webpage-small-icon/user-244.png"
                                                         alt="logo"
                                                         width={400}
                                                         height={400}
@@ -755,7 +780,7 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                                                         className="w-full h-full object-cover"
                                                     />
                                                 </div>
-                                                Disnaker Tanggamus
+                                                {userName}
                                             </div>
                                         </AccordionTrigger>
                                         <AccordionContent className="bg-primary-600/25 mb-2 rounded-md">

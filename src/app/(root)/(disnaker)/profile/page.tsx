@@ -89,7 +89,7 @@ const Profile: React.FC = () => {
                         Tentang Perusahaan
                     </div>
                     <div className="flex gap-3">
-                        <div className="text-black/70">Deskripsi</div>
+                        <div className="text-black/70 w-[160px] flex-shrink-0">Deskripsi</div>
                         <div className="text-black/70">:</div>
                         <div className="text-justify">PT Brigitte adalah perusahaan konsultan teknologi informasi yang berfokus pada pengembangan solusi IT inovatif untuk bisnis dan instansi pemerintahan. Dengan pengalaman bertahun-tahun, kami menyediakan layanan konsultasi, pengembangan sistem, dan dukungan teknologi.</div>
                     </div>
@@ -100,27 +100,27 @@ const Profile: React.FC = () => {
                         Informasi Umum Perusahaan
                     </div>
                     <div className="flex gap-3">
-                        <div className="text-black/70">Nama Perusahaan</div>
+                        <div className="text-black/70 w-[160px] flex-shrink-0">Nama Perusahaan</div>
                         <div className="text-black/70">:</div>
                         <div className="text-justify">PT. Brigtte</div>
                     </div>
                     <div className="flex gap-3">
-                        <div className="text-black/70">Jenis Perusahaan</div>
+                        <div className="text-black/70 w-[160px] flex-shrink-0">Jenis Perusahaan</div>
                         <div className="text-black/70">:</div>
                         <div className="text-justify">Konsultan Teknologi Informasi (IT Consultant)</div>
                     </div>
                     <div className="flex gap-3">
-                        <div className="text-black/70">Alamat</div>
+                        <div className="text-black/70 w-[160px] flex-shrink-0">Alamat</div>
                         <div className="text-black/70">:</div>
                         <div className="text-justify">Pusat: Jl. Pahlawan No. 27, Bandar Lampung</div>
                     </div>
                     <div className="flex gap-3">
-                        <div className="text-black/70">Website</div>
+                        <div className="text-black/70 w-[160px] flex-shrink-0">Website</div>
                         <div className="text-black/70">:</div>
                         <div className="text-justify">www.brigitteit.com </div>
                     </div>
                     <div className="flex gap-3">
-                        <div className="text-black/70">Total Karyawan</div>
+                        <div className="text-black/70 w-[160px] flex-shrink-0">Total Karyawan</div>
                         <div className="text-black/70">:</div>
                         <div className="text-justify">1000 Karyawan</div>
                     </div>
@@ -131,27 +131,27 @@ const Profile: React.FC = () => {
                     Kontak Perusahaan
                     </div>
                     <div className="flex gap-3">
-                        <div className="text-black/70">Email</div>
+                        <div className="text-black/70 w-[160px] flex-shrink-0">Email</div>
                         <div className="text-black/70">:</div>
                         <div className="text-justify">info@brigitteit.com</div>
                     </div>
                     <div className="flex gap-3">
-                        <div className="text-black/70">Nomor Telepon</div>
+                        <div className="text-black/70 w-[160px] flex-shrink-0">Nomor Telepon</div>
                         <div className="text-black/70">:</div>
                         <div className="text-justify">+62 721 123456</div>
                     </div>
                     <div className="flex gap-3">
-                        <div className="text-black/70">Alamat</div>
+                        <div className="text-black/70 w-[160px] flex-shrink-0">Alamat</div>
                         <div className="text-black/70">:</div>
                         <div className="text-justify">Pusat: Jl. Pahlawan No. 27, Bandar Lampung</div>
                     </div>
                     <div className="flex gap-3">
-                        <div className="text-black/70">Instagram</div>
+                        <div className="text-black/70 w-[160px] flex-shrink-0">Instagram</div>
                         <div className="text-black/70">:</div>
                         <div className="text-justify">@brigitteit</div>
                     </div>
                     <div className="flex gap-3">
-                        <div className="text-black/70">LinkedIn</div>
+                        <div className="text-black/70 w-[160px] flex-shrink-0">LinkedIn</div>
                         <div className="text-black/70">:</div>
                         <div className="text-justify"> linkedin.com/company/brigitte-it</div>
                     </div>

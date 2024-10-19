@@ -248,7 +248,7 @@ const LoginPage = () => {
                         Lupa Password?
                       </Link>
                     </p>
-                    <p className="text-center mb-1 mt-0 md:mt-3 text-sm md:text-base md:mb-5">
+                    <p className="text-center mb-1 mt-0 text-sm md:text-base md:mb-5">
                       Belum punya akun? {" "}
                       <Link
                         href="/register"
