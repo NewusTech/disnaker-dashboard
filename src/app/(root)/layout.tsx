@@ -113,8 +113,8 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
     return (
         <div className="wrap w-full min-h-screen bg-[#F6F6F6] relative">
             {/* navbar */}
-            <div className="navatas lg:px-0 top-0 w-full md:w-full right-0 fixed md:bg-transparent bg-[#F6F6F6] py-4 pr-5 pl-5 md:-z-30 z-10">
-                <div className="wra white -z-10 md:ml-[290px] bg-transparent m-auto justify-between lg:justify-end md:py-[23px] flex items-center gap-4 text-left">
+            <div className="navatas md:px-0 top-0 w-full md:w-full right-0 fixed md:bg-transparent bg-[#F6F6F6] py-4 pr-5 pl-5 md:-z-30 z-10">
+                <div className="wra white -z-10 md:ml-[290px] bg-transparent m-auto justify-between md:justify-end md:py-[23px] flex items-center gap-4 text-left">
                     <div className="teks flex-shrink-0 text-primary animate-pulse transition-all">
                         <div className="head font-bold text-lg text-primary">
                             SINAKER
@@ -123,15 +123,15 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                     </div>
                     <div
                         onClick={handleNavbar}
-                        className="icon  flex cursor-pointer lg:hidden bg-primary rounded p-2 w-[40px] justify-center items-center px-2 text-white "
+                        className="icon  flex cursor-pointer md:hidden bg-primary rounded p-2 w-[40px] justify-center items-center px-2 text-white "
                     >
                         {navbar ? "x" : "="}
                     </div>
                 </div>
             </div>
             {/* sidebar */}
-            <div className={`sidebar bg-primary overflow-auto z-50 pt-[10px] lg:pt-0 lg:z-20 lg:block h-screen fixed top-0 ${navbar ? "left-[0%]" : "left-[-100%]"
-                } box-border lg:w-[330px] lg:shadow-none shadow-lg w-[75%] px-[20px] bg-whie transition-all duration-300 lg:left-0 `}>
+            <div className={`sidebar bg-primary overflow-auto z-50 pt-[10px] md:pt-0 md:z-20 md:block h-screen fixed top-0 ${navbar ? "left-[0%]" : "left-[-100%]"
+                } box-border md:w-[330px] md:shadow-none shadow-lg w-[75%] px-[20px] bg-whie transition-all duration-300 md:left-0 `}>
                 <div className="LOGO absolute top-0 bg-white h-[100px] flex w-full left-0 gap-2 items-center ">
                     <div className="logo flex justify-center w-full px-6">
                         <Image
@@ -744,7 +744,8 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                                                 : "bg-transparent text-white"
                                                 }`}>
                                             <div className="flex gap-3 items-center text-start">
-                                                <div className="w-[45px] flex-shrink-0 bg-white rounded-full h-[45px] border-2 border-white overflow-hidden">
+                                                <div className={`w-[45px] flex-shrink-0 bg-white rounded-full h-[45px] border-2 ${pathname.startsWith(
+                                                "/profile" ) ? "border-primary" : "border-white"} overflow-hidden`}>
                                                     <Image
                                                         src="/assets/images/lambang.png"
                                                         alt="logo"
@@ -779,8 +780,8 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                 </div>
             </div>
             {/* KONTEN */}
-            <div className="konten z-10 lg:px-0 px-[10px] lg:mr-[20px] lg:ml-[350px] md:pt-[15px] pt-[70px] h-full pb-5">
-                <div className="konten overflow-auto h-[90%] p-3 lg:p-6 bg-white rounded-xl">
+            <div className="konten z-10 md:px-0 px-[10px] md:mr-[20px] md:ml-[350px] md:pt-[15px] pt-[70px] h-full pb-5">
+                <div className="konten overflow-auto h-[90%] p-3 md:p-6 bg-white rounded-xl">
                     {/* konten */}
                     {props.children}
                 </div>
