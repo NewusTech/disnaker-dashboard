@@ -24,6 +24,16 @@ const ComponentWithAccess: React.FC<IComponentWithAccess> = ({
   const router = useRouter();
 
   useEffect(() => {
+    // cek akses token
+    const accessToken = localStorage.getItem('accessToken');
+    
+    // Jika accessToken tidak ada, redirect ke halaman login
+    if (!accessToken) {
+      localStorage.clear();
+      router.push('/login');
+    }
+    // cek akses token
+    
     // Pastikan kita memiliki permissions sebelum melakukan pengecekan
     if (permissions === "" || permissions === null) {
       setLoading(true);
@@ -35,6 +45,7 @@ const ComponentWithAccess: React.FC<IComponentWithAccess> = ({
       // Cek apakah permissions ada di localStorage
       if (!permissions || permissions.length === 0) {
         // Jika tidak ada permissions, redirect ke login
+        localStorage.clear();
         router.push("/login");
         return;
       }
@@ -47,6 +58,7 @@ const ComponentWithAccess: React.FC<IComponentWithAccess> = ({
         // Jika tidak ada akses, arahkan ke halaman yang sesuai
         if (!hasAccess) {
           if (toLogin) {
+            localStorage.clear();
             router.push("/login");
           } else if (toBack) {
             router.back();
@@ -56,6 +68,7 @@ const ComponentWithAccess: React.FC<IComponentWithAccess> = ({
         }
       } else {
         // Jika permissions bukan array, redirect ke login
+        localStorage.clear();
         router.push("/login");
       }
     }
