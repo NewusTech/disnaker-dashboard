@@ -1369,7 +1369,100 @@ const useGetTransmigrasiGetId = (id: string) => {
   };
 };
 
+// Hook to fetch role
+const useGetRole = (currentPage: number, search: string) => {
+  const [accessToken] = useLocalStorage("accessToken", "");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } = useSWR(
+    `/role/get?page=${currentPage}&limit=10&search=${search}`,
+    () =>
+      axiosPrivate
+        .get(`/role/get?page=${currentPage}&limit=10&search=${search}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then((res) => res.data) // Ensure `res.data` contains the desired data
+  );
+
+  return {
+    data,
+    error,
+    mutate,
+    isValidating,
+    isLoading,
+  };
+};
+
+interface Permission {
+  id: number;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface PermissionResponse {
+  status: number;
+  message: string;
+  data: Permission;
+}
+
+const useGetRoleGetId = (id: string) => {
+  const [accessToken] = useLocalStorage("accessToken", "");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } = useSWR<PermissionResponse>(
+    `/role/get/${id}`,
+    () =>
+      axiosPrivate
+        .get(`/role/get/${id}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then((res) => res.data) // Ensure `res.data` contains the desired data
+  );
+
+  return {
+    data,
+    error,
+    mutate,
+    isValidating,
+    isLoading,
+  };
+};
+
+// Hook to fetch permission
+const useGetHakAkses = () => {
+  const [accessToken] = useLocalStorage("accessToken", "");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } = useSWR(
+    `/permission/get?limit=99999`,
+    () =>
+      axiosPrivate
+        .get(`/permission/get?limit=99999`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then((res) => res.data) // Ensure `res.data` contains the desired data
+  );
+
+  return {
+    data,
+    error,
+    mutate,
+    isValidating,
+    isLoading,
+  };
+};
+
 export {
+  useGetHakAkses,
+  useGetRoleGetId,
+  useGetRole,
   useGetTransmigrasiGetId,
   useGetTransmigrasi,
   useGetPengaduanGetId,

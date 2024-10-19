@@ -17,32 +17,67 @@ import {
 } from "@/components/ui/dropdown-menu"
 import DeletePopupTitik from "@/components/AksiPopup";
 import Link from "next/link";
+import useLocalStorage from "@/hooks/useLocalStorage";
+import useAxiosPrivate from "@/hooks/useAxiosPrivate";
+import { showAlert } from "@/lib/swalAlert";
+import { mutate } from "swr";
 
-interface DataTableProps {
-    headers: string[];
-    data: Array<{
-        no: number;
-        role: string;
-    }>;
+interface Role {
+    id: number;
+    name: string;
+    createdAt: string;
+    updatedAt: string;
 }
 
-const DataTable: React.FC<DataTableProps> = ({ headers, data }) => {
+interface RoleResponse {
+    data: Role[];
+    headers: string[];
+    currentPage: number;
+    search: string;
+}
+
+
+const DataTable: React.FC<RoleResponse> = ({ headers, data, currentPage, search }) => {
+    const [accessToken] = useLocalStorage("accessToken", "");
+    const axiosPrivate = useAxiosPrivate();
+    const handleDelete = async (id: number) => {
+        try {
+            await axiosPrivate.delete(`/role/delete/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            // alert
+            showAlert('success', 'Data berhasil dihapus!');
+
+            // alert
+            // Update the local data after successful deletion
+        } catch (error: any) {
+            // Extract error message from API response
+            const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal menghapus data!';
+            showAlert('error', errorMessage);
+            //   alert
+        } mutate(`/role/get?page=${currentPage}&limit=10&search=${search}`);;
+    };
 
     return (
         <div className="Table mt-3">
             <Table>
                 <TableHeader>
-                <TableRow>
+                    <TableRow>
                         <TableHead className="text-center  w-[100px]">No</TableHead>
                         <TableHead className="text-start">Role</TableHead>
                         <TableHead className="text-center">Aksi</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {data.map((user) => (
-                        <TableRow key={user.no}>
-                            <TableCell className="text-center w-[100px]">{user.no}</TableCell>
-                            <TableCell className="text-start">{user.role}</TableCell>
+                    {data?.length > 0 ? (
+                        data.map((user, index) => (
+                            <TableRow key={user?.id}>
+                                <TableCell className="text-center">
+                                    {(currentPage - 1) * 10 + (index + 1)}
+                                </TableCell>
+                            <TableCell className="text-start">{user?.name ?? "-"}</TableCell>
                             {/*  */}
                             <TableCell className="text-center justify-center flex gap-2">
                                 <div className="aksi">
@@ -68,14 +103,14 @@ const DataTable: React.FC<DataTableProps> = ({ headers, data }) => {
                                                     </Link>
                                                 </DropdownMenuItem>
                                                 <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                                                    <Link className="w-full" href={`/kelola-akun/role/edit`}>
+                                                    <Link className="w-full" href={`/kelola-akun/role/edit/${user?.id}`}>
                                                         <div className="flex items-center gap-2 text-gray-600 hover:text-gray-800">
                                                             Edit
                                                         </div>
                                                     </Link>
                                                 </DropdownMenuItem>
                                                 <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                                                    <DeletePopupTitik onDelete={async () => Promise.resolve()} />
+                                                <DeletePopupTitik onDelete={() => handleDelete(user?.id)} />
                                                 </DropdownMenuItem>
                                             </DropdownMenuGroup>
                                         </DropdownMenuContent>
@@ -84,7 +119,12 @@ const DataTable: React.FC<DataTableProps> = ({ headers, data }) => {
                             </TableCell>
                             {/*  */}
                         </TableRow>
-                    ))}
+                    ))
+                ) : (
+                    <TableRow>
+                        <TableCell colSpan={3} className="text-center">Tidak ada data</TableCell>
+                    </TableRow>
+                )}
                 </TableBody>
             </Table>
         </div>
