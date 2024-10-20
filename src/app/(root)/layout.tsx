@@ -31,8 +31,7 @@ import InfoIcon from "../../../public/assets/icons/InfoIcon";
 import ComponentWithAccess from "@/components/auth/componentWithAccess";
 import { PERMISSIONS } from "@/utils/permissions";
 import Swal from "sweetalert2";
-import { jwtDecode } from 'jwt-decode';
-
+import UserName from "@/components/Username";
 
 
 interface LayoutPerusahaanProps {
@@ -73,26 +72,6 @@ interface LayProps {
 
 
 const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
-    // Decode the token
-    interface DecodedToken {
-        userId: number;
-        email: string;
-        name: string;
-        roleId: number;
-        role: string;
-        iat: number; // Issued at time
-        exp: number; // Expiration time
-    }
-    
-    const token = localStorage.getItem('accessToken');
-    let userName: string | undefined; // Declare userName with an appropriate type
-    
-    if (token) {
-        const decoded = jwtDecode<DecodedToken>(token); // Use the interface here
-        userName = decoded?.name; // Assign decoded name to userName
-    } else {
-        console.error("No token found in localStorage");
-    }
     
     const router = useRouter();
     // 
@@ -780,7 +759,7 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                                                         className="w-full h-full object-cover"
                                                     />
                                                 </div>
-                                                {userName}
+                                                <UserName />
                                             </div>
                                         </AccordionTrigger>
                                         <AccordionContent className="bg-primary-600/25 mb-2 rounded-md">
