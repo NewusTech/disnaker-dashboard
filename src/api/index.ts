@@ -272,7 +272,7 @@ interface VacancyData {
   desc: string;
   responsibility: string;
   requirement: string;
-  location: string | null;
+  location: string 
   gender: string;
   minExperience: number;
   maxAge: number;
@@ -1520,7 +1520,60 @@ const useGetTransmigrasiDash = (
     isLoading,
   };
 };
+
+// get instansi id
+interface Company {
+  id: number;
+  user_id: number;
+  department: string;
+  name: string;
+  desc: string;
+  address: string;
+  numberEmployee: number;
+  website: string;
+  phone: string;
+  linkedin: string 
+  instagram: string 
+  imageLogo: string;
+  imageBanner: string;
+  createdAt: string;
+  updatedAt: string;
+  email: string;
+}
+
+interface GetCompanyResponse {
+  status: number;
+  message: string;
+  data: Company;
+}
+
+const useGetInstansiGetId = (id: string) => {
+  const [accessToken] = useLocalStorage("accessToken", "");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } = useSWR<GetCompanyResponse>(
+    `/companies/get/${id}`,
+    () =>
+      axiosPrivate
+        .get(`/companies/get/${id}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then((res) => res.data) // Ensure `res.data` contains the desired data
+  );
+
+  return {
+    data,
+    error,
+    mutate,
+    isValidating,
+    isLoading,
+  };
+};
+
 export {
+  useGetInstansiGetId,
   useGetTransmigrasiDash,
   useGetKartuKuningDash,
   useGetHakAkses,

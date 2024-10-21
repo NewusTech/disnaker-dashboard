@@ -157,14 +157,7 @@ const DataTable: React.FC<ApiResponse> = ({ headers, data, currentPage, search, 
                                             <div className="h-1 w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse"></div>
                                             <DropdownMenuGroup>
                                                 <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                                                    <Link className="w-full" href={`/data-pengguna/akun-pengguna/edit`}>
-                                                        <div className="flex items-center gap-2 text-gray-600 hover:text-gray-800">
-                                                            Edit
-                                                        </div>
-                                                    </Link>
-                                                </DropdownMenuItem>
-                                                <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                                                    <Link className="w-full" href={`/data-pengguna/akun-pengguna/detail`}>
+                                                    <Link className="w-full" href={`/data-pengguna/akun-instansi/detail/${user.id}`}>
                                                         <div className="flex items-center gap-2 text-gray-600 hover:text-gray-800">
                                                             Detail
                                                         </div>
