@@ -83,7 +83,7 @@ const Report = () => {
             {/* filter */}
             {/*  */}
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 mt-6">
-                <div className="flex bg-primary p-5 rounded-lg border border-line-stroke flex-col gap-2 items-center transition ease-in-out delay-150 hover:-translate-y-1 hover:border-primary hover:shadow-md">
+                <div className="flex bg-primary p-5 rounded-lg border shadow-md flex-col gap-2 items-center transition ease-in-out delay-150 hover:-translate-y-1 hover:border-primary hover:shadow-md">
                     <div className="icon flex flex-col gap-2 items-center">
                         <div className="">
                             <Image
@@ -99,7 +99,7 @@ const Report = () => {
                     </div>
                     <div className="total font-semibold text-3xl text-white">65</div>
                 </div>
-                <div className="flex bg-white p-5 rounded-lg border border-primary flex-col gap-2 items-center transition ease-in-out delay-150 hover:-translate-y-1 hover:border-primary hover:shadow-md">
+                <div className="flex bg-white p-5 rounded-lg border border-primary shadow-md flex-col gap-2 items-center transition ease-in-out delay-150 hover:-translate-y-1 hover:border-primary hover:shadow-md">
                     <div className="icon flex flex-col gap-2 items-center">
                         <div className="">
                             <Image
@@ -117,7 +117,7 @@ const Report = () => {
                 </div>
             </div>
             {/* barchart */}
-            <div className="barchart my-8 bg-white p-5 rounded-lg border border-line-stroke transition ease-in-out delay-150 hover:-translate-y-1 hover:border-primary hover:shadow-md">
+            <div className="barchart my-8 bg-white p-5 rounded-lg border shadow-md transition ease-in-out delay-150 hover:-translate-y-1 hover:border-primary hover:shadow-md">
                 <div className="head">
                     <div className="text-center">Statistik Tenaga Kerja</div>
                     <div className="font-semibold text-center">Klasifikasi tenaga kerja pria dan wanita Kabupaten Tanggamus</div>
@@ -127,7 +127,7 @@ const Report = () => {
             </div>
             {/* chart pie */}
             <div className="flex gap-4">
-                <div className="left w-1/2 bg-white p-5 rounded-lg border border-line-stroke transition ease-in-out delay-150 hover:-translate-y-1 hover:border-primary hover:shadow-md">
+                <div className="left w-1/2 bg-white p-5 rounded-lg border shadow-md transition ease-in-out delay-150 hover:-translate-y-1 hover:border-primary hover:shadow-md">
                     <div className="head">
                         <div className="">Statistik Tenaga Kerja</div>
                         <div className="font-semibold">Berdasarkan Pendidikan</div>
@@ -135,7 +135,7 @@ const Report = () => {
                         <PendidikanChart />
                     </div>
                 </div>
-                <div className="right w-1/2 bg-white p-5 rounded-lg border border-line-stroke transition ease-in-out delay-150 hover:-translate-y-1 hover:border-primary hover:shadow-md">
+                <div className="right w-1/2 bg-white p-5 rounded-lg border shadow-md transition ease-in-out delay-150 hover:-translate-y-1 hover:border-primary hover:shadow-md">
                     <div className="head">
                         <div className="">Statistik Status Pekerjaan</div>
                         <div className="font-semibold">Berdasarkan Posisi</div>
@@ -147,7 +147,7 @@ const Report = () => {
             {/* chart pie */}
             {/* kartu kuning/transmigrasi */}
             <div className="grid grid-cols-1 gap-4 md:grid-cols-4 mt-6">
-                <div className="flex bg-white p-5 rounded-lg border border-line-stroke flex-col gap-2 items-center transition ease-in-out delay-150 hover:-translate-y-1 hover:border-primary hover:shadow-md">
+                <div className="flex bg-white p-5 rounded-lg border shadow-md flex-col gap-2 items-center transition ease-in-out delay-150 hover:-translate-y-1 hover:border-primary hover:shadow-md">
                     <div className="icon flex flex-col gap-2 items-center">
                         <div className="">
                             <Image
@@ -163,7 +163,7 @@ const Report = () => {
                     </div>
                     <div className="text-primary total font-semibold text-3xl">65</div>
                 </div>
-                <div className="flex bg-white p-5 rounded-lg border border-line-stroke flex-col gap-2 items-center transition ease-in-out delay-150 hover:-translate-y-1 hover:border-primary hover:shadow-md">
+                <div className="flex bg-white p-5 rounded-lg border shadow-md flex-col gap-2 items-center transition ease-in-out delay-150 hover:-translate-y-1 hover:border-primary hover:shadow-md">
                     <div className="icon flex flex-col gap-2 items-center">
                         <div className="">
                             <Image
@@ -179,7 +179,7 @@ const Report = () => {
                     </div>
                     <div className="text-error total font-semibold text-3xl">65</div>
                 </div>
-                <div className="flex bg-white p-5 rounded-lg border border-line-stroke flex-col gap-2 items-center transition ease-in-out delay-150 hover:-translate-y-1 hover:border-primary hover:shadow-md">
+                <div className="flex bg-white p-5 rounded-lg border shadow-md flex-col gap-2 items-center transition ease-in-out delay-150 hover:-translate-y-1 hover:border-primary hover:shadow-md">
                     <div className="icon flex flex-col gap-2 items-center">
                         <div className="">
                             <Image
@@ -195,7 +195,7 @@ const Report = () => {
                     </div>
                     <div className="text-primary total font-semibold text-3xl">65</div>
                 </div>
-                <div className="flex bg-white p-5 rounded-lg border border-line-stroke flex-col gap-2 items-center transition ease-in-out delay-150 hover:-translate-y-1 hover:border-primary hover:shadow-md">
+                <div className="flex bg-white p-5 rounded-lg border shadow-md flex-col gap-2 items-center transition ease-in-out delay-150 hover:-translate-y-1 hover:border-primary hover:shadow-md">
                     <div className="icon flex flex-col gap-2 items-center">
                         <div className="">
                             <Image
@@ -216,7 +216,7 @@ const Report = () => {
             {/* tabel */}
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 mt-6">
                 {/* kartu kuning */}
-                <div className="flex  p-5 rounded-lg border border-line-stroke flex-col gap-2 items-center transition ease-in-out delay-150 hover:-translate-y-1 hover:border-primary hover:shadow-md">
+                <div className="flex  p-5 rounded-lg border shadow-md flex-col gap-2 items-center transition ease-in-out delay-150 hover:-translate-y-1 hover:border-primary hover:shadow-md">
                     <div className="flex flex-col gap-4 items-end w-full">
                         <Link
                             href="/pelayanan/kartu-kuning"
@@ -244,7 +244,7 @@ const Report = () => {
                     {/* pagination */}
                 </div>
                 {/* transmigrasi */}
-                <div className="flex  p-5 rounded-lg border border-line-stroke flex-col gap-2 items-center transition ease-in-out delay-150 hover:-translate-y-1 hover:border-primary hover:shadow-md">
+                <div className="flex  p-5 rounded-lg border shadow-md flex-col gap-2 items-center transition ease-in-out delay-150 hover:-translate-y-1 hover:border-primary hover:shadow-md">
                     <div className="flex flex-col gap-4 items-end w-full">
                         <Link
                             href="/pelayanan/transmigrasi"
