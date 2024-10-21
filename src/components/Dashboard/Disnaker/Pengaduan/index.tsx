@@ -94,7 +94,7 @@ const Skm = () => {
     <div>
       <div className="my-6 bg-white p-5 rounded-lg border shadow-md transition ease-in-out delay-150 hover:-translate-y-1 hover:border-primary hover:shadow-md">
         <div className="head flex items-center justify-between">
-          <div className="font-semibold">Total Hasil Data Indeks Kepuasan</div>
+          <div className="font-semibold">Perkembangan Pengaduan Berdasarkan Waktu</div>
           <div className="">
             <Select>
               <SelectTrigger className="w-[100px] rounded-full bg-primary text-white">
