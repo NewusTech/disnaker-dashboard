@@ -3,22 +3,81 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 
 // Define the structure of the data props
-interface DetailTransmigrasiProps {
-    data: {
-        status: string;
-        nama: string;
-        nik: string;
-        alamat: string;
-        kecamatan: string;
-        kelurahan: string;
-        noPengajuan: string;
-        provinsi: string;
-        kabupaten: string;
-        kartuKeluarga: string;
-        ktp: string;
-        kartuKuning: string;
-    };
+// Define the TransmigrationMember interface
+interface TransmigrationMember {
+    id: number;
+    transmigration_id: number;
+    nik: string;
+    name: string;
+    gender: string;
+    familyStatus: string;
+    createdAt: string;
+    updatedAt: string;
 }
+
+// Define the UserProfile interface
+interface UserProfile {
+    id: number;
+    user_id: number;
+    name: string;
+    nik: string;
+    birthDate: string;
+    slug: string;
+    department: string;
+    gender: string;
+    address: string;
+    phoneNumber: string;
+    about: string;
+    cv: string;
+    portfolio: string;
+    birthPlace: string;
+    religion: string;
+    location: string;
+    profession: string;
+    image: string;
+    provinsi: string;
+    kabupaten: string;
+    kecamatan: string;
+    kelurahan: string;
+    kk: string;
+    ktp: string;
+    employmentStatus: string;
+    maritalStatus: string;
+    citizenship: string;
+    deletedAt: string;
+    createdAt: string;
+    updatedAt: string;
+}
+
+// Define the User interface
+interface User {
+    id: number;
+    UserProfile: UserProfile;
+}
+
+// Define the TransmigrationData interface
+interface TransmigrationData {
+    id: number;
+    user_id: number;
+    submissionNumber: string;
+    domicile: string;
+    provinsi: string;
+    kabupaten: string;
+    kecamatan: string;
+    kelurahan: string;
+    status: string;
+    kk: string;
+    createdAt: string;
+    updatedAt: string;
+    User: User;
+    TransmigrationMembers: TransmigrationMember[];
+}
+
+// Define the API response interface
+interface TransmigrationResponse {
+    data: TransmigrationData;
+}
+
 
 interface ProfileInfo {
     label: string;
@@ -32,7 +91,7 @@ const ProfileDetail: React.FC<ProfileInfo> = ({ label, value }) => (
     </div>
 );
 
-const DetailTransmigrasi: React.FC<DetailTransmigrasiProps> = ({ data }) => {
+const DetailTransmigrasi: React.FC<TransmigrationResponse> = ({ data }) => {
     const [isModalOpenKeluarga, setIsModalOpenKeluarga] = useState(false);
     const openModalKeluarga = () => setIsModalOpenKeluarga(true);
     const closeModalKeluarga = () => setIsModalOpenKeluarga(false);
@@ -45,8 +104,15 @@ const DetailTransmigrasi: React.FC<DetailTransmigrasiProps> = ({ data }) => {
     return (
         <div>
             {/* Detail */}
-            <div className="status py-2 rounded-full w-full text-succes bg-succes/20 text-center mb-4">
-                Status : {data.status}
+            <div
+                className={`w-full py-3 mb-4 text-center font-medium rounded-full ${data?.status === 'Pengajuan' ? 'bg-[#656565]/20 text-[#656565]' :
+                    data?.status === 'Proses' ? 'bg-[#FC6736]/20 text-[#FC6736]' :
+                            data?.status === 'Diterima' ? 'bg-succes/20 text-succes' :
+                                data?.status === 'Ditolak' ? 'bg-error/20 text-error' :
+                                    'bg-gray-300 text-gray-700' // Default style
+                    }`}
+            >
+                Status Transmigrasi : {data?.status ?? "-"}
             </div>
             <div className="wrap-all flex flex-col gap-6">
                 {/* Profile Kependudukan */}
@@ -56,16 +122,16 @@ const DetailTransmigrasi: React.FC<DetailTransmigrasiProps> = ({ data }) => {
                     </div>
                     <div className="konten flex flex-col gap-4">
                         <div className="wrap flex gap-1 px-1">
-                            <ProfileDetail label="Nama" value={data.nama} />
-                            <ProfileDetail label="NIK" value={data.nik} />
+                            <ProfileDetail label="No Pengajuan" value={data?.submissionNumber} />
+                            <ProfileDetail label="Nama" value={data?.User?.UserProfile?.name} />
                         </div>
                         <div className="wrap flex gap-1 px-1">
-                            <ProfileDetail label="Alamat Domisili" value={data.alamat} />
-                            <ProfileDetail label="Kecamatan" value={data.kecamatan} />
+                            <ProfileDetail label="NIK" value={data?.User?.UserProfile?.nik ?? "-"} />
+                            <ProfileDetail label="Alamat Domisili" value={data?.User?.UserProfile?.address ?? "-"} />
                         </div>
                         <div className="wrap flex gap-1 px-1">
-                            <ProfileDetail label="Kelurahan" value={data.kelurahan} />
-                            <ProfileDetail label="No Pengajuan" value={data.noPengajuan} />
+                            <ProfileDetail label="Kecamatan" value={data?.kecamatan ?? "-"} />
+                            <ProfileDetail label="Kelurahan" value={data?.kelurahan ?? "-"} />
                         </div>
                     </div>
                 </div>
@@ -76,110 +142,52 @@ const DetailTransmigrasi: React.FC<DetailTransmigrasiProps> = ({ data }) => {
                     </div>
                     <div className="konten flex flex-col gap-4">
                         <div className="wrap flex gap-1 px-1">
-                            <ProfileDetail label="Provinsi" value={data.provinsi} />
+                            <ProfileDetail label="Provinsi" value={data?.provinsi ?? "-"} />
                         </div>
                         <div className="wrap flex gap-1 px-1">
-                            <ProfileDetail label="Kota/Kabupaten" value={data.kabupaten} />
+                            <ProfileDetail label="Kota/Kabupaten" value={data?.kabupaten ?? "-"} />
                         </div>
                     </div>
                 </div>
-                {/* Anggota Jiwa */}
-                <div className="wrap flex flex-col gap-4">
-                    <div className="header bg-primary/20 text-primary rounded-lg p-3">
-                        Anggota Jiwa
-                    </div>
-                    <div className="konten flex flex-col gap-4">
-                        <div className="wrap grid grid-cols-2 gap-8">
-                            {/* anggota */}
-                            <div className="anggota flex flex-col gap-3">
-                                <div className="head w-full rounded-full py-2 bg-primary text-center text-white">
-                                    Anggota 1
-                                </div>
-                                <div className="wrap">
-                                    <div className="label text-[#3572EF]">NIK</div>
-                                    <div className="teks text-sm">1817318717281</div>
-                                </div>
-                                <div className="wrap">
-                                    <div className="label text-[#3572EF]">Nama</div>
-                                    <div className="teks text-sm">Irsyad Abi Izzulhaq</div>
-                                </div>
-                                <div className="wrap">
-                                    <div className="label text-[#3572EF]">Jenis Kelamin</div>
-                                    <div className="teks text-sm">Laki -Laki</div>
-                                </div>
-                                <div className="wrap">
-                                    <div className="label text-[#3572EF]">Status Kartu Keluarga</div>
-                                    <div className="teks text-sm">Ayah</div>
-                                </div>
-                            </div>
-                            {/* anggota */}
-                            <div className="anggota flex flex-col gap-3">
-                                <div className="head w-full rounded-full py-2 bg-primary text-center text-white">
-                                    Anggota 2
-                                </div>
-                                <div className="wrap">
-                                    <div className="label text-[#3572EF]">NIK</div>
-                                    <div className="teks text-sm">1817318717281</div>
-                                </div>
-                                <div className="wrap">
-                                    <div className="label text-[#3572EF]">Nama</div>
-                                    <div className="teks text-sm">Irsyad Abi Izzulhaq</div>
-                                </div>
-                                <div className="wrap">
-                                    <div className="label text-[#3572EF]">Jenis Kelamin</div>
-                                    <div className="teks text-sm">Laki -Laki</div>
-                                </div>
-                                <div className="wrap">
-                                    <div className="label text-[#3572EF]">Status Kartu Keluarga</div>
-                                    <div className="teks text-sm">Ayah</div>
+                <div className="header bg-primary/20 text-primary rounded-lg p-3">
+                    Anggota Jiwa
+                </div>
+                <div className="wrap grid md:grid-cols-2  grid-cols-1 gap-4">
+                    {data?.TransmigrationMembers && data.TransmigrationMembers.length > 0 ? (
+                        data.TransmigrationMembers.map((member, index) => (
+                            // Anggota Jiwa
+                            <div className="konten flex flex-col gap-4" key={member?.nik}>
+                                <div className="wrap gap-8">
+                                    {/* anggota */}
+                                    <div className="anggota flex flex-col gap-3">
+                                        <div className="head w-full rounded-full py-2 bg-primary text-center text-white">
+                                            Anggota {index + 1}
+                                        </div>
+                                        <div className="wrap">
+                                            <div className="label text-[#3572EF]">NIK</div>
+                                            <div className="teks text-sm">{member?.nik ?? "-"}</div>
+                                        </div>
+                                        <div className="wrap">
+                                            <div className="label text-[#3572EF]">Nama</div>
+                                            <div className="teks text-sm">{member?.name ?? "-"}</div>
+                                        </div>
+                                        <div className="wrap">
+                                            <div className="label text-[#3572EF]">Jenis Kelamin</div>
+                                            <div className="teks text-sm">{member?.gender ?? "-"}</div>
+                                        </div>
+                                        <div className="wrap">
+                                            <div className="label text-[#3572EF]">Status Kartu Keluarga</div>
+                                            <div className="teks text-sm">{member?.familyStatus ?? "-"}</div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            {/* anggota */}
-                            <div className="anggota flex flex-col gap-3">
-                                <div className="head w-full rounded-full py-2 bg-primary text-center text-white">
-                                    Anggota 3
-                                </div>
-                                <div className="wrap">
-                                    <div className="label text-[#3572EF]">NIK</div>
-                                    <div className="teks text-sm">1817318717281</div>
-                                </div>
-                                <div className="wrap">
-                                    <div className="label text-[#3572EF]">Nama</div>
-                                    <div className="teks text-sm">Irsyad Abi Izzulhaq</div>
-                                </div>
-                                <div className="wrap">
-                                    <div className="label text-[#3572EF]">Jenis Kelamin</div>
-                                    <div className="teks text-sm">Laki -Laki</div>
-                                </div>
-                                <div className="wrap">
-                                    <div className="label text-[#3572EF]">Status Kartu Keluarga</div>
-                                    <div className="teks text-sm">Ayah</div>
-                                </div>
-                            </div>
-                            {/* anggota */}
-                            <div className="anggota flex flex-col gap-3">
-                                <div className="head w-full rounded-full py-2 bg-primary text-center text-white">
-                                    Anggota 4
-                                </div>
-                                <div className="wrap">
-                                    <div className="label text-[#3572EF]">NIK</div>
-                                    <div className="teks text-sm">1817318717281</div>
-                                </div>
-                                <div className="wrap">
-                                    <div className="label text-[#3572EF]">Nama</div>
-                                    <div className="teks text-sm">Irsyad Abi Izzulhaq</div>
-                                </div>
-                                <div className="wrap">
-                                    <div className="label text-[#3572EF]">Jenis Kelamin</div>
-                                    <div className="teks text-sm">Laki -Laki</div>
-                                </div>
-                                <div className="wrap">
-                                    <div className="label text-[#3572EF]">Status Kartu Keluarga</div>
-                                    <div className="teks text-sm">Ayah</div>
-                                </div>
-                            </div>
+                        ))
+                    ) : (
+                        <div className="">
+                            Tidak ada data
                         </div>
-                    </div>
+                    )}
                 </div>
                 {/* upload kartu keluarga */}
                 <div className="wrap flex flex-col gap-4">
@@ -190,15 +198,14 @@ const DetailTransmigrasi: React.FC<DetailTransmigrasiProps> = ({ data }) => {
                         <div className="wrap flex gap-1 px-1">
                             <div className="left w-1/2">
                                 <div className="teks text-sm">
-                                    <div className="w-full h-[300px] rounded-lg overflow-hidden cursor-pointer" onClick={openModalKeluarga}>
-                                        <Image
-                                            src={data.kartuKeluarga}
-                                            alt="Foto User"
-                                            className="object-cover w-full h-full"
-                                            width={300}
-                                            height={300}
-                                            unoptimized
-                                        />
+                                    <div className="w-full h-[350px] rounded-lg overflow-hidden cursor-pointer">
+                                        <iframe
+                                            allowFullScreen
+                                            src={data?.User?.UserProfile?.kk}
+                                            title="Manual Book"
+                                            className="rounded-xl w-full h-full"
+                                        >
+                                        </iframe>
                                     </div>
                                 </div>
                             </div>
@@ -215,15 +222,14 @@ const DetailTransmigrasi: React.FC<DetailTransmigrasiProps> = ({ data }) => {
                         <div className="wrap flex gap-1 px-1">
                             <div className="left w-1/2">
                                 <div className="teks text-sm">
-                                    <div className="w-full h-[300px] rounded-lg overflow-hidden cursor-pointer" onClick={openModalKTP}>
-                                        <Image
-                                            src={data.ktp}
-                                            alt="Foto User"
-                                            className="object-cover w-full h-full"
-                                            width={300}
-                                            height={300}
-                                            unoptimized
-                                        />
+                                    <div className="w-full h-[350px] rounded-lg overflow-hidden cursor-pointer">
+                                        <iframe
+                                            allowFullScreen
+                                            src={data?.User?.UserProfile?.ktp}
+                                            title="Manual Book"
+                                            className="rounded-xl w-full h-full"
+                                        >
+                                        </iframe>
                                     </div>
                                 </div>
                             </div>
@@ -249,68 +255,8 @@ const DetailTransmigrasi: React.FC<DetailTransmigrasiProps> = ({ data }) => {
             </div>
             {/* Detail */}
 
-            {/* Keluarga Modal */}
-            {isModalOpenKeluarga && (
-                <div onClick={closeModalKeluarga} className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-                    <div
-                        className="relative bg-white p-4 rounded shadow-lg max-w-3xl"
-                        role="dialog"
-                        aria-modal="true"
-                        onClick={(e) => e.stopPropagation()} // Prevent the modal from closing when clicking inside
-                    >
-                        <button
-                            aria-label="Close"
-                            className="absolute top-2 right-2 flex justify-center items-center text-white w-6 h-6 rounded-full bg-primary"
-                            onClick={closeModalKeluarga}
-                        >
-                            &times;
-                        </button>
-                        <div className="flex justify-center items-center">
-                            <Image
-                                src={data.kartuKeluarga}
-                                alt={`Full-size photo of user`}
-                                className="object-cover"
-                                width={600}
-                                height={600}
-                                unoptimized
-                            />
-                        </div>
-                    </div>
-                </div>
-            )}
-            {/* Keluarga Modal */}
-            {/* KTP Modal */}
-            {isModalOpenKTP && (
-                <div onClick={closeModalKTP} className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-                    <div
-                        className="relative bg-white p-4 rounded shadow-lg max-w-3xl"
-                        role="dialog"
-                        aria-modal="true"
-                        onClick={(e) => e.stopPropagation()} // Prevent the modal from closing when clicking inside
-                    >
-                        <button
-                            aria-label="Close"
-                            className="absolute top-2 right-2 flex justify-center items-center text-white w-6 h-6 rounded-full bg-primary"
-                            onClick={closeModalKTP}
-                        >
-                            &times;
-                        </button>
-                        <div className="flex justify-center items-center">
-                            <Image
-                                src={data.ktp}
-                                alt={`Full-size photo of user`}
-                                className="object-cover"
-                                width={600}
-                                height={600}
-                                unoptimized
-                            />
-                        </div>
-                    </div>
-                </div>
-            )}
-            {/* KTP Modal */}
 
-        </div>
+        </div >
     );
 };
 

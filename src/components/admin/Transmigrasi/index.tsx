@@ -212,7 +212,7 @@ const DataTable: React.FC<TransmigrationResponse> = ({ headers, data, currentPag
                                                         </button>
                                                     </DropdownMenuItem>
                                                     <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                                                        <Link className="w-full" href={`/pelayanan/transmigrasi/detail`}>
+                                                        <Link className="w-full" href={`/pelayanan/transmigrasi/detail/${user?.id}`}>
                                                             <div className="flex items-center gap-2 text-gray-600 hover:text-gray-800">
                                                                 Detail
                                                             </div>
