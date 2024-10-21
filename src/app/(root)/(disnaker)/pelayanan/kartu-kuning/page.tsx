@@ -30,51 +30,6 @@ const KartuKuning = () => {
   ];
   // select
 
-  // Dummy data
-  const dummyData = [
-    {
-      no: 1,
-      nama: "John Doe",
-      nik: "123456789",
-      noPengajuan: "32425365",
-      tanggal: "23 Desember 2023",
-      status: "pengajuan",
-    },
-    {
-      no: 2,
-      nama: "Jane Smith",
-      nik: "987654321",
-      noPengajuan: "32425365",
-      tanggal: "24 Desember 2023",
-      status: "terbit",
-    },
-    {
-      no: 3,
-      nama: "Michael Johnson",
-      nik: "456789123",
-      noPengajuan: "32425365",
-      tanggal: "25 Desember 2023",
-      status: "proses",
-    },
-    {
-      no: 4,
-      nama: "Emily Davis",
-      nik: "321654987",
-      noPengajuan: "32425365",
-      tanggal: "26 Desember 2023",
-      status: "ditolak",
-    },
-    {
-      no: 5,
-      nama: "Chris Brown",
-      nik: "159753468",
-      noPengajuan: "32425365",
-      tanggal: "27 Desember 2023",
-      status: "pengajuan",
-    },
-  ];
-
-  // 
   // Define table headers
   const tableHeaders = ["No", "No Pengajuan", "Nama", "NIK", "Tanggal Dibuat", "Status", "Aksi"];
 

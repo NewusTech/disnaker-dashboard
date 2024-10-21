@@ -25,25 +25,27 @@ import { showAlert } from "@/lib/swalAlert";
 import { mutate } from "swr";
 import Loading from "@/components/ui/Loading";
 
-interface TransmigrationResponse {
-    data: TransmigrationDetail[];
+interface YellowCardResponse {
+    data: YellowCard[];
     headers: string[];
     currentPage: number;
-    search: string;
-    status: string;
+    search?: string;
+    status?: string;
 }
 
-interface TransmigrationDetail {
+interface YellowCard {
     id: number;
     user_id: number;
+    residance: string;
     submissionNumber: string;
-    domicile: string;
     provinsi: string;
     kabupaten: string;
     kecamatan: string;
     kelurahan: string;
+    educationLevel_id: number;
+    job: string;
+    skill: string;
     status: string;
-    kk: string;
     createdAt: string;
     updatedAt: string;
     User: User;
@@ -51,7 +53,6 @@ interface TransmigrationDetail {
 
 interface User {
     id: number;
-    email: string;
     UserProfile: UserProfile;
 }
 
@@ -73,13 +74,9 @@ interface UserProfile {
     religion: string;
     location: string | null;
     profession: string;
-    image: string | null;
-    provinsi: string | null;
-    kabupaten: string | null;
-    kecamatan: string | null;
-    kelurahan: string | null;
-    kk: string | null;
-    ktp: string | null;
+    image: string;
+    kk: string;
+    ktp: string;
     employmentStatus: string;
     maritalStatus: string;
     citizenship: string;
@@ -87,13 +84,15 @@ interface UserProfile {
     createdAt: string;
     updatedAt: string;
 }
-const DataTable: React.FC<TransmigrationResponse> = ({ headers, data, currentPage, search, status }) => {
+
+
+const DataTableKartu: React.FC<YellowCardResponse> = ({ headers, data, currentPage, search, status }) => {
 
     const [accessToken] = useLocalStorage("accessToken", "");
     const axiosPrivate = useAxiosPrivate();
     const handleDelete = async (id: number) => {
         try {
-            await axiosPrivate.delete(`/transmigration/delete/${id}`, {
+            await axiosPrivate.delete(`/yellowcard/delete/${id}`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
@@ -108,7 +107,7 @@ const DataTable: React.FC<TransmigrationResponse> = ({ headers, data, currentPag
             const errorMessage = error.response?.data?.data?.[0]?.message || error.response?.data?.message || 'Gagal menghapus data!';
             showAlert('error', errorMessage);
             //   alert
-        } mutate(`/transmigration/get?page=${currentPage}&limit=10&search=${search}&status=${status}`);;
+        } mutate(`/yellowcard/get?page=${currentPage}&limit=10`);;
     };
 
     const [isOpen, setIsOpen] = useState(false);
@@ -117,13 +116,14 @@ const DataTable: React.FC<TransmigrationResponse> = ({ headers, data, currentPag
     const [selectedValue, setSelectedValue] = useState<string | undefined>(undefined);
     const [isLoading, setIsLoading] = useState(false); // Loading state
 
+
     const statusOptions = [
         { label: "Proses", value: "Proses" },
-        { label: "Terbit", value: "Diterima" },
+        { label: "Terbit", value: "Terbit" },
         { label: "Ditolak", value: "Ditolak" },
     ];
 
-    const handleOpenPopup = (user: TransmigrationDetail) => {
+    const handleOpenPopup = (user: YellowCard) => {
         setIsOpen(true);
         setSelectedUser(user);
     };
@@ -140,7 +140,7 @@ const DataTable: React.FC<TransmigrationResponse> = ({ headers, data, currentPag
         setIsLoading(true); // Start loading
         try {
             // Send the request to the server
-            await axiosPrivate.put(`/transmigration/update/${selectedUser.id}`, {
+            await axiosPrivate.put(`/yellowcard/update/${selectedUser.id}`, {
                 status: selectedValue,
             });
             showAlert('success', 'Status berhasil diperbarui!');
@@ -152,7 +152,7 @@ const DataTable: React.FC<TransmigrationResponse> = ({ headers, data, currentPag
         } finally {
             setIsLoading(false); // Stop loading
             handleClosePopup(); // Close the popup after operation
-            mutate(`/transmigration/get?page=${currentPage}&limit=10&search=${search}&status=${status}`);
+            mutate(`/yellowcard/get?page=${currentPage}&limit=10&search=${search}&status=${status}`);
         }
     };
 
@@ -173,24 +173,23 @@ const DataTable: React.FC<TransmigrationResponse> = ({ headers, data, currentPag
                                 <TableCell className="text-center">
                                     {(currentPage - 1) * 10 + (index + 1)}
                                 </TableCell>
-                                <TableCell className="text-center">{user?.submissionNumber ?? "-"}</TableCell>
-                                <TableCell className="text-center">{user?.User?.UserProfile?.name ?? "-"}</TableCell>
-                                <TableCell className="text-center">{user?.User.UserProfile?.nik ?? "-"}</TableCell>
+                                <TableCell className="text-center" >{user?.submissionNumber ?? "-"}</TableCell>
+                                <TableCell className="text-center" >{user?.User?.UserProfile?.name ?? "-"}</TableCell>
                                 <TableCell className="text-center">{user?.createdAt ? new Date(user?.createdAt).toISOString().split('T')[0] : '-'}</TableCell>
                                 <TableCell className={`text-center font-medium
-                                ${user.status === "Pengajuan" ? "text-[#6E6E6E]" : ""}
-                                ${user.status === "Proses" ? "text-[#FC6736]" : ""}
-                                ${user.status === "Diterima" ? "text-[#399918]" : ""}
-                                ${user.status === "Ditolak" ? "text-[#DF1212]" : ""}
+                                ${user?.status === "Pengajuan" ? "text-[#6E6E6E]" : ""}
+                                ${user?.status === "Terbit" ? "text-[#399918]" : ""}
+                                ${user?.status === "Proses" ? "text-[#FC6736]" : ""}
+                                ${user?.status === "Ditolak" ? "text-[#DF1212]" : ""}
                                 `}>
-                                    {user.status === "Pengajuan" ? "Pengajuan" :
-                                        user.status === "Proses" ? "Proses" :
-                                            user.status === "Diterima" ? "Terbit" :
-                                                user.status === "Ditolak" ? "Ditolak" : "Status Tidak Diketahui"}
+                                    {user?.status === "Pengajuan" ? "Pengajuan" :
+                                        user?.status === "Terbit" ? "Terbit" :
+                                            user?.status === "Proses" ? "Proses" :
+                                                user?.status === "Ditolak" ? "Ditolak" : "Status Tidak Diketahui"}
                                 </TableCell>
 
                                 {/*  */}
-                                <TableCell className="text-center justify-center flex gap-2">
+                                {/* <TableCell className="text-center justify-center flex gap-2">
                                     <div className="aksi">
                                         <DropdownMenu>
                                             <DropdownMenuTrigger asChild>
@@ -212,20 +211,20 @@ const DataTable: React.FC<TransmigrationResponse> = ({ headers, data, currentPag
                                                         </button>
                                                     </DropdownMenuItem>
                                                     <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                                                        <Link className="w-full" href={`/pelayanan/transmigrasi/detail`}>
+                                                        <Link className="w-full" href={`/pelayanan/kartu-kuning/detail/${user?.id}`}>
                                                             <div className="flex items-center gap-2 text-gray-600 hover:text-gray-800">
                                                                 Detail
                                                             </div>
                                                         </Link>
                                                     </DropdownMenuItem>
                                                     <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                                                        <DeletePopupTitik onDelete={() => handleDelete(user?.id)} />
+                                                    <DeletePopupTitik onDelete={() => handleDelete(user?.id)} />
                                                     </DropdownMenuItem>
                                                 </DropdownMenuGroup>
                                             </DropdownMenuContent>
                                         </DropdownMenu>
                                     </div>
-                                </TableCell>
+                                </TableCell> */}
                                 {/*  */}
                             </TableRow>
                         ))
@@ -280,4 +279,4 @@ const DataTable: React.FC<TransmigrationResponse> = ({ headers, data, currentPag
     );
 };
 
-export default DataTable;
+export default DataTableKartu;

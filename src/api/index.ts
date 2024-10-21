@@ -1194,9 +1194,9 @@ const useGetSnk = () => {
 
 // Hook to fetch kartu kuning
 const useGetKartuKuning = (
-  currentPage: number,
-  search: string,
-  status: string
+  currentPage?: number,
+  search?: string,
+  status?: string
 ) => {
   const [accessToken] = useLocalStorage("accessToken", "");
   const axiosPrivate = useAxiosPrivate();
@@ -1312,9 +1312,9 @@ const useGetPengaduanGetId = (id: string) => {
 
 // Hook to fetch transmigrasi
 const useGetTransmigrasi = (
-  currentPage: number,
-  search: string,
-  status: string
+  currentPage?: number,
+  search?: string,
+  status?: string
 ) => {
   const [accessToken] = useLocalStorage("accessToken", "");
   const axiosPrivate = useAxiosPrivate();
@@ -1459,7 +1459,70 @@ const useGetHakAkses = () => {
   };
 };
 
+// Hook to fetch dashboardkartu kuning
+const useGetKartuKuningDash = (
+  currentPageKartu?: number,
+) => {
+  const [accessToken] = useLocalStorage("accessToken", "");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } = useSWR(
+    `/yellowcard/get?page=${currentPageKartu}&limit=5`,
+    () =>
+      axiosPrivate
+        .get(
+          `/yellowcard/get?page=${currentPageKartu}&limit=5`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        )
+        .then((res) => res.data) // Ensure `res.data` contains the desired data
+  );
+
+  return {
+    data,
+    error,
+    mutate,
+    isValidating,
+    isLoading,
+  };
+};
+
+// Hook to fetch dashboard transmigrasi
+const useGetTransmigrasiDash = (
+  currentPage?: number,
+) => {
+  const [accessToken] = useLocalStorage("accessToken", "");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } = useSWR(
+    `/transmigration/get?page=${currentPage}&limit=5`,
+    () =>
+      axiosPrivate
+        .get(
+          `/transmigration/get?page=${currentPage}&limit=5`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        )
+        .then((res) => res.data) // Ensure `res.data` contains the desired data
+  );
+
+  return {
+    data,
+    error,
+    mutate,
+    isValidating,
+    isLoading,
+  };
+};
 export {
+  useGetTransmigrasiDash,
+  useGetKartuKuningDash,
   useGetHakAkses,
   useGetRoleGetId,
   useGetRole,

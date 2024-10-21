@@ -29,8 +29,8 @@ interface TransmigrationResponse {
     data: TransmigrationDetail[];
     headers: string[];
     currentPage: number;
-    search: string;
-    status: string;
+    search?: string;
+    status?: string;
 }
 
 interface TransmigrationDetail {
@@ -87,7 +87,7 @@ interface UserProfile {
     createdAt: string;
     updatedAt: string;
 }
-const DataTable: React.FC<TransmigrationResponse> = ({ headers, data, currentPage, search, status }) => {
+const DataTableTrans: React.FC<TransmigrationResponse> = ({ headers, data, currentPage, search, status }) => {
 
     const [accessToken] = useLocalStorage("accessToken", "");
     const axiosPrivate = useAxiosPrivate();
@@ -152,7 +152,7 @@ const DataTable: React.FC<TransmigrationResponse> = ({ headers, data, currentPag
         } finally {
             setIsLoading(false); // Stop loading
             handleClosePopup(); // Close the popup after operation
-            mutate(`/transmigration/get?page=${currentPage}&limit=10&search=${search}&status=${status}`);
+            mutate(`/transmigration/get?page=${currentPage}&limit=10`);
         }
     };
 
@@ -175,7 +175,6 @@ const DataTable: React.FC<TransmigrationResponse> = ({ headers, data, currentPag
                                 </TableCell>
                                 <TableCell className="text-center">{user?.submissionNumber ?? "-"}</TableCell>
                                 <TableCell className="text-center">{user?.User?.UserProfile?.name ?? "-"}</TableCell>
-                                <TableCell className="text-center">{user?.User.UserProfile?.nik ?? "-"}</TableCell>
                                 <TableCell className="text-center">{user?.createdAt ? new Date(user?.createdAt).toISOString().split('T')[0] : '-'}</TableCell>
                                 <TableCell className={`text-center font-medium
                                 ${user.status === "Pengajuan" ? "text-[#6E6E6E]" : ""}
@@ -190,7 +189,7 @@ const DataTable: React.FC<TransmigrationResponse> = ({ headers, data, currentPag
                                 </TableCell>
 
                                 {/*  */}
-                                <TableCell className="text-center justify-center flex gap-2">
+                                {/* <TableCell className="text-center justify-center flex gap-2">
                                     <div className="aksi">
                                         <DropdownMenu>
                                             <DropdownMenuTrigger asChild>
@@ -225,7 +224,7 @@ const DataTable: React.FC<TransmigrationResponse> = ({ headers, data, currentPag
                                             </DropdownMenuContent>
                                         </DropdownMenu>
                                     </div>
-                                </TableCell>
+                                </TableCell> */}
                                 {/*  */}
                             </TableRow>
                         ))
@@ -280,4 +279,4 @@ const DataTable: React.FC<TransmigrationResponse> = ({ headers, data, currentPag
     );
 };
 
-export default DataTable;
+export default DataTableTrans;
